@@ -8,8 +8,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-
-<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="tin.p2p.Controller">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tin.p2p.controllerGUI.Controller">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -29,7 +28,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="88.0" text="Button" />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Lista innych węzłów" />
          </children>
       </GridPane>
    </children>
