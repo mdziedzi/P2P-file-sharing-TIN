@@ -17,7 +17,7 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <GridPane prefHeight="163.0" prefWidth="312.0" GridPane.rowIndex="1">
+      <GridPane prefHeight="285.0" prefWidth="597.0" GridPane.rowIndex="1">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -28,7 +28,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Lista innych węzłów" />
+            <Button fx:id="showOtherNodesBtn" mnemonicParsing="false" onAction="#handleOtherNodesBtnClick" prefHeight="25.0" prefWidth="301.0" text="Odśwież listę węzłów w sieci" />
+            <ListView fx:id="nodesList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>

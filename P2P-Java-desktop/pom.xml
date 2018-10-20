@@ -8,6 +8,12 @@
     <artifactId>P2P-java-desktop</artifactId>
     <version>0.0.1</version>
 
+    <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -24,8 +30,10 @@
                 <version>2.4.1</version>
 
 
+
                 <configuration>
-                    <descriptorRefs>
+          >
+        <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <!-- MainClass in mainfest make a executable jar -->
