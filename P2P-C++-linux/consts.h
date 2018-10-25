@@ -1,0 +1,7 @@
+#ifndef CONSTS_H_INCLUDED
+#define CONSTS_H_INCLUDED
+
+#define SERVER_PORT 7003
+#define CLIENT_PORT 9002
+
+#endif // CONSTS_H_INCLUDED
