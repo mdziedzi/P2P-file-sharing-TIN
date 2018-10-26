@@ -1,5 +1,6 @@
 #include <iostream>
-#define PORT 7003
+#include "consts.h"
+
 #define BUFLEN 512
 
 using namespace std;
@@ -26,7 +27,7 @@ Server::Server(void) {
         exit(1);
     }
     server.sin_family = AF_INET;
-    server.sin_port = htons(PORT);
+    server.sin_port = htons(SERVER_PORT);
     server.sin_addr.s_addr = INADDR_ANY;
     if (bind(sock, (struct sockaddr *) &server, sizeof server)== -1) {
         perror("Error while binding stream socket 2");
@@ -44,7 +45,6 @@ void Server::run(void) {
     ssize_t recv_len;
     char buf[BUFLEN];
     while (true){
-        cout << "SLUCHANIE !!!" << endl;
         if ((recv_len = recv(sock, buf, BUFLEN, 0)) == -1){
             perror("Error while receiving data");
             exit(1);

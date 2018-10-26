@@ -21,12 +21,10 @@ int main()
     pid_t pid = fork();
     if (pid == 0){
         server.run();
-        cout << "Koniec" << endl;
     } else if (pid > 0)
     {
-        // parent process
         int sock_client;
-        struct sockaddr_in client;
+        struct sockaddr_in client, remoteServAddr;
         sock_client = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
         if (sock_client == -1) {
             perror("Error while opening stream socket");
@@ -44,22 +42,17 @@ int main()
             perror("Error while binding stream socket.");
             exit(1);
         }
-        socklen_t length = sizeof(client);
-        if (getsockname(sock_client,(struct sockaddr *) &client, &length) == -1) {
-            perror("Error while getting socket name");
-            exit(1);
-        }
-        //now reply the client with the same data
+        remoteServAddr.sin_family = AF_INET;
+        remoteServAddr.sin_port = htons(SERVER_PORT);
+        remoteServAddr.sin_addr.s_addr = INADDR_ANY;
+
         char message[BUFLEN];
-        for(int i=0; i <1000; i++){
 
-
-            ssize_t slen = sizeof(client);
-            if (sendto(sock_client, message, strlen(message), 0, (struct sockaddr*) &client, slen) == -1)
-            {
-                perror("Error while sending");
-                exit(1);
-            }
+        ssize_t slen = sizeof(remoteServAddr);
+        if (sendto(sock_client, message, strlen(message), 0, (struct sockaddr*) &remoteServAddr, slen) == -1)
+        {
+            perror("Error while sending");
+            exit(1);
         }
     }
 
