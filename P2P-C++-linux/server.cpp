@@ -1,3 +1,4 @@
+#include "server.h"
 #include <iostream>
 #include "consts.h"
 
@@ -5,17 +6,8 @@
 
 using namespace std;
 
-class Server{
-    public:
-        Server();
-        void run();
-    private:
-        struct sockaddr_in server;
-        int sock;
 
-};
-
-Server::Server(void) {
+Server::Server() {
     sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (sock == -1) {
         perror("Error while opening stream socket");

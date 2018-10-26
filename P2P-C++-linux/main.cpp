@@ -1,14 +1,7 @@
-#include <iostream>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <stdio.h>
+#include "server.h"
+#include "client.h"
 #include <unistd.h>
-#include <cstring>
-#include <arpa/inet.h>
-#include "server.cpp"
-#include "client.cpp"
+
 
 using namespace std;
 

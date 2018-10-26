@@ -1,19 +1,15 @@
+#include "client.h"
 #include "consts.h"
 #include <sys/socket.h>
+#include <netinet/in.h>
+#include <stdio.h>
+#include <iostream>
+#include <cstring>
 
 #define BUFLEN 512
 
-class Client{
-    public:
-        Client();
-        void send_message();
-    private:
-        int sock;
-        struct sockaddr_in client;
-        struct sockaddr_in remote_server;
-};
 
-Client::Client(){
+Client::Client(void){
     sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (sock == -1) {
         perror("Error while opening stream socket");
