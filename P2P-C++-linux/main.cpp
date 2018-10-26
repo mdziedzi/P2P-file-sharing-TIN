@@ -10,9 +10,6 @@
 #include "server.cpp"
 #include "client.cpp"
 
-
-#define CLIENT_PORT 9002
-
 using namespace std;
 
 int main(){
