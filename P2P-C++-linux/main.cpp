@@ -1,5 +1,6 @@
 #include "server.h"
 #include "client.h"
+#include "console_menu.h"
 #include <unistd.h>
 
 
@@ -11,8 +12,8 @@ int main(){
     if (pid == 0){
         server.run();
     } else if (pid > 0){
-        Client client;
-        client.send_message();
+        ConsoleMenu console_menu;
+        console_menu.run();
     }
     return 0;
 }
