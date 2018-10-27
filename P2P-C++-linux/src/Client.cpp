@@ -12,8 +12,6 @@ Client::~Client()
     //dtor
 }
 
-#define BUFLEN 512
-
 using namespace std;
 
 Client::Client(void){
@@ -43,16 +41,6 @@ Client::Client(void){
     remote_server.sin_port = htons(SERVER_PORT);
     remote_server.sin_addr.s_addr = INADDR_ANY;
 
-}
-
-void Client::send_message(){
-    char message[BUFLEN];
-    ssize_t slen = sizeof(remote_server);
-    if (sendto(sock, message, strlen(message), 0, (struct sockaddr*) &remote_server, slen) == -1)
-    {
-        perror("Error while sending");
-        exit(1);
-    }
 }
 
 vector <struct sockaddr_in> Client::get_active_nodes(){

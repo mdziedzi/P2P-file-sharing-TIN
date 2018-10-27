@@ -10,7 +10,6 @@ class Client{
     public:
         Client();
         virtual ~Client();
-        void send_message();
         vector <struct sockaddr_in> get_active_nodes();
     private:
         int sock;

@@ -5,8 +5,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define BUFLEN 512
-
 using namespace std;
 Server::~Server()
 {
