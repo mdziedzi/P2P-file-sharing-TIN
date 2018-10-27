@@ -1,4 +1,4 @@
-#include "console_menu.h"
+#include "ConsoleMenu.h"
 #include "Controller.h"
 #include "Node.h"
 #include <iostream>
@@ -7,6 +7,11 @@
 using namespace std;
 
 ConsoleMenu::ConsoleMenu() {}
+
+ConsoleMenu::~ConsoleMenu()
+{
+    //dtor
+}
 
 void ConsoleMenu::run(void){
     Controller controller;
@@ -28,3 +33,5 @@ void ConsoleMenu::run(void){
 
     }
 }
+
+
