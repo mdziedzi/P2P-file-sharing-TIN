@@ -1,5 +1,5 @@
 #include "server.h"
-#include "client.h"
+#include "Client.h"
 #include "console_menu.h"
 #include <unistd.h>
 

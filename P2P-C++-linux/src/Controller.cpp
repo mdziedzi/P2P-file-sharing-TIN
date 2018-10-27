@@ -1,6 +1,6 @@
 #include "Controller.h"
 #include "Serializator.h"
-#include "../client.h"
+#include "Client.h"
 #include <iostream>
 
 using namespace std;

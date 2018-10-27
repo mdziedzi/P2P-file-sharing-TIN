@@ -2,7 +2,7 @@
 #define CONTROLLER_H
 #include <vector>
 #include "Node.h"
-#include "../client.h"
+#include "Client.h"
 
 using namespace std;
 
