@@ -1,5 +1,5 @@
-#ifndef CLIENT_H_INCLUDED
-#define CLIENT_H_INCLUDED
+#ifndef CLIENT_H
+#define CLIENT_H
 
 #include <netinet/in.h>
 #include <vector>
@@ -9,6 +9,7 @@ using namespace std;
 class Client{
     public:
         Client();
+        virtual ~Client();
         void send_message();
         vector <struct sockaddr_in> get_active_nodes();
     private:
@@ -17,5 +18,4 @@ class Client{
         struct sockaddr_in remote_server;
 };
 
-
-#endif // CLIENT_H_INCLUDED
+#endif // CLIENT_H
