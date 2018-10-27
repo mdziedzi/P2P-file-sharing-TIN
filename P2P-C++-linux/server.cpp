@@ -1,6 +1,9 @@
 #include "server.h"
 #include <iostream>
 #include "consts.h"
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 #define BUFLEN 512
 
@@ -35,12 +38,27 @@ Server::Server() {
 
 void Server::run(void) {
     ssize_t recv_len;
-    char buf[BUFLEN];
+    int buffor;
+    struct sockaddr_in src_addr;
+    socklen_t src_size = sizeof(src_addr);
     while (true){
-        if ((recv_len = recv(sock, buf, BUFLEN, 0)) == -1){
+        if ((recv_len = recvfrom(sock, &buffor, sizeof(buffor), 0,  (struct sockaddr *) &src_addr,  &src_size)) == -1){
             perror("Error while receiving data");
             exit(1);
         }
-        cout << "Greate I have a message!" << endl;
+        switch(buffor){
+            case PRESENCE:
+                cout << "----------Serwer------------" << endl;
+                cout << "Port z ktorego dostalem: " << ntohs(src_addr.sin_port) << endl;
+                cout << "Adres z ktorego dostalem: "<< inet_ntoa(src_addr.sin_addr) << endl;
+                cout << "----------Serwer------------" << endl;
+                int message = PRESENCE;
+                socklen_t slen = sizeof(src_addr);
+                if (sendto(sock, &message, sizeof(message), 0, (struct sockaddr*) &src_addr, slen) == -1){
+                    perror("Error while sending");
+                    exit(1);
+                }
+            break;
+        }
     }
 }

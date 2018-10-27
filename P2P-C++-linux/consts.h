@@ -1,7 +1,13 @@
 #ifndef CONSTS_H_INCLUDED
 #define CONSTS_H_INCLUDED
 
-#define SERVER_PORT 7003
-#define CLIENT_PORT 9002
+#define SERVER_PORT 7005
+#define CLIENT_PORT 9009
+
+#define SERVER_TCP_PORT 9000
+
+//Codes
+#define PRESENCE 100
+
 
 #endif // CONSTS_H_INCLUDED

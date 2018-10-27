@@ -5,9 +5,11 @@
 #include <stdio.h>
 #include <iostream>
 #include <cstring>
+#include <sys/time.h>
 
 #define BUFLEN 512
 
+using namespace std;
 
 Client::Client(void){
     sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -22,9 +24,14 @@ Client::Client(void){
     }
     client.sin_family = AF_INET;
     client.sin_port = htons(CLIENT_PORT);
-    client.sin_addr.s_addr = INADDR_BROADCAST;
+    client.sin_addr.s_addr = INADDR_ANY;
     if (bind(sock, (struct sockaddr *) &client, sizeof client)== -1) {
         perror("Error while binding stream socket.");
+        exit(1);
+    }
+    socklen_t length = sizeof(client);
+    if (getsockname(sock,(struct sockaddr *) &client, &length) == -1) {
+        perror("Error while getting socket name");
         exit(1);
     }
     remote_server.sin_family = AF_INET;
@@ -42,3 +49,35 @@ void Client::send_message(){
         exit(1);
     }
 }
+
+vector <struct sockaddr_in> Client::get_active_nodes(){
+    int message[1] = { 100, };
+    ssize_t slen = sizeof(remote_server);
+    struct timeval tv;
+    vector<struct sockaddr_in> active_addresses;
+    tv.tv_sec = 2;
+    tv.tv_usec = 0;
+
+    if (sendto(sock, &message, sizeof(message), 0, (struct sockaddr*) &remote_server, slen) == -1){
+        perror("Error while sending");
+        exit(1);
+    }
+    int buffor;
+    struct sockaddr_in src_addr;
+    socklen_t src_size = sizeof(src_addr);
+    fd_set fds;
+    FD_ZERO(&fds);
+    FD_SET(sock, &fds);
+    while(select(sock+1, &fds, NULL, NULL, &tv) > 0){
+        if(recvfrom(sock, &buffor, sizeof(buffor), 0, (struct sockaddr*) &src_addr, &src_size) == -1){
+            perror("Error reveiving sending");
+            exit(1);
+        }else{
+            active_addresses.push_back(src_addr);
+        }
+        cout << "Dostalem " << endl;
+        tv.tv_sec = 1;
+    }
+    return active_addresses;
+}
+
