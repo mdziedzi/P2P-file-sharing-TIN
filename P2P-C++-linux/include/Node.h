@@ -13,7 +13,7 @@ class Node
         string get_internet_address();
 
     protected:
-
+        Node(void);
     private:
         struct sockaddr_in addr;
 };

@@ -1,10 +1,7 @@
 #include "Node.h"
 #include <arpa/inet.h>
 
-Node::Node(sockaddr_in addr)
-{
-    addr = addr;
-}
+Node::Node(struct sockaddr_in addr): addr(addr) {}
 
 Node::~Node()
 {
