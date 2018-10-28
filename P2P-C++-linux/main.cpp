@@ -14,6 +14,8 @@ int main(){
     } else if (pid > 0){
         ConsoleMenu console_menu;
         console_menu.run();
+        kill(pid, SIGKILL);
+        exit(1);
     }
     return 0;
 }

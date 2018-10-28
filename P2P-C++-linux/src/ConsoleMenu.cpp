@@ -20,15 +20,16 @@ void ConsoleMenu::run(void){
         cout << "exit - wyjscie." << endl;
         string line;
         getline(cin, line);
+        system("clear");
         if (line == "1"){
-            cout << "Zapytanie o wezly w sieci." << endl;
             vector <Node> nodes = controller.get_active_nodes();
+            cout << "Dostepne wezly w sieci: " << endl;
             for(vector<Node>::iterator it = nodes.begin(); it != nodes.end(); ++it) {
                 cout << it->get_internet_address() << endl;
             }
         }
         if (line == "exit"){
-            exit(1);
+            return;
         }
 
     }
