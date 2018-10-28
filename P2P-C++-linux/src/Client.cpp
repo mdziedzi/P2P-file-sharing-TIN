@@ -39,7 +39,7 @@ Client::Client(void){
     }
     remote_server.sin_family = AF_INET;
     remote_server.sin_port = htons(SERVER_PORT);
-    remote_server.sin_addr.s_addr = INADDR_ANY;
+    remote_server.sin_addr.s_addr = INADDR_BROADCAST;
 
 }
 
@@ -77,7 +77,6 @@ vector <struct sockaddr_in> Client::wait_for_presence_response(){
         }else{
             active_addresses.push_back(src_addr);
         }
-        cout << "Dostalem " << endl;
         tv.tv_sec = 1;
     }
     return active_addresses;
