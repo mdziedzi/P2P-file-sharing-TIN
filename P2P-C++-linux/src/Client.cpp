@@ -38,9 +38,9 @@ Client::Client(void){
         perror("Error while getting socket name");
         exit(1);
     }
-    remote_server.sin_family = AF_INET;
-    remote_server.sin_port = htons(SERVER_PORT);
-    remote_server.sin_addr.s_addr = INADDR_BROADCAST;
+    broadcast_addr.sin_family = AF_INET;
+    broadcast_addr.sin_port = htons(SERVER_PORT);
+    broadcast_addr.sin_addr.s_addr = INADDR_BROADCAST;
 
 }
 
@@ -53,8 +53,8 @@ vector <struct sockaddr_in> Client::get_active_nodes(){
 
 void Client::send_presence_request(){
     int message[1] = { 100, };
-    ssize_t slen = sizeof(remote_server);
-    if (sendto(sock, &message, sizeof(message), 0, (struct sockaddr*) &remote_server, slen) == -1){
+    ssize_t slen = sizeof(broadcast_addr);
+    if (sendto(sock, &message, sizeof(message), 0, (struct sockaddr*) &broadcast_addr, slen) == -1){
         perror("Error while sending");
         exit(1);
     }
