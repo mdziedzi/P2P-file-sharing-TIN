@@ -6,10 +6,11 @@
 #include <iostream>
 #include <cstring>
 #include <sys/time.h>
+#include <unistd.h>
 
 Client::~Client()
 {
-    //dtor
+    close(sock);
 }
 
 using namespace std;

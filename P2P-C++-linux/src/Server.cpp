@@ -4,13 +4,14 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <unistd.h>
+
 
 using namespace std;
 Server::~Server()
 {
-    //dtor
+    close(sock);
 }
-
 
 Server::Server() {
     sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
