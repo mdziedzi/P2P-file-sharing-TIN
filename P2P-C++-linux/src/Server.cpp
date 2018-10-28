@@ -36,7 +36,6 @@ Server::Server() {
         perror("Error while getting socket name");
         exit(1);
     }
-    cout << "Listinig UDP socker port: " << ntohs(server.sin_port) << endl;
 }
 
 void Server::run(void) {
@@ -51,10 +50,6 @@ void Server::run(void) {
         }
         switch(buffor){
             case PRESENCE:
-                cout << "----------Serwer------------" << endl;
-                cout << "Port z ktorego dostalem: " << ntohs(src_addr.sin_port) << endl;
-                cout << "Adres z ktorego dostalem: "<< inet_ntoa(src_addr.sin_addr) << endl;
-                cout << "----------Serwer------------" << endl;
                 int message = PRESENCE;
                 socklen_t slen = sizeof(src_addr);
                 if (sendto(sock, &message, sizeof(message), 0, (struct sockaddr*) &src_addr, slen) == -1){
