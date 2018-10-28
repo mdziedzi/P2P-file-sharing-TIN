@@ -2,7 +2,8 @@
 #include "Client.h"
 #include "ConsoleMenu.h"
 #include <unistd.h>
-
+#include<signal.h>
+#include <iostream>
 
 using namespace std;
 
