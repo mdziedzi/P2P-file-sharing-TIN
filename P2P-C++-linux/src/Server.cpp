@@ -5,7 +5,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-
+#include "../consts.h"
 
 using namespace std;
 Server::~Server()
@@ -13,29 +13,9 @@ Server::~Server()
     close(sock);
 }
 
-Server::Server() {
-    sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if (sock == -1) {
-        perror("Error while opening stream socket");
-        exit(1);
-    }
-    int broadcast = 1;
-    if(setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &broadcast, sizeof(broadcast)) < 0){
-        perror("Error while setting option to broadcast 1");
-        exit(1);
-    }
-    server.sin_family = AF_INET;
-    server.sin_port = htons(SERVER_PORT);
-    server.sin_addr.s_addr = INADDR_ANY;
-    if (bind(sock, (struct sockaddr *) &server, sizeof server)== -1) {
-        perror("Error while binding stream socket 2");
-        exit(1);
-    }
-    socklen_t length = sizeof(server);
-    if (getsockname(sock,(struct sockaddr *) &server, &length) == -1) {
-        perror("Error while getting socket name");
-        exit(1);
-    }
+Server::Server() :NetworkCommunicator(SERVER_PORT)
+{
+
 }
 
 void Server::run(void) {

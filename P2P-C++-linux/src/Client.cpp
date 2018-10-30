@@ -15,33 +15,10 @@ Client::~Client()
 
 using namespace std;
 
-Client::Client(void){
-    sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if (sock == -1) {
-        perror("Error while opening stream socket");
-        exit(1);
-    }
-    int broadcast = 1;
-    if(setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &broadcast, sizeof(broadcast)) < 0){
-        perror("Error while setting option to broadcast");
-        exit(1);
-    }
-    client.sin_family = AF_INET;
-    client.sin_port = htons(CLIENT_PORT);
-    client.sin_addr.s_addr = INADDR_ANY;
-    if (bind(sock, (struct sockaddr *) &client, sizeof client)== -1) {
-        perror("Error while binding stream socket.");
-        exit(1);
-    }
-    socklen_t length = sizeof(client);
-    if (getsockname(sock,(struct sockaddr *) &client, &length) == -1) {
-        perror("Error while getting socket name");
-        exit(1);
-    }
+Client::Client() :NetworkCommunicator(CLIENT_PORT){
     broadcast_addr.sin_family = AF_INET;
     broadcast_addr.sin_port = htons(SERVER_PORT);
     broadcast_addr.sin_addr.s_addr = INADDR_BROADCAST;
-
 }
 
 vector <struct sockaddr_in> Client::get_active_nodes(){

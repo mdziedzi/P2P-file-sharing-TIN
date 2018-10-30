@@ -1,13 +1,14 @@
 #include "Controller.h"
 #include "Serializator.h"
 #include "Client.h"
+#include "../consts.h"
 #include <iostream>
 
 using namespace std;
 
 Controller::Controller()
 {
-    //ctor
+
 }
 
 Controller::~Controller()
