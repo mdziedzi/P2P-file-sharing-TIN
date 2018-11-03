@@ -32,8 +32,7 @@
 
 
                 <configuration>
-          >
-        <descriptorRefs>
+                    <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <!-- MainClass in mainfest make a executable jar -->
