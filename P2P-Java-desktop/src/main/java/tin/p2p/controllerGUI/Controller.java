@@ -12,6 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import tin.p2p.model.Node;
+import tin.p2p.resourceLayer.ResourceManager;
 
 import java.io.IOException;
 
@@ -52,7 +53,7 @@ public class Controller {
         stage.show();
 
         stage.setOnCloseRequest((WindowEvent event1) -> {
-            mockupNodesData();
+            loadNodesTable();
         });
 
         System.out.println(nodesTable.getItems().toString());
@@ -65,11 +66,12 @@ public class Controller {
     }
 
 
-    private void mockupNodesData() {
+
+    private void loadNodesTable() {
         nodeNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         nodeIpCol.setCellValueFactory(new PropertyValueFactory<>("ip"));
         nodesDataList.clear();
-        nodesDataList.addAll(new Node("test1", "11.111.111.111"), new Node("test2", "0.0.0.0"));
+        nodesDataList.addAll(ResourceManager.getNodesInNetwork());
         nodesTable.setItems(nodesDataList);
     }
 }
