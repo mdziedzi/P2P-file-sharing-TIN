@@ -19,40 +19,13 @@ public class SocketManager {
         return serverSocket;
     }
 
-    private InetAddress getBroadcastAddress() {
-        Enumeration<NetworkInterface> interfaces = null;
+    public static void joinToNetwork(String nodeName, InetAddress address) throws IOException {
+        Socket socket = new Socket(address, PORT);
 
-        try {
-            interfaces = NetworkInterface.getNetworkInterfaces();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-
-        if (interfaces != null) {
-
-            while (interfaces.hasMoreElements()) {
-                NetworkInterface networkInterface = interfaces.nextElement();
-
-                try {
-                    if (networkInterface.isLoopback()) {
-                        continue;    // Do not want to use the loopback interface.
-                    }
-                } catch (SocketException e) {
-                    e.printStackTrace();
-                }
-
-                for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
-                    InetAddress broadcast = interfaceAddress.getBroadcast();
-                    if (broadcast == null) {
-                        continue;
-                    }
-
-                    return broadcast;
-                }
-            }
-        }
-        return InetAddress.getLoopbackAddress();
+        socket.close();
     }
+
+
 
 }
 

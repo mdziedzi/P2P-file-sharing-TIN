@@ -1,5 +1,6 @@
 package tin.p2p.controllerGUI;
 
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +18,8 @@ import tin.p2p.resourceLayer.ResourceManager;
 import java.io.IOException;
 
 public class Controller {
+    private ResourceManager resourceManager;
+
     @FXML
     private Button changeNetworkBtnId;
 
@@ -40,6 +43,9 @@ public class Controller {
     @FXML
     private TextField ipTF;
 
+    public Controller() {
+        this.resourceManager = ResourceManager.getInstance();
+    }
 
     @FXML
     void changeNetworkBtnClick(ActionEvent event) throws IOException {
@@ -62,6 +68,7 @@ public class Controller {
     @FXML
     void handleConnectBtnClick(ActionEvent event) {
         ((Stage)((Button)event.getSource()).getScene().getWindow()).hide();
+        this.resourceManager.connectToNetwork(usernameTF.getCharacters().toString(), ipTF.getCharacters().toString());
 
     }
 
@@ -71,7 +78,7 @@ public class Controller {
         nodeNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         nodeIpCol.setCellValueFactory(new PropertyValueFactory<>("ip"));
         nodesDataList.clear();
-        nodesDataList.addAll(ResourceManager.getNodesInNetwork());
+        nodesDataList.addAll(this.resourceManager.getNodesInNetwork());
         nodesTable.setItems(nodesDataList);
     }
 }
