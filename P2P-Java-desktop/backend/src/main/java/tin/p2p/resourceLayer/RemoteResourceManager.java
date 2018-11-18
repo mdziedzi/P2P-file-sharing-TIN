@@ -19,7 +19,7 @@ public class RemoteResourceManager {
         return instance;
     }
 
-    public void joinToNetwork(String nodeName, String nodeIp) {
+    public void joinToNetwork(final String nodeName, String nodeIp) {
         InetAddress nodeAddress = null;
         try {
             nodeAddress = InetAddress.getByName(nodeIp);
@@ -27,7 +27,7 @@ public class RemoteResourceManager {
             e.printStackTrace();
         }
 
-        InetAddress finalNodeAddress = nodeAddress;
+        final InetAddress finalNodeAddress = nodeAddress;
 
         Thread thread = new Thread() {
             public void run() {

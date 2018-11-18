@@ -12,13 +12,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import tin.p2p.controller.Controller;
+import tin.p2p.controller.ControllerGUIInterface;
 import tin.p2p.model.Node;
-import tin.p2p.resourceLayer.ResourceManager;
 
 import java.io.IOException;
 
-public class Controller {
-    private ResourceManager resourceManager;
+public class ControllerGUI implements ControllerGUIInterface {
+    private Controller controller;
 
     @FXML
     private Button changeNetworkBtnId;
@@ -43,8 +44,8 @@ public class Controller {
     @FXML
     private TextField ipTF;
 
-    public Controller() {
-        this.resourceManager = ResourceManager.getInstance();
+    public ControllerGUI() {
+        this.controller = Controller.getInstance(this);
     }
 
     @FXML
@@ -68,7 +69,7 @@ public class Controller {
     @FXML
     void handleConnectBtnClick(ActionEvent event) {
         ((Stage)((Button)event.getSource()).getScene().getWindow()).hide();
-        this.resourceManager.connectToNetwork(usernameTF.getCharacters().toString(), ipTF.getCharacters().toString());
+        this.controller.connectToNetwork(usernameTF.getCharacters().toString(), ipTF.getCharacters().toString());
 
     }
 
@@ -78,7 +79,7 @@ public class Controller {
         nodeNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         nodeIpCol.setCellValueFactory(new PropertyValueFactory<>("ip"));
         nodesDataList.clear();
-        nodesDataList.addAll(this.resourceManager.getNodesInNetwork());
+        nodesDataList.addAll(this.controller.getNodesInNetwork());
         nodesTable.setItems(nodesDataList);
     }
 }
