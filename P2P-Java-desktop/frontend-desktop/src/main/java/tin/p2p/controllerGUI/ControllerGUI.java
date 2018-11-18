@@ -1,13 +1,15 @@
 package tin.p2p.controllerGUI;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -19,7 +21,7 @@ import tin.p2p.model.Node;
 import java.io.IOException;
 
 public class ControllerGUI implements ControllerGUIInterface {
-    private Controller controller;
+    private ControllerBackendInterface backendController;
 
     @FXML
     private Button changeNetworkBtnId;
@@ -45,7 +47,7 @@ public class ControllerGUI implements ControllerGUIInterface {
     private TextField ipTF;
 
     public ControllerGUI() {
-        this.controller = Controller.getInstance(this);
+        this.backendController = Controller.getInstance(this);
     }
 
     @FXML
@@ -69,8 +71,9 @@ public class ControllerGUI implements ControllerGUIInterface {
     @FXML
     void handleConnectBtnClick(ActionEvent event) {
         ((Stage)((Button)event.getSource()).getScene().getWindow()).hide();
-        this.controller.connectToNetwork(usernameTF.getCharacters().toString(), ipTF.getCharacters().toString());
+        this.backendController.connectToNetwork(usernameTF.getCharacters().toString(), ipTF.getCharacters().toString());
 
+        backendController.listOfPreviouslyTrustedIPNumbersRequest(); //its just to show 2 jars are connected // todo: delete
     }
 
 
@@ -79,7 +82,13 @@ public class ControllerGUI implements ControllerGUIInterface {
         nodeNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         nodeIpCol.setCellValueFactory(new PropertyValueFactory<>("ip"));
         nodesDataList.clear();
-        nodesDataList.addAll(this.controller.getNodesInNetwork());
+        nodesDataList.addAll(this.backendController.getNodesInNetwork());
         nodesTable.setItems(nodesDataList);
+    }
+
+    @Override
+    public void showPreviousTrustedIPNumbers() {
+        //todo
+        System.out.println("I'm showing previous trusted IP numbers");
     }
 }

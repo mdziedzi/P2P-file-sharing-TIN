@@ -20,5 +20,10 @@
     </parent>
     <artifactId>backend</artifactId>
     <dependencies>
+        <dependency>
+            <groupId>tin</groupId>
+            <artifactId>frontend-desktop</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>
