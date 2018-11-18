@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Controller {
     private static Controller instance;
+    private static ControllerGUIInterface controllerGUI;
     private ResourceManager resourceManager;
     private List<Node> nodesInNetwork = new ArrayList<>();
 
@@ -16,6 +17,7 @@ public class Controller {
     public static synchronized Controller getInstance(ControllerGUIInterface guiInterface) {
         if (instance == null) {
             instance = new Controller();
+            controllerGUI = guiInterface;
         }
         return instance;
     }
