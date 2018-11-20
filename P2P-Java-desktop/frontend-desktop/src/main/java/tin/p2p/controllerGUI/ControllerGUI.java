@@ -1,13 +1,15 @@
 package tin.p2p.controllerGUI;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -19,6 +21,7 @@ import tin.p2p.model.Node;
 import java.io.IOException;
 
 public class ControllerGUI implements ControllerGUIInterface {
+
     private Controller controller;
 
     @FXML
@@ -81,5 +84,30 @@ public class ControllerGUI implements ControllerGUIInterface {
         nodesDataList.clear();
         nodesDataList.addAll(this.controller.getNodesInNetwork());
         nodesTable.setItems(nodesDataList);
+    }
+
+    @Override
+    public void onCreateNewNetSuccess() {
+        //todo
+    }
+
+    @Override
+    public void onCreateNewNetFailure() {
+        //todo
+    }
+
+    @Override
+    public void onConnectToNetByIPSucces() {
+        //todo
+    }
+
+    @Override
+    public void onConnectToNetByIPReject() {
+        //todo
+    }
+
+    @Override
+    public void onConnectToNetByIPFailure() {
+        //todo
     }
 }

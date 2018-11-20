@@ -31,6 +31,31 @@ public class Controller {
     public void connectToNetwork(String nodeName, String nodeIp) {
         resourceManager = ResourceManager.getInstance();
     }
+
+    /**
+     * Creates new net based on user IP.
+     */
+    public void createNewNet() {
+        // todo
+        // if succes
+//        controllerGUI.onCreateNewNetSuccess();
+        // else
+//        controllerGUI.onCreateNewNetFailure();
+
+    }
+
+    /**
+     * Connect to net with specific IP.
+     *
+     * @param ip Request will be sent to host with this IP number.
+     */
+    public void connectToNetByIP(String ip) {
+        // todo
+//        controllerGUI.onConnectToNetByIPSucces();
+//        controllerGUI.onConnectToNetByIPReject();
+//        controllerGUI.onConnectToNetByIPFailure();
+    }
+
 }
 
 
