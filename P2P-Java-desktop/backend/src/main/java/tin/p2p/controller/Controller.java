@@ -35,25 +35,37 @@ public class Controller {
     /**
      * Creates new net based on user IP.
      */
-    public void createNewNet() {
+    public void createNewNet(ControllerGUIInterface.CreateNewNetCallback callback) {
         // todo
-        // if succes
-//        controllerGUI.onCreateNewNetSuccess();
-        // else
-//        controllerGUI.onCreateNewNetFailure();
+        callback.onCreateNewNetSuccess();
+        callback.onCreateNewNetFailure();
 
     }
 
+
     /**
      * Connect to net with specific IP.
-     *
-     * @param ip Request will be sent to host with this IP number.
+     * @param ip IP of node we want to connect with
+     * @param callback Object on which the callback will be performed.
      */
-    public void connectToNetByIP(String ip) {
+    public void connectToNetByIP(String ip, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
         // todo
-//        controllerGUI.onConnectToNetByIPSucces();
-//        controllerGUI.onConnectToNetByIPReject();
-//        controllerGUI.onConnectToNetByIPFailure();
+        callback.onConnectToNetByIPSucces();
+        callback.onConnectToNetByIPReject();
+        callback.onConnectToNetByIPFailure();
+    }
+
+    /**
+     * Disconnect from the net. Closes all network things and prepares for rerun application.
+     *
+     * @param callback Object on which the callback will be performed.
+     */
+    public void disconnectFromNet(ControllerGUIInterface.DisconnectCallback callback) {
+        // todo
+        callback.onDisconnectSuccess();
+
+        // todo czy przewidujemy bład?
+        callback.onDisconnectFailure();
     }
 
 }

@@ -86,28 +86,5 @@ public class ControllerGUI implements ControllerGUIInterface {
         nodesTable.setItems(nodesDataList);
     }
 
-    @Override
-    public void onCreateNewNetSuccess() {
-        //todo
-    }
 
-    @Override
-    public void onCreateNewNetFailure() {
-        //todo
-    }
-
-    @Override
-    public void onConnectToNetByIPSucces() {
-        //todo
-    }
-
-    @Override
-    public void onConnectToNetByIPReject() {
-        //todo
-    }
-
-    @Override
-    public void onConnectToNetByIPFailure() {
-        //todo
-    }
 }
