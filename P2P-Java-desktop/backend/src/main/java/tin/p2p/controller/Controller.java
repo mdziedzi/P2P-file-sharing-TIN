@@ -18,6 +18,7 @@ public class Controller {
         if (instance == null) {
             instance = new Controller();
             controllerGUI = guiInterface;
+            // new ThreadManager(this)
         }
         return instance;
     }
@@ -50,7 +51,12 @@ public class Controller {
      */
     public void connectToNetByIP(String ip, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
         // todo
-        callback.onConnectToNetByIPSucces();
+
+        if (Const.SPOKO == ThreadMenager.connectToNode(ip)) {
+            callback.onConnectToNetByIPSucces();
+
+        }
+
         callback.onConnectToNetByIPReject();
         callback.onConnectToNetByIPFailure();
     }
