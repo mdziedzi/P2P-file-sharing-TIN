@@ -1,5 +1,7 @@
 package tin.p2p.controller;
 
+import tin.p2p.Constants;
+import tin.p2p.ThreadManager;
 import tin.p2p.model.Node;
 import tin.p2p.resourceLayer.ResourceManager;
 
@@ -9,8 +11,7 @@ import java.util.List;
 public class Controller {
     private static Controller instance;
     private static ControllerGUIInterface controllerGUI;
-    private ResourceManager resourceManager;
-    private List<Node> nodesInNetwork = new ArrayList<>();
+    private static ThreadManager threadManager;
 
     private Controller() {}
 
@@ -18,28 +19,31 @@ public class Controller {
         if (instance == null) {
             instance = new Controller();
             controllerGUI = guiInterface;
-            // new ThreadManager(this)
+            threadManager = new ThreadManager();
         }
         return instance;
     }
 
-    public List<Node> getNodesInNetwork() {
-        nodesInNetwork.add(new Node("test11", "11.111.111.111"));
-        nodesInNetwork.add(new Node("test22", "0.0.0.0"));
-        return nodesInNetwork;
+    public static synchronized Controller getInstance() {
+        if (instance != null && threadManager != null) {
+            return instance;
+        }
+        return null;
     }
 
-    public void connectToNetwork(String nodeName, String nodeIp) {
-        resourceManager = ResourceManager.getInstance();
-    }
 
     /**
      * Creates new net based on user IP.
      */
     public void createNewNet(ControllerGUIInterface.CreateNewNetCallback callback) {
         // todo
-        callback.onCreateNewNetSuccess();
-        callback.onCreateNewNetFailure();
+        threadManager.createNewNet();
+//        if (Constants.OPERATION_SUCCESSFUL == ) {
+            callback.onCreateNewNetSuccess();
+//        } else {
+            callback.onCreateNewNetFailure();
+//        }
+
 
     }
 
@@ -52,10 +56,10 @@ public class Controller {
     public void connectToNetByIP(String ip, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
         // todo
 
-        if (Const.SPOKO == ThreadMenager.connectToNode(ip)) {
-            callback.onConnectToNetByIPSucces();
-
-        }
+//        if (Constants.OPERATION_SUCCESSFUL == threadManager.connectToNode(ip)) {
+//            callback.onConnectToNetByIPSucces();
+//
+//        }
 
         callback.onConnectToNetByIPReject();
         callback.onConnectToNetByIPFailure();
