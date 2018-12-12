@@ -2,20 +2,23 @@ package tin.p2p;
 
 import tin.p2p.controller.Controller;
 import tin.p2p.model.Connection;
+import tin.p2p.model.RemoteNode;
 import tin.p2p.socketLayer.SocketManager;
 
 import java.util.concurrent.ConcurrentSkipListSet;
 
-public class ThreadManager {
+public class RemoteNodesRepository {
+    private static RemoteNodesRepository instance;
 
-    private ConcurrentSkipListSet<Thread> threads;
-    private Controller controller;
-    private ConcurrentSkipListSet<Connection> connections;
+    private static ConcurrentSkipListSet<Thread> threads;
+    private static Controller controller;
+    private static ConcurrentSkipListSet<RemoteNode> remoteNodes;
 
-    public ThreadManager() {
-        controller = Controller.getInstance();
+    private RemoteNodesRepository() {}
+
+    public static synchronized RemoteNodesRepository getInstance() {
+        //todo singleton
     }
-
     public void connectToNode() {
 //        threads.add(new Thread(this)); // w ty watku jest polaczenie
 
@@ -23,8 +26,8 @@ public class ThreadManager {
 
     public void createNewNet() {
         Thread thread = new Thread(() ->
-                SocketManager.createNewNet(ThreadManager.this));
-
+                SocketManager.createNewNet(RemoteNodesRepository.this));
+        thread.
         threads.add(thread);
         thread.start();
     }

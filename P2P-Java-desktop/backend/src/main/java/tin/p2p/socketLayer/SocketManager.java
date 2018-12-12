@@ -1,6 +1,6 @@
 package tin.p2p.socketLayer;
 
-import tin.p2p.ThreadManager;
+import tin.p2p.RemoteNodesRepository;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -18,34 +18,34 @@ public class SocketManager {
         socket.close();
     }
 
-    private static ServerSocket createAndConfigureSocketForListening(ThreadManager threadManager) {
+    private static ServerSocket createAndConfigureSocketForListening(RemoteNodesRepository remoteNodesRepository) {
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
             e.printStackTrace();
-            threadManager.notifyError(e);
+            remoteNodesRepository.notifyError(e);
         }
 
         return serverSocket;
     }
 
-    public static void createNewNet(ThreadManager threadManager) {
-        createAndConfigureSocketForListening(threadManager);
+    public static void createNewNet(RemoteNodesRepository remoteNodesRepository) {
+        createAndConfigureSocketForListening(remoteNodesRepository);
         try {
             Socket socket = serverSocket.accept();
         } catch (IOException e) {
             e.printStackTrace();
-            threadManager.notifyError(e);
+            remoteNodesRepository.notifyError(e);
         }
 
     }
 
-    public static void onInterruptedException(ThreadManager threadManager) {
+    public static void onInterruptedException(RemoteNodesRepository remoteNodesRepository) {
         if (!serverSocket.isClosed()) {
             try {
                 serverSocket.close();
             } catch (IOException e) {
-                threadManager.notifyError(e);
+                remoteNodesRepository.notifyError(e);
                 e.printStackTrace();
             }
         }
