@@ -3,6 +3,10 @@ package tin.p2p.controller;
 import tin.p2p.RemoteNodesRepository;
 import tin.p2p.model.RemoteNode;
 
+import java.net.UnknownHostException;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
+
 public class Controller {
     private static Controller instance;
     private static ControllerGUIInterface controllerGUI;
@@ -32,13 +36,8 @@ public class Controller {
      */
     public void createNewNet(ControllerGUIInterface.CreateNewNetCallback callback) {
         // todo
-        remoteNodesRepository.createNewNet();
-//        if (Constants.OPERATION_SUCCESSFUL == ) {
             callback.onCreateNewNetSuccess();
-//        } else {
             callback.onCreateNewNetFailure();
-//        }
-
 
     }
 
@@ -50,20 +49,20 @@ public class Controller {
      */
     public void connectToNetByIP(String ip, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
         // todo
-        RemoteNode remoteNode = remoteNodesRepository.getNewRemoteNode(ip);
-        remoteNode.connect.applyThen(callback.onConnectToNetByIPSucces())
-                .exceptionally(
-                        insanceof
-                        callback.onConnectToNetByIPFailure())
-                        else
-                        callback.onConnectToNetByIPReject()
-//        if (Constants.OPERATION_SUCCESSFUL == threadManager.connectToNode(ip)) {
-//            ;
-//
-//        }
+        RemoteNode remoteNode = null;
+        try {
+            remoteNode = remoteNodesRepository.getNewRemoteNode(ip);
+        } catch (UnknownHostException e) {
+            callback.onConnectToNetByIPFailure();
+            e.printStackTrace();
+        }
 
-        ;
-        ;
+        CompletableFuture.supplyAsync(remoteNode::connect)
+                .thenAccept(t -> callback.onConnectToNetByIPSucces())
+                .exceptionally(ex -> callback.onConnectToNetByIPFailure());
+
+//                        callback.onConnectToNetByIPFailure())
+//                        callback.onConnectToNetByIPReject()
     }
 
     /**

@@ -16,25 +16,25 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import tin.p2p.controller.Controller;
 import tin.p2p.controller.ControllerGUIInterface;
-import tin.p2p.model.Node;
+import tin.p2p.model.RemoteNode;
 
 import java.io.IOException;
 
 public class ControllerGUI implements ControllerGUIInterface {
 
-    private Controller controller;
+    private Controller backend;
 
     @FXML
     private Button changeNetworkBtnId;
 
     @FXML
-    private TableView<Node> nodesTable;
+    private TableView<RemoteNode> nodesTable;
     @FXML
     private TableColumn<?, ?> nodeIpCol;
     @FXML
     private TableColumn<?, ?> nodeNameCol;
 
-    public static final ObservableList<Node> nodesDataList = FXCollections.observableArrayList();
+    public static final ObservableList<RemoteNode> nodesDataList = FXCollections.observableArrayList();
 
 
 
@@ -48,7 +48,7 @@ public class ControllerGUI implements ControllerGUIInterface {
     private TextField ipTF;
 
     public ControllerGUI() {
-        this.controller = Controller.getInstance(this);
+        this.backend = Controller.getInstance(this);
     }
 
     @FXML
@@ -72,7 +72,32 @@ public class ControllerGUI implements ControllerGUIInterface {
     @FXML
     void handleConnectBtnClick(ActionEvent event) {
         ((Stage)((Button)event.getSource()).getScene().getWindow()).hide();
-        this.controller.connectToNetwork(usernameTF.getCharacters().toString(), ipTF.getCharacters().toString());
+        this.backend.connectToNetByIP(ipTF.getCharacters().toString(), new ConnectToNetByIPCallback() {
+            @Override
+            public Void onConnectToNetByIPSucces() {
+                System.out.println("Connect success");
+                return null;
+            }
+
+            @Override
+            public Void onConnectToNetByIPReject() {
+                System.out.println("Connect reject");
+                return null;
+            }
+
+            @Override
+            public Void onConnectToNetByIPFailure() {
+                System.out.println("Connect failure");
+                return null;
+            }
+        });
+
+    }
+
+    @FXML
+    void handleNewNetBtnClick(ActionEvent event) {
+        ((Stage)((Button)event.getSource()).getScene().getWindow()).hide();
+//        this.backend.connectToNetwork(usernameTF.getCharacters().toString(), ipTF.getCharacters().toString());
 
     }
 
@@ -82,7 +107,7 @@ public class ControllerGUI implements ControllerGUIInterface {
         nodeNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         nodeIpCol.setCellValueFactory(new PropertyValueFactory<>("ip"));
         nodesDataList.clear();
-        nodesDataList.addAll(this.controller.getNodesInNetwork());
+//        nodesDataList.addAll(this.backend.getNodesInNetwork());
         nodesTable.setItems(nodesDataList);
     }
 
