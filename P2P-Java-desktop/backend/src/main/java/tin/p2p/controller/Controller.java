@@ -49,13 +49,13 @@ public class Controller {
      */
     public void connectToNetByIP(String ip, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
         // todo
-        RemoteNode remoteNode = null;
-        try {
-            remoteNode = remoteNodesRepository.getNewRemoteNode(ip);
-        } catch (UnknownHostException e) {
-            callback.onConnectToNetByIPFailure();
-            e.printStackTrace();
-        }
+        RemoteNode remoteNode = new RemoteNode();
+//        try {
+//            remoteNode = remoteNodesRepository.getNewRemoteNode(ip);
+//        } catch (UnknownHostException e) {
+//            callback.onConnectToNetByIPFailure();
+//            e.printStackTrace();
+//        }
 
         CompletableFuture.supplyAsync(remoteNode::connect)
                 .thenAccept(t -> callback.onConnectToNetByIPSucces())

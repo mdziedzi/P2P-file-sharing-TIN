@@ -34,8 +34,9 @@ public class RemoteNode {
     }
 
     public Void connect() {
-        sender.connectToNode(this, new ConnectionSerialisedObject());
         throw new ConnectionToNetException();
+//        sender.connectToNode(this, new ConnectionSerialisedObject());
+
 
     }
 }
