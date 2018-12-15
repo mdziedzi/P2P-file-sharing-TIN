@@ -74,21 +74,18 @@ public class ControllerGUI implements ControllerGUIInterface {
         ((Stage)((Button)event.getSource()).getScene().getWindow()).hide();
         this.backend.connectToNetByIP(ipTF.getCharacters().toString(), new ConnectToNetByIPCallback() {
             @Override
-            public Void onConnectToNetByIPSucces() {
+            public void onConnectToNetByIPSucces() {
                 System.out.println("Connect success");
-                return null;
             }
 
             @Override
-            public Void onConnectToNetByIPReject() {
+            public void onConnectToNetByIPReject() {
                 System.out.println("Connect reject");
-                return null;
             }
 
             @Override
-            public Void onConnectToNetByIPFailure() {
+            public void onConnectToNetByIPFailure() {
                 System.out.println("Connect failure");
-                return null;
             }
         });
 

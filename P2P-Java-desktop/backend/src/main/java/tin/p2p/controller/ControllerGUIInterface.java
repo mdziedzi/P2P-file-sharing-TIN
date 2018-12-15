@@ -10,12 +10,12 @@ public interface ControllerGUIInterface {
         /**
          * Method is called after the net was created successfully.
          */
-        Void onCreateNewNetSuccess();
+        void onCreateNewNetSuccess();
 
         /**
          * Method is called after something went wrong with creation of new net.
          */
-        Void onCreateNewNetFailure();
+        void onCreateNewNetFailure();
 
     }
 
@@ -27,17 +27,17 @@ public interface ControllerGUIInterface {
         /**
          * Method is called after user connected to net via specific IP number ended with success.
          */
-        Void onConnectToNetByIPSucces();
+        void onConnectToNetByIPSucces();
 
         /**
          * Method is called after host with specific IP number reject user request.
          */
-        Void onConnectToNetByIPReject();
+        void onConnectToNetByIPReject();
 
         /**
          * Method is called after failure when connecting to specific net.
          */
-        Void onConnectToNetByIPFailure();
+        void onConnectToNetByIPFailure();
 
     }
 
@@ -49,12 +49,12 @@ public interface ControllerGUIInterface {
         /**
          * Method called after disconnect from the net will be performed successfully.
          */
-        Void onDisconnectSuccess();
+        void onDisconnectSuccess();
 
         /**
          * Method called after disconnect from the net will not be performed for some reasons.
          */
-        Void onDisconnectFailure();
+        void onDisconnectFailure();
 
     }
 

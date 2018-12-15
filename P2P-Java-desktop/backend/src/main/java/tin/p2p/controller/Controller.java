@@ -59,7 +59,11 @@ public class Controller {
 
         CompletableFuture.supplyAsync(remoteNode::connect)
                 .thenAccept(t -> callback.onConnectToNetByIPSucces())
-                .exceptionally(ex -> callback.onConnectToNetByIPFailure());
+                .exceptionally((t) -> {
+                    System.err.println(t);
+                    return null;
+                })
+                .thenAccept(ex -> callback.onConnectToNetByIPFailure());
 
 //                        callback.onConnectToNetByIPFailure())
 //                        callback.onConnectToNetByIPReject()
