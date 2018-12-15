@@ -10,48 +10,48 @@ import java.io.IOException;
 import java.net.*;
 
 public class SocketManager {
-    private final static int PORT = 8888;
-    private static ServerSocket serverSocket;
+//    private final static int PORT = 8888;
+//    private static ServerSocket serverSocket;
 
-    public static void joinToNetwork(String nodeName, InetAddress address) throws IOException {
-        Socket socket = new Socket(address, PORT);
+//    public static void joinToNetwork(String nodeName, InetAddress address) throws IOException {
+//        Socket socket = new Socket(address, PORT);
+//
+//
+//        socket.close();
+//    }
 
+//    private static ServerSocket createAndConfigureSocketForListening(RemoteNodesRepository remoteNodesRepository) {
+//        try {
+//            serverSocket = new ServerSocket(PORT);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            remoteNodesRepository.notifyError(e);
+//        }
+//
+//        return serverSocket;
+//    }
+//
+//    public static void createNewNet(RemoteNodesRepository remoteNodesRepository) {
+//        createAndConfigureSocketForListening(remoteNodesRepository);
+//        try {
+//            Socket socket = serverSocket.accept();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            remoteNodesRepository.notifyError(e);
+//        }
+//
+//    }
 
-        socket.close();
-    }
-
-    private static ServerSocket createAndConfigureSocketForListening(RemoteNodesRepository remoteNodesRepository) {
-        try {
-            serverSocket = new ServerSocket(PORT);
-        } catch (IOException e) {
-            e.printStackTrace();
-            remoteNodesRepository.notifyError(e);
-        }
-
-        return serverSocket;
-    }
-
-    public static void createNewNet(RemoteNodesRepository remoteNodesRepository) {
-        createAndConfigureSocketForListening(remoteNodesRepository);
-        try {
-            Socket socket = serverSocket.accept();
-        } catch (IOException e) {
-            e.printStackTrace();
-            remoteNodesRepository.notifyError(e);
-        }
-
-    }
-
-    public static void onInterruptedException(RemoteNodesRepository remoteNodesRepository) {
-        if (!serverSocket.isClosed()) {
-            try {
-                serverSocket.close();
-            } catch (IOException e) {
-                remoteNodesRepository.notifyError(e);
-                e.printStackTrace();
-            }
-        }
-    }
+//    public static void onInterruptedException(RemoteNodesRepository remoteNodesRepository) {
+//        if (!serverSocket.isClosed()) {
+//            try {
+//                serverSocket.close();
+//            } catch (IOException e) {
+//                remoteNodesRepository.notifyError(e);
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     public static Socket connect(InetAddress address) throws IOException {
         Socket socket = new Socket();
@@ -68,13 +68,33 @@ public class SocketManager {
 
     public static void listen(Socket socket, Receiver receiver) throws IOException {
         DataInputStream dis = new DataInputStream(socket.getInputStream());
-        int length = dis.readInt();
+        while (true) { //todo
+            int length = dis.readInt();
+            if (length > 0) {
+                byte[] receivedData = new byte[length];
+                dis.readFully(receivedData, 0, receivedData.length);
+                receiver.onNewDataReceived(receivedData);
+            }
+        }
+    }
+
+    public static void listenUnknownNodes(NewConnectsReceiver newConnectsReceiver) throws IOException {
+
+        ServerSocket serverSocket = new ServerSocket(Constants.MAIN_APP_PORT);
+        Socket socket = serverSocket.accept();
+
+        DataInputStream dis = new DataInputStream(socket.getInputStream());
+//        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        int length = dis.read();
         if (length > 0) {
             byte[] receivedData = new byte[length];
-            dis.readFully(receivedData, 0, receivedData.length);
-            receiver.onNewDataReceived(receivedData);
+            dis.read(receivedData, 0, receivedData.length);
+            newConnectsReceiver.onNewDataReceived(receivedData);
+
         }
 
     }
+
+
 }
 

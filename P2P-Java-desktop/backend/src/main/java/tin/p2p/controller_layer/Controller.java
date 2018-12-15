@@ -34,8 +34,13 @@ public class Controller {
      */
     public void createNewNet(ControllerGUIInterface.CreateNewNetCallback callback) {
         // todo
-            callback.onCreateNewNetSuccess();
-            callback.onCreateNewNetFailure();
+        CompletableFuture.supplyAsync(() -> RemoteNodesController.getInstance().createNewNet())
+                .thenAccept(t -> callback.onCreateNewNetSuccess())
+                .exceptionally((t) -> {
+                    System.err.println(t);
+                    return null;
+                })
+                .thenAccept(ex -> callback.onCreateNewNetFailure());
 
     }
 
@@ -47,7 +52,7 @@ public class Controller {
      */
     public void connectToNetByIP(String ip, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
 
-        CompletableFuture.supplyAsync(() -> RemoteNodesController.connectToNetByIp(ip))
+        CompletableFuture.supplyAsync(() -> RemoteNodesController.getInstance().connectToNetByIp(ip))
                 .thenAccept(t -> callback.onConnectToNetByIPSucces())
                 .exceptionally((t) -> {
                     System.err.println(t);
