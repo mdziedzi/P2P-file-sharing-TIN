@@ -1,4 +1,4 @@
-package tin.p2p.exception;
+package tin.p2p.exceptions;
 
 public class ConnectionToNetException extends RuntimeException {
     public ConnectionToNetException() {

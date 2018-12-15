@@ -1,11 +1,11 @@
-package tin.p2p;
+package tin.p2p.socket_layer.connection;
 
-import tin.p2p.socketLayer.SocketManager;
+import tin.p2p.socket_layer.SocketManager;
 
 import java.io.IOException;
 import java.net.Socket;
 
-public class Receiver {
+class Receiver {
     private Socket socket;
 
 

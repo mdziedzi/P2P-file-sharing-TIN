@@ -1,11 +1,8 @@
-package tin.p2p.serialization;
-
-import tin.p2p.MessageType;
-import tin.p2p.SerializedObject;
-
-import static tin.p2p.Constants.*;
+package tin.p2p.serialization_layer;
 
 import java.nio.ByteBuffer;
+
+import static tin.p2p.utils.Constants.MESSAGE_LENGTH;
 
 public class Serializer {
 
@@ -16,6 +13,8 @@ public class Serializer {
     }
 
     public static SerializedObject getConnectionToNetObject() {
+        //todo
+        return new SerializedObject();
     }
 } 
 

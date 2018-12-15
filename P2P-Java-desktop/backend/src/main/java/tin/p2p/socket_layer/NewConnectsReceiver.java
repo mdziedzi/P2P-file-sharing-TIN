@@ -1,4 +1,4 @@
-package tin.p2p;
+package tin.p2p.socket_layer;
 
 import java.net.ServerSocket;
 

@@ -1,11 +1,10 @@
-package tin.p2p.controller;
+package tin.p2p.controller_layer;
 
-import tin.p2p.RemoteNodesRepository;
-import tin.p2p.model.RemoteNode;
+import tin.p2p.socket_layer.RemoteNodesRepository;
+import tin.p2p.socket_layer.connection.RemoteNode;
 
 import java.net.UnknownHostException;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 
 public class Controller {
     private static Controller instance;

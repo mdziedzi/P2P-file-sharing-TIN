@@ -1,4 +1,4 @@
-package tin.p2p.controller;
+package tin.p2p.controller_layer;
 
 public interface ControllerGUIInterface {
 
@@ -39,6 +39,8 @@ public interface ControllerGUIInterface {
          */
         void onConnectToNetByIPFailure();
 
+
+        void onIPFormatFailure();
     }
 
     /**

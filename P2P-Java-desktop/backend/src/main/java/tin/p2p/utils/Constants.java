@@ -1,4 +1,4 @@
-package tin.p2p;
+package tin.p2p.utils;
 
 public final class Constants {
     public static final int MESSAGE_LENGTH = 32;

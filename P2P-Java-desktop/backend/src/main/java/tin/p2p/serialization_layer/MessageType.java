@@ -1,4 +1,4 @@
-package tin.p2p;
+package tin.p2p.serialization_layer;
 
 public enum MessageType {
 

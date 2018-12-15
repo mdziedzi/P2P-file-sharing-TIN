@@ -1,8 +1,7 @@
-package tin.p2p.socketLayer;
+package tin.p2p.socket_layer;
 
-import tin.p2p.Constants;
-import tin.p2p.RemoteNodesRepository;
-import tin.p2p.SerializedObject;
+import tin.p2p.serialization_layer.SerializedObject;
+import tin.p2p.utils.Constants;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -73,6 +72,7 @@ public class SocketManager {
             byte[] receivedData = new byte[length];
             dis.readFully(receivedData, 0, receivedData.length);
         }
+
     }
 }
 

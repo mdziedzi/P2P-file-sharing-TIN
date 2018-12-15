@@ -14,9 +14,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import tin.p2p.controller.Controller;
-import tin.p2p.controller.ControllerGUIInterface;
-import tin.p2p.model.RemoteNode;
+import tin.p2p.controller_layer.Controller;
+import tin.p2p.controller_layer.ControllerGUIInterface;
+import tin.p2p.socket_layer.connection.RemoteNode;
 
 import java.io.IOException;
 
@@ -86,6 +86,11 @@ public class ControllerGUI implements ControllerGUIInterface {
             @Override
             public void onConnectToNetByIPFailure() {
                 System.out.println("Connect failure");
+            }
+
+            @Override
+            public void onIPFormatFailure() {
+                System.out.println("Bad ip format");
             }
         });
 
