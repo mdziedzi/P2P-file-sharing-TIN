@@ -1,6 +1,7 @@
 package tin.p2p.serialization;
 
 import tin.p2p.MessageType;
+import tin.p2p.SerializedObject;
 
 import static tin.p2p.Constants.*;
 
@@ -12,6 +13,9 @@ public class Serializer {
         ByteBuffer byteBuffer = ByteBuffer.allocate(MESSAGE_LENGTH);
         byteBuffer.put(0, (byte)messageType.opcode());
         return byteBuffer.array();
+    }
+
+    public static SerializedObject getConnectionToNetObject() {
     }
 } 
 

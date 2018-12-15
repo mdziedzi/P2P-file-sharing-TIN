@@ -48,14 +48,13 @@ public class Controller {
      * @param callback Object on which the callback will be performed.
      */
     public void connectToNetByIP(String ip, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
-        // todo
-        RemoteNode remoteNode = new RemoteNode();
-//        try {
-//            remoteNode = remoteNodesRepository.getNewRemoteNode(ip);
-//        } catch (UnknownHostException e) {
-//            callback.onConnectToNetByIPFailure();
-//            e.printStackTrace();
-//        }
+        RemoteNode remoteNode = null;
+        try {
+            remoteNode = remoteNodesRepository.getNewRemoteNode(ip);
+        } catch (UnknownHostException e) {
+            System.err.println(e.getMessage());
+            callback.onIPFormatFailure();
+        }
 
         CompletableFuture.supplyAsync(remoteNode::connect)
                 .thenAccept(t -> callback.onConnectToNetByIPSucces())
@@ -65,8 +64,6 @@ public class Controller {
                 })
                 .thenAccept(ex -> callback.onConnectToNetByIPFailure());
 
-//                        callback.onConnectToNetByIPFailure())
-//                        callback.onConnectToNetByIPReject()
     }
 
     /**

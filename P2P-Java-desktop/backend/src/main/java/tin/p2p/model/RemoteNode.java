@@ -2,8 +2,9 @@ package tin.p2p.model;
 
 import tin.p2p.Receiver;
 import tin.p2p.Sender;
+import tin.p2p.SerializedObject;
 import tin.p2p.exception.ConnectionToNetException;
-import tin.p2p.serialization.ConnectionSerialisedObject;
+import tin.p2p.serialization.Serializer;
 
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -34,8 +35,9 @@ public class RemoteNode {
     }
 
     public Void connect() {
+        SerializedObject serialisedObject = Serializer.getConnectionToNetObject();
+        sender.connectToNode(this, serialisedObject);
         throw new ConnectionToNetException();
-//        sender.connectToNode(this, new ConnectionSerialisedObject());
 
 
     }

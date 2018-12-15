@@ -1,7 +1,6 @@
 package tin.p2p.socketLayer;
 
 import tin.p2p.RemoteNodesRepository;
-import tin.p2p.serialization.ConnectionSerialisedObject;
 
 import java.io.IOException;
 import java.net.InetAddress;
