@@ -35,4 +35,8 @@ public class RemoteNodesRepository {
     public void notifyError(IOException e) {
         System.err.println(e.getMessage());
     }
+
+    public void unregister(RemoteNode remoteNode) {
+        remoteNodes.remove(remoteNode);
+    }
 }

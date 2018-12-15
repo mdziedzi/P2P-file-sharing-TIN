@@ -15,7 +15,7 @@ public class Sender {
         try {
             socket = SocketManager.connect(remoteNode.getAddress());
             sendJoinNetworkRequest(socket, serializedObject);
-            remoteNode.setReceiver(Receiver.create(socket));
+            remoteNode.setReceiver(Receiver.create(socket, remoteNode));
         } catch (IOException e) {
             e.printStackTrace();
             throw new ConnectionToNetException();

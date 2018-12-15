@@ -1,6 +1,7 @@
 package tin.p2p.socket_layer;
 
 import tin.p2p.serialization_layer.SerializedObject;
+import tin.p2p.socket_layer.connection.Receiver;
 import tin.p2p.utils.Constants;
 
 import java.io.DataInputStream;
@@ -65,12 +66,13 @@ public class SocketManager {
         dos.write(serializedObject.getData());
     }
 
-    public static void listen(Socket socket) throws IOException {
+    public static void listen(Socket socket, Receiver receiver) throws IOException {
         DataInputStream dis = new DataInputStream(socket.getInputStream());
         int length = dis.readInt();
         if (length > 0) {
             byte[] receivedData = new byte[length];
             dis.readFully(receivedData, 0, receivedData.length);
+            receiver.onNewDataReceived(receivedData);
         }
 
     }
