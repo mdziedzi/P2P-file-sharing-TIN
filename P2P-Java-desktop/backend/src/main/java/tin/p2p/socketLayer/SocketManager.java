@@ -1,11 +1,13 @@
 package tin.p2p.socketLayer;
 
+import tin.p2p.Constants;
 import tin.p2p.RemoteNodesRepository;
+import tin.p2p.SerializedObject;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 
 public class SocketManager {
     private final static int PORT = 8888;
@@ -51,8 +53,26 @@ public class SocketManager {
         }
     }
 
+    public static Socket connect(InetAddress address) throws IOException {
+        Socket socket = new Socket();
+        SocketAddress socketAddress = new InetSocketAddress(address, Constants.MAIN_APP_PORT);
+        socket.connect(socketAddress);
+        return socket;
+    }
 
-    public static void send(InetAddress address, ConnectionSerialisedObject serialisedObject) {
+    public static void send(Socket socket, SerializedObject serializedObject) throws IOException {
+        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+        dos.writeInt(serializedObject.getDataLength());
+        dos.write(serializedObject.getData());
+    }
+
+    public static void listen(Socket socket) throws IOException {
+        DataInputStream dis = new DataInputStream(socket.getInputStream());
+        int length = dis.readInt();
+        if (length > 0) {
+            byte[] receivedData = new byte[length];
+            dis.readFully(receivedData, 0, receivedData.length);
+        }
     }
 }
 
