@@ -68,7 +68,7 @@ public class SocketManager {
 
     public static void listen(Socket socket, Receiver receiver) throws IOException {
         DataInputStream dis = new DataInputStream(socket.getInputStream());
-        while (true) { //todo
+        while (true) {
             int length = dis.readInt();
             if (length > 0) {
                 byte[] receivedData = new byte[length];
@@ -81,16 +81,19 @@ public class SocketManager {
     public static void listenUnknownNodes(NewConnectsReceiver newConnectsReceiver) throws IOException {
 
         ServerSocket serverSocket = new ServerSocket(Constants.MAIN_APP_PORT);
-        Socket socket = serverSocket.accept();
+        while (true) {
+            Socket socket = serverSocket.accept();
 
-        DataInputStream dis = new DataInputStream(socket.getInputStream());
-//        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        int length = dis.read();
-        if (length > 0) {
-            byte[] receivedData = new byte[length];
-            dis.read(receivedData, 0, receivedData.length);
-            newConnectsReceiver.onNewDataReceived(receivedData);
-
+            DataInputStream dis = new DataInputStream(socket.getInputStream());
+            int length = dis.read();
+            if (length == 0) {
+                newConnectsReceiver.onNewConnection(socket);
+            }
+            if (length > 0) {
+                byte[] receivedData = new byte[length];
+                dis.read(receivedData, 0, receivedData.length);
+                newConnectsReceiver.onNewDataReceived(receivedData);
+            }
         }
 
     }

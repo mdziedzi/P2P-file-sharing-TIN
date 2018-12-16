@@ -29,14 +29,23 @@ public class RemoteNodesRepository {
     public RemoteNode getNewRemoteNode(String ip) throws UnknownHostException {
         RemoteNode remoteNode = new RemoteNode();
         remoteNode.setAddress(InetAddress.getByName(ip));
+        register(remoteNode);
         return remoteNode;
     }
 
-    public void notifyError(IOException e) {
-        System.err.println(e.getMessage());
+    public RemoteNode getNewRemoteNode(InetAddress inetAddress) {
+        RemoteNode remoteNode = new RemoteNode();
+        remoteNode.setAddress(inetAddress);
+        register(remoteNode);
+        return remoteNode;
     }
+
 
     public void unregister(RemoteNode remoteNode) {
         remoteNodes.remove(remoteNode);
+    }
+
+    private void register(RemoteNode remoteNode) {
+        remoteNodes.add(remoteNode);
     }
 }

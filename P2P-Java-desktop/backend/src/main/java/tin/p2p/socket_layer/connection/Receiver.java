@@ -15,7 +15,7 @@ public class Receiver {
         this.socket = socket;
     }
 
-    static Receiver create(Socket socket, RemoteNode remoteNode) {
+    public static Receiver create(Socket socket, RemoteNode remoteNode) {
         Receiver receiver = new Receiver(socket);
         Thread thread = new Thread(() -> {
             try {
