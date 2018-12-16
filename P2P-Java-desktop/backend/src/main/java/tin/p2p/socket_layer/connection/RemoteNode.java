@@ -7,7 +7,7 @@ import tin.p2p.socket_layer.RemoteNodesRepository;
 import java.net.InetAddress;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class RemoteNode {
+public class RemoteNode implements Comparable {
     private InetAddress address;
     private Sender sender;
     private Receiver receiver;
@@ -40,6 +40,11 @@ public class RemoteNode {
 
     public void onConnectionLost() {
         RemoteNodesRepository.getInstance().unregister(this);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
     }
 }
 
