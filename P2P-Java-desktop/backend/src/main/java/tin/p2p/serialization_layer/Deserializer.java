@@ -4,7 +4,7 @@ public class Deserializer {
 
     //TODO jaką klasę ma zwracać, obsłużyć wszystkie przypadki komunikatów
     public static SerializedObject deserialize(byte[] byteBuffer) {
-        return new SerializedObject();
+        return new SerializedObject(0, new byte[1]);
     }
 } 
 

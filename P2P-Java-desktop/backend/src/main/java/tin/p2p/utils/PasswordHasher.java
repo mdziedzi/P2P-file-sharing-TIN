@@ -1,13 +1,16 @@
 package tin.p2p.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class PasswordHasher {
 
-    public static String hash(String input) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA1");
+    @NotNull
+    public static String hash(@NotNull String input) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.reset();
         byte[] buffer = input.getBytes(StandardCharsets.UTF_8);
         md.update(buffer);
