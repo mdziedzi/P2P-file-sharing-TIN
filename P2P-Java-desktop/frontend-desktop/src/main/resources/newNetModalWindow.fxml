@@ -8,21 +8,15 @@
 
 <VBox alignment="CENTER" fx:controller="tin.p2p.controllerGUI.ControllerGUI" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="277.0">
+        <HBox alignment="CENTER">
             <children>
-                <Label prefHeight="15.0" prefWidth="115.0" text="Twoja nazwa" />
-                <TextField fx:id="usernameTF" prefHeight="25.0" prefWidth="180.0" />
+                <Label prefHeight="15.0" prefWidth="105.0" text="Wpisz hasło w sieci" />
+                <PasswordField fx:id="newNetPassword" />
             </children>
         </HBox>
         <HBox alignment="CENTER">
             <children>
-                <Label prefHeight="15.0" prefWidth="105.0" text="IP z sieci" />
-                <TextField fx:id="ipTF" />
-            </children>
-        </HBox>
-        <HBox alignment="CENTER">
-            <children>
-                <Button fx:id="connectBtn" mnemonicParsing="false" onAction="#handleConnectBtnClick" text="Connect" />
+                <Button fx:id="connectBtn" mnemonicParsing="false" onAction="#handleNewNetCreateBtnClick" text="Stwórz sieć" />
             </children>
         </HBox>
     </children>

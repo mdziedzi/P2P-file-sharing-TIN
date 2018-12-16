@@ -1,6 +1,7 @@
 package tin.p2p.nodes_controller_layer;
 
 import tin.p2p.exceptions.BadIpFormatException;
+import tin.p2p.serialization_layer.SerializedObject;
 import tin.p2p.socket_layer.NewConnectsReceiver;
 import tin.p2p.socket_layer.RemoteNodesRepository;
 import tin.p2p.socket_layer.connection.RemoteNode;
@@ -13,8 +14,6 @@ public class RemoteNodesController {
 
     private RemoteNodesController() {
     }
-
-    ;
 
     public static synchronized RemoteNodesController getInstance() {
         if (instance == null) {
@@ -43,7 +42,7 @@ public class RemoteNodesController {
         return null;
     }
 
-    public void onNewDataReceived(byte[] receivedData) {
+    public void onNewDataReceived(SerializedObject receivedData) {
         //todo
     }
 }

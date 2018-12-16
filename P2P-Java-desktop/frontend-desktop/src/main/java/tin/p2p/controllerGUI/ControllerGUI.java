@@ -6,10 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -42,24 +39,33 @@ public class ControllerGUI implements ControllerGUIInterface {
     private Button connectBtn;
 
     @FXML
-    private TextField usernameTF;
+    private PasswordField existingNetPassword;
 
     @FXML
     private TextField ipTF;
+
+    @FXML
+    private PasswordField newNetPassword;
+
+    @FXML
+    private Button newNetBtn;
+
+    @FXML
+    private Button joinNetBtnId;
 
     public ControllerGUI() {
         this.backend = Controller.getInstance(this);
     }
 
     @FXML
-    void changeNetworkBtnClick(ActionEvent event) throws IOException {
+    void joinNetBtnClick(ActionEvent event) throws IOException {
         FXMLLoader fXMLLoader = new FXMLLoader();
-        fXMLLoader.setLocation(getClass().getClassLoader().getResource("changeNetworkModalWindow.fxml"));
+        fXMLLoader.setLocation(getClass().getClassLoader().getResource("joinNetModalWindow.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fXMLLoader.load());
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Znane IP w sieci");
+        stage.setTitle("Dołącz do sieci");
         stage.show();
 
         stage.setOnCloseRequest((WindowEvent event1) -> {
@@ -97,10 +103,40 @@ public class ControllerGUI implements ControllerGUIInterface {
     }
 
     @FXML
-    void handleNewNetBtnClick(ActionEvent event) {
-        ((Stage)((Button)event.getSource()).getScene().getWindow()).hide();
+    void newNetBtnClick(ActionEvent event) throws IOException {
+        FXMLLoader fXMLLoader = new FXMLLoader();
+        fXMLLoader.setLocation(getClass().getClassLoader().getResource("newNetModalWindow.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(fXMLLoader.load());
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Stwórz nową sieć");
+        stage.show();
+
+        stage.setOnCloseRequest((WindowEvent event1) -> {
+            loadNodesTable();
+        });
+
+        System.out.println(nodesTable.getItems().toString());
 //        this.backend.connectToNetwork(usernameTF.getCharacters().toString(), ipTF.getCharacters().toString());
 
+    }
+
+    @FXML
+    void handleNewNetCreateBtnClick(ActionEvent event) {
+        ((Stage)((Button)event.getSource()).getScene().getWindow()).hide();
+        this.backend.createNewNet(new CreateNewNetCallback() {
+            @Override
+            public void onCreateNewNetSuccess() {
+                System.out.println("Create new net success");
+
+            }
+
+            @Override
+            public void onCreateNewNetFailure() {
+                System.err.println("Create new net failure");
+            }
+        });
     }
 
 
