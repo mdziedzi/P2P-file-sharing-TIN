@@ -1,7 +1,9 @@
 package tin.p2p.controller_layer;
 
 import tin.p2p.nodes_controller_layer.RemoteNodesController;
+import tin.p2p.utils.PasswordHasher;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.CompletableFuture;
 
 public class Controller {
@@ -50,9 +52,18 @@ public class Controller {
      * @param ip IP of node we want to connect with
      * @param callback Object on which the callback will be performed.
      */
-    public void connectToNetByIP(String ip, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
+    public void connectToNetByIP(String ip, String password, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
+        String passwordHash = null;
+        try {
+            passwordHash = PasswordHasher.hash(password);
+        }
+        catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+            callback.onConnectToNetByIPFailure();
+        }
 
-        CompletableFuture.supplyAsync(() -> RemoteNodesController.getInstance().connectToNetByIp(ip))
+        String finalPasswordHash = passwordHash;
+        CompletableFuture.supplyAsync(() -> RemoteNodesController.getInstance().connectToNetByIp(ip, finalPasswordHash))
                 .thenAccept(t -> callback.onConnectToNetByIPSucces())
                 .exceptionally((t) -> {
                     System.err.println(t);

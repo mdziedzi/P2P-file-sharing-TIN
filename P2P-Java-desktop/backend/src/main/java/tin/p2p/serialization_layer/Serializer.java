@@ -1,20 +1,16 @@
 package tin.p2p.serialization_layer;
 
-import java.nio.ByteBuffer;
+import tin.p2p.utils.Constants;
 
-import static tin.p2p.utils.Constants.MESSAGE_LENGTH;
+import java.nio.charset.StandardCharsets;
+
 
 public class Serializer {
 
-    public static byte[] serializeMessagePackage(MessageType messageType) {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(MESSAGE_LENGTH);
-        byteBuffer.put(0, (byte)messageType.opcode());
-        return byteBuffer.array();
-    }
-
-    public static SerializedObject getConnectionToNetObject() {
-        //todo
-        return new SerializedObject();
+    public static SerializedObject getConnectionToNetObject(String passwordHash) {
+        int opcode = Constants.OPCODE_CONNECT_TO_NET;
+        byte[] restData = passwordHash.getBytes(StandardCharsets.US_ASCII);
+        return new SerializedObject(opcode, restData);
     }
 } 
 

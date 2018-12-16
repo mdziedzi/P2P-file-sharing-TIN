@@ -33,7 +33,7 @@
     </Tab>
     <Tab text="Lista wszystkich plików w sieci">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="400.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <TableView prefHeight="366.0" prefWidth="600.0">
                     <columns>
@@ -46,7 +46,7 @@
     </Tab>
       <Tab text="Lista wszystkich użytkowników">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="400.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <TableView fx:id="nodesTable" prefHeight="388.0" prefWidth="600.0">
                     <columns>

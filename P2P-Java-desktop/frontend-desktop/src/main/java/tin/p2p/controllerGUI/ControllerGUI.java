@@ -78,7 +78,8 @@ public class ControllerGUI implements ControllerGUIInterface {
     @FXML
     void handleConnectBtnClick(ActionEvent event) {
         ((Stage)((Button)event.getSource()).getScene().getWindow()).hide();
-        this.backend.connectToNetByIP(ipTF.getCharacters().toString(), new ConnectToNetByIPCallback() {
+        this.backend.connectToNetByIP(ipTF.getCharacters().toString(),
+                existingNetPassword.getCharacters().toString(), new ConnectToNetByIPCallback() {
             @Override
             public void onConnectToNetByIPSucces() {
                 System.out.println("Connect success");

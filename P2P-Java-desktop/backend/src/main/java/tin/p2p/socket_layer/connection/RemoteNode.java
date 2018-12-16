@@ -27,8 +27,8 @@ public class RemoteNode {
         this.address = address;
     }
 
-    public Void connect() {
-        SerializedObject serialisedObject = Serializer.getConnectionToNetObject();
+    public Void connect(String passwordHash) {
+        SerializedObject serialisedObject = Serializer.getConnectionToNetObject(passwordHash);
         sender.connectToNode(this, serialisedObject);
         return null;
 

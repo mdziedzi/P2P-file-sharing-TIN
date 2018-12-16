@@ -22,7 +22,7 @@ public class RemoteNodesController {
         return instance;
     }
 
-    public Void connectToNetByIp(String ip) {
+    public Void connectToNetByIp(String ip, String passwordHash) {
         RemoteNode remoteNode;
         try {
             remoteNode = RemoteNodesRepository.getInstance().getNewRemoteNode(ip);
@@ -30,7 +30,7 @@ public class RemoteNodesController {
             System.err.println(e.getMessage());
             throw new BadIpFormatException();
         }
-        remoteNode.connect();
+        remoteNode.connect(passwordHash);
         return null;
     }
 
