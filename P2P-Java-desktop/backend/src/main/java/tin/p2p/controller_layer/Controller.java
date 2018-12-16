@@ -34,9 +34,19 @@ public class Controller {
     /**
      * Creates new net based on user IP.
      */
-    public void createNewNet(ControllerGUIInterface.CreateNewNetCallback callback) {
-        // todo
-        CompletableFuture.supplyAsync(() -> RemoteNodesController.getInstance().createNewNet())
+    public void createNewNet(String password, ControllerGUIInterface.CreateNewNetCallback callback) {
+        String passwordHash = null;
+        try {
+            passwordHash = PasswordHasher.hash(password);
+        }
+        catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+            callback.onCreateNewNetFailure();
+        }
+
+
+        String finalPasswordHash = passwordHash;
+        CompletableFuture.supplyAsync(() -> RemoteNodesController.getInstance().createNewNet(finalPasswordHash))
                 .thenAccept(t -> callback.onCreateNewNetSuccess())
                 .exceptionally((t) -> {
                     System.err.println(t);

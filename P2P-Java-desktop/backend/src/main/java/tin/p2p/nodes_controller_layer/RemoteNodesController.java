@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 public class RemoteNodesController {
 
     private static RemoteNodesController instance;
+    private String passwordHashOfNetwork;
 
     private RemoteNodesController() {
     }
@@ -34,10 +35,11 @@ public class RemoteNodesController {
         return null;
     }
 
-    public Void createNewNet() {
+    public Void createNewNet(String passwordHash) {
+        passwordHashOfNetwork = passwordHash;
+
         NewConnectsReceiver newConnectsReceiver = new NewConnectsReceiver(this);
         newConnectsReceiver.startListening();
-
 
         return null;
     }

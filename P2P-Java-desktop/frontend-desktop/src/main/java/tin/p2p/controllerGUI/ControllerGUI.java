@@ -126,7 +126,7 @@ public class ControllerGUI implements ControllerGUIInterface {
     @FXML
     void handleNewNetCreateBtnClick(ActionEvent event) {
         ((Stage)((Button)event.getSource()).getScene().getWindow()).hide();
-        this.backend.createNewNet(new CreateNewNetCallback() {
+        this.backend.createNewNet(newNetPassword.getCharacters().toString(), new CreateNewNetCallback() {
             @Override
             public void onCreateNewNetSuccess() {
                 System.out.println("Create new net success");
