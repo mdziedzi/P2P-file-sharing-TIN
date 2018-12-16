@@ -13,7 +13,7 @@ public class RemoteNodesRepository {
 
 //    private static ConcurrentSkipListSet<Thread> threads; do zastanowienia czy potrzebne
     private static Controller controller;
-    private static ConcurrentSkipListSet<RemoteNode> remoteNodes;
+    private static ConcurrentSkipListSet<RemoteNode> remoteNodes = new ConcurrentSkipListSet<>();
 
     private RemoteNodesRepository() {}
 
