@@ -5,6 +5,7 @@ import tin.p2p.serialization_layer.Serializer;
 import tin.p2p.socket_layer.RemoteNodesRepository;
 
 import java.net.InetAddress;
+import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RemoteNode implements Comparable {
@@ -45,6 +46,10 @@ public class RemoteNode implements Comparable {
     @Override
     public int compareTo(Object o) {
         return this == o ? 0 : 1;
+    }
+
+    public void setSenderSocket(Socket socket) {
+        sender.setSocket(socket);
     }
 }
 

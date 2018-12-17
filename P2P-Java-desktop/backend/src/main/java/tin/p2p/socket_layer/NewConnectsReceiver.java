@@ -1,6 +1,7 @@
 package tin.p2p.socket_layer;
 
 import tin.p2p.nodes_controller_layer.RemoteNodesController;
+import tin.p2p.serialization_layer.DeserializedObject;
 import tin.p2p.serialization_layer.Deserializer;
 import tin.p2p.serialization_layer.SerializedObject;
 import tin.p2p.socket_layer.connection.Receiver;
@@ -30,15 +31,13 @@ public class NewConnectsReceiver {
         thread.start();
     }
 
-    public void onNewDataReceived(byte[] receivedData) {
+    public void onNewDataReceived(byte[] receivedData, Socket socket) {
 
-        SerializedObject serializedObject = Deserializer.deserialize(receivedData);
-        RemoteNodesController.getInstance().onNewDataReceived(serializedObject);
-    }
-
-    public void onNewConnection(Socket socket) {
+        DeserializedObject deserializedObject = Deserializer.deserialize(receivedData);
         RemoteNode remoteNode = RemoteNodesRepository.getInstance().getNewRemoteNode(socket.getInetAddress());
-        remoteNode.setReceiver(Receiver.create(socket, remoteNode));
+        remoteNode.setSenderSocket(socket);
+        RemoteNodesController.getInstance().onNewDataReceived(deserializedObject, remoteNode);
     }
+
 }
 

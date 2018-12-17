@@ -1,5 +1,6 @@
 package tin.p2p.socket_layer.connection;
 
+import tin.p2p.serialization_layer.DeserializedObject;
 import tin.p2p.serialization_layer.Deserializer;
 import tin.p2p.serialization_layer.SerializedObject;
 import tin.p2p.socket_layer.SocketManager;
@@ -35,7 +36,10 @@ public class Receiver {
     }
 
     public void onNewDataReceived(byte[] receivedData) {
-        SerializedObject serializedObject = Deserializer.deserialize(receivedData);
+        for(int i=0; i< receivedData.length ; i++) {
+            System.out.print(receivedData[i] +" ");
+        }
+        DeserializedObject deserializedObject = Deserializer.deserialize(receivedData);
         //todo
     }
 }

@@ -14,7 +14,7 @@ public class Sender {
     public void connectToNode(RemoteNode remoteNode, SerializedObject serializedObject) {
         try {
             socket = SocketManager.connect(remoteNode.getAddress());
-            sendJoinNetworkRequest(socket, serializedObject); //todo: tu tak na prawde chcemy wyslac port na którym bedziemy nasluchiwać
+            sendJoinNetworkRequest(socket, serializedObject); // todo inny port
             remoteNode.setReceiver(Receiver.create(socket, remoteNode));
         } catch (IOException e) {
             e.printStackTrace();
@@ -24,6 +24,10 @@ public class Sender {
 
     private void sendJoinNetworkRequest(Socket socket, SerializedObject serializedObject) throws IOException {
         SocketManager.send(socket, serializedObject);
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
     }
 }
 
