@@ -72,7 +72,6 @@ public class ControllerGUI implements ControllerGUIInterface {
             loadNodesTable();
         });
 
-        System.out.println(nodesTable.getItems().toString());
     }
 
     @FXML
@@ -117,9 +116,6 @@ public class ControllerGUI implements ControllerGUIInterface {
         stage.setOnCloseRequest((WindowEvent event1) -> {
             loadNodesTable();
         });
-
-        System.out.println(nodesTable.getItems().toString());
-//        this.backend.connectToNetwork(usernameTF.getCharacters().toString(), ipTF.getCharacters().toString());
 
     }
 

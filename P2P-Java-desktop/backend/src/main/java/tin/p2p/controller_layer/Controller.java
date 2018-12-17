@@ -9,7 +9,6 @@ import java.util.concurrent.CompletableFuture;
 public class Controller {
     private static Controller instance;
     private static ControllerGUIInterface controllerGUI;
-//    private static RemoteNodesRepository remoteNodesRepository;
 
     private Controller() {}
 
@@ -17,7 +16,6 @@ public class Controller {
         if (instance == null) {
             instance = new Controller();
             controllerGUI = guiInterface;
-//            remoteNodesRepository = RemoteNodesRepository.getInstance();
         }
         return instance;
     }
@@ -44,15 +42,17 @@ public class Controller {
             callback.onCreateNewNetFailure();
         }
 
+        System.out.println("PasswordHash in Controller: " + passwordHash);
+
 
         String finalPasswordHash = passwordHash;
         CompletableFuture.supplyAsync(() -> RemoteNodesController.getInstance().createNewNet(finalPasswordHash))
                 .thenAccept(t -> callback.onCreateNewNetSuccess())
                 .exceptionally((t) -> {
                     System.err.println(t);
+                    callback.onCreateNewNetFailure();
                     return null;
-                })
-                .thenAccept(ex -> callback.onCreateNewNetFailure());
+                });
 
     }
 
@@ -76,10 +76,9 @@ public class Controller {
         CompletableFuture.supplyAsync(() -> RemoteNodesController.getInstance().connectToNetByIp(ip, finalPasswordHash))
                 .thenAccept(t -> callback.onConnectToNetByIPSucces())
                 .exceptionally((t) -> {
-                    System.err.println(t);
+                    callback.onConnectToNetByIPFailure();
                     return null;
-                })
-                .thenAccept(ex -> callback.onConnectToNetByIPFailure());
+                });
     }
 
     /**
