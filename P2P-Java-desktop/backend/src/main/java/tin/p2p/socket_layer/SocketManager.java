@@ -69,11 +69,19 @@ public class SocketManager {
     public static void listen(Socket socket, Receiver receiver) throws IOException {
         DataInputStream dis = new DataInputStream(socket.getInputStream());
         while (true) {
-            int length = dis.readInt();
+            byte length = dis.readByte();
+            System.out.println(length);
             if (length > 0) {
+                System.out.println("1B");
                 byte[] receivedData = new byte[length];
                 dis.readFully(receivedData, 0, receivedData.length);
+                System.out.println("2B");
+                for(int i=0; i< receivedData.length ; i++) {
+                    System.out.print(receivedData[i] +" ");
+                }
+                System.out.println("3B");
                 receiver.onNewDataReceived(receivedData);
+                System.out.println("4B");
             }
         }
     }
@@ -85,14 +93,17 @@ public class SocketManager {
             Socket socket = serverSocket.accept();
 
             DataInputStream dis = new DataInputStream(socket.getInputStream());
-            int length = dis.read();
-            if (length == 0) {
-                newConnectsReceiver.onNewConnection(socket);
-            }
+            int length = dis.readInt();
+            System.out.println(length);
             if (length > 0) {
+                System.out.println("3A");
                 byte[] receivedData = new byte[length];
                 dis.read(receivedData, 0, receivedData.length);
-                newConnectsReceiver.onNewDataReceived(receivedData);
+                for(int i=0; i< receivedData.length ; i++) {
+                    System.out.print(receivedData[i] +" ");
+                }
+                newConnectsReceiver.onNewDataReceived(receivedData, socket);
+
             }
         }
 
