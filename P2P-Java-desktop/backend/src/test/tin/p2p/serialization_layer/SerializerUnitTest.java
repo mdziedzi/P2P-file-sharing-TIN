@@ -24,13 +24,13 @@ public class SerializerUnitTest {
     public void connectionToNetObjectShouldHaveProperDataLenght() {
         byte [] data = serializedObject.getData();
 
-        Assertions.assertEquals(68, data.length);
+        Assertions.assertEquals(74, data.length);
     }
 
     @Test
     public void connectionToNetObjectShouldHaveProperOpcode() {
         byte [] data = serializedObject.getData();
-        byte [] opcodeDataFragment = Arrays.copyOfRange(data, 0, 4);
+        byte [] opcodeDataFragment = Arrays.copyOfRange(data, 4, 8);
         int opcode = ByteBuffer.wrap(opcodeDataFragment).getInt();
 
         Assertions.assertEquals(Constants.OPCODE_CONNECT_TO_NET, opcode);
@@ -39,7 +39,7 @@ public class SerializerUnitTest {
     @Test
     public void connectionToNetObjectShouldHaveCorrectPassHash() {
         byte [] data = serializedObject.getData();
-        byte [] passwordHashDataFragment = Arrays.copyOfRange(data, 4, 68);
+        byte [] passwordHashDataFragment = Arrays.copyOfRange(data, 10, 74);
         boolean isEquals = Arrays.equals(passwordHash.getBytes(StandardCharsets.US_ASCII), passwordHashDataFragment);
 
         Assertions.assertTrue(isEquals);

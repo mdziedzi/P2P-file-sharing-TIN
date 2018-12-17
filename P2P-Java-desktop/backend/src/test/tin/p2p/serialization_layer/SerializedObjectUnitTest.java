@@ -9,10 +9,10 @@ public class SerializedObjectUnitTest {
 
 
     @Test
-    public void whenNoDataPassedShouldBeLength4() {
+    public void whenNoDataPassedShouldBeLength8() {
         SerializedObject serializedObject = new SerializedObject(Constants.OPCODE_CONNECT_TO_NET, new byte[0]);
 
-        Assertions.assertEquals(4, serializedObject.getDataLength());
+        Assertions.assertEquals(8, serializedObject.getDataLength());
 
     }
 
