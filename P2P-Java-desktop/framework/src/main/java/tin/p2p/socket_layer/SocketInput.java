@@ -7,11 +7,26 @@ import java.net.Socket;
 public class SocketInput implements Input{
     private Socket socket;
 
+    public SocketInput(Socket socket) {
+        this.socket = socket;
+    }
+
+    public SocketInput() {}
+
+    @Override
     public byte[] getNNextBytes(int length) throws IOException {
         DataInputStream dis = new DataInputStream(socket.getInputStream());
         byte[] receivedData = new byte[length];
         dis.readFully(receivedData, 0, receivedData.length);
         return receivedData;
+    }
+
+    @Override
+    public byte getNextByte() throws IOException {
+        DataInputStream dis = new DataInputStream(socket.getInputStream());
+        byte inputInt = dis.readByte();
+        //TODO obsługa little endian
+        return inputInt;
     }
 }
 
