@@ -20,8 +20,13 @@
     <dependencies>
         <dependency>
             <groupId>tin</groupId>
-            <artifactId>backend</artifactId>
+            <artifactId>framework</artifactId>
             <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.bootstrapfx</groupId>
+            <artifactId>bootstrapfx-core</artifactId>
+            <version>0.2.4</version>
         </dependency>
     </dependencies>
     <build>

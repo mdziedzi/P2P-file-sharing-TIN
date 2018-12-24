@@ -6,17 +6,17 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" fx:controller="tin.p2p.controllerGUI.ControllerGUI" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="386.0" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tin.p2p.controllerGUI.NewNetController">
     <children>
         <HBox alignment="CENTER">
             <children>
-                <Label prefHeight="15.0" prefWidth="105.0" text="Wpisz hasło w sieci" />
+                <Label prefHeight="15.0" prefWidth="153.0" text="Wpisz hasło w sieci" />
                 <PasswordField fx:id="newNetPassword" />
             </children>
         </HBox>
         <HBox alignment="CENTER">
             <children>
-                <Button fx:id="connectBtn" mnemonicParsing="false" onAction="#handleNewNetCreateBtnClick" text="Stwórz sieć" />
+                <Button fx:id="newNetBtn" mnemonicParsing="false" onAction="#handleNewNetCreateBtnClick" text="Stwórz sieć" />
             </children>
         </HBox>
     </children>

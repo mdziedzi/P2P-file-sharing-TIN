@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<TabPane minWidth="-Infinity" prefHeight="213.0" prefWidth="665.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tin.p2p.controllerGUI.ControllerGUI">
+<TabPane minHeight="300.0" minWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tin.p2p.controllerGUI.ControllerGUI">
   <tabs>
     <Tab text="Pobierane pliki">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="400.0">
+        <AnchorPane minHeight="300.0" minWidth="600.0" prefHeight="300.0" prefWidth="600.0">
                <children>
-                  <TableView layoutY="27.0" prefHeight="200.0" prefWidth="600.0">
+                  <TableView layoutY="27.0" prefHeight="300.0" prefWidth="600.0">
                     <columns>
                       <TableColumn prefWidth="28.0" text="#" />
                       <TableColumn prefWidth="122.0" text="Nazwa" />
@@ -24,10 +21,8 @@
                         <TableColumn prefWidth="123.0" text="Pozostało czasu" />
                     </columns>
                   </TableView>
-                  <Button layoutY="2.0" mnemonicParsing="false" text="Start" />
-                  <Button layoutX="50.0" layoutY="2.0" mnemonicParsing="false" text="Pauza" />
-                  <Button id="changeNetworkBtnId" fx:id="joinNetBtnId" layoutX="434.0" layoutY="2.0" mnemonicParsing="false" onAction="#joinNetBtnClick" prefHeight="25.0" prefWidth="166.0" text="Dołącz do sieci" />
-                  <Button fx:id="newNetBtn" layoutX="350.0" layoutY="2.0" mnemonicParsing="false" onAction="#newNetBtnClick" text="Nowa sieć" />
+                  <Button id="changeNetworkBtnId" fx:id="joinNetBtnId" layoutX="84.0" layoutY="2.0" mnemonicParsing="false" onAction="#joinNetBtnClick" prefHeight="25.0" prefWidth="166.0" text="Dołącz do sieci" />
+                  <Button fx:id="newNetBtn" layoutY="2.0" mnemonicParsing="false" onAction="#newNetBtnClick" text="Nowa sieć" />
                </children></AnchorPane>
       </content>
     </Tab>
