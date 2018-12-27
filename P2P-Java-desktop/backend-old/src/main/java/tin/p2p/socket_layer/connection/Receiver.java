@@ -2,7 +2,6 @@ package tin.p2p.socket_layer.connection;
 
 import tin.p2p.serialization_layer.DeserializedObject;
 import tin.p2p.serialization_layer.Deserializer;
-import tin.p2p.serialization_layer.SerializedObject;
 import tin.p2p.socket_layer.SocketManager;
 
 import java.io.IOException;

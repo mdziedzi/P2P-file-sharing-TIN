@@ -11,6 +11,8 @@ public class SocketOutput implements Output{
         this.socket = socket;
     }
 
+    public SocketOutput() {}
+
     public void send(byte[] data) throws IOException {
         DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
         dos.write(data);

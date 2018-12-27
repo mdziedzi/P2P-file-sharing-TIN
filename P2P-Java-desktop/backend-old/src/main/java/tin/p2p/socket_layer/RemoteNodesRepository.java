@@ -3,7 +3,6 @@ package tin.p2p.socket_layer;
 import tin.p2p.controller_layer.Controller;
 import tin.p2p.socket_layer.connection.RemoteNode;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.ConcurrentSkipListSet;

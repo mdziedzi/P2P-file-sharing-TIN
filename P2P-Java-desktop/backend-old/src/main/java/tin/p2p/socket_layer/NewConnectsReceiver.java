@@ -3,8 +3,6 @@ package tin.p2p.socket_layer;
 import tin.p2p.nodes_controller_layer.RemoteNodesController;
 import tin.p2p.serialization_layer.DeserializedObject;
 import tin.p2p.serialization_layer.Deserializer;
-import tin.p2p.serialization_layer.SerializedObject;
-import tin.p2p.socket_layer.connection.Receiver;
 import tin.p2p.socket_layer.connection.RemoteNode;
 
 import java.io.IOException;
