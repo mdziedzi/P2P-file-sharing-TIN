@@ -1,5 +1,25 @@
 package tin.p2p.nodes_layer;
 
-public class NewRemoteNodeListener {
-} 
+import tin.p2p.socket_layer.NewConnectInput;
+
+import java.io.IOException;
+
+public class NewRemoteNodeListener implements Runnable {
+    private NewConnectInput newConnectInput;
+
+    public NewRemoteNodeListener(NewConnectInput newConnectInput) {
+        this.newConnectInput = newConnectInput;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                newConnectInput.acceptNewNode();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
 

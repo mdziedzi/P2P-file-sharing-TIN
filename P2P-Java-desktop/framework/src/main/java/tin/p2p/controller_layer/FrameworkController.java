@@ -8,6 +8,7 @@ import java.util.concurrent.CompletableFuture;
 public class FrameworkController {
     private static final FrameworkController instance = new FrameworkController();
     private FrameworkController() {}
+    private NewRemoteNodeListener newRemoteNodeListener;
 
     public static FrameworkController getInstance() {
         return instance;
@@ -16,13 +17,8 @@ public class FrameworkController {
      * Creates new net based on user IP.
      */
     public void createNewNet(String password, ControllerGUIInterface.CreateNewNetCallback callback) {
-        CompletableFuture.supplyAsync(() -> LayersFactory.initNewNodesListenerLayers())
-                .thenAccept(t -> callback.onCreateNewNetSuccess())
-                .exceptionally((t) -> {
-                    System.err.println(t);
-                    callback.onCreateNewNetFailure();
-                    return null;
-                });
+        this.newRemoteNodeListener = LayersFactory.initNewNodesListenerLayers();
+        newRemoteNodeListener.run();
 
     }
 
