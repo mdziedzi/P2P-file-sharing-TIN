@@ -1,10 +1,8 @@
 package tin.p2p.parser_layer;
 
 
-
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 public class ParserOutput implements Runnable, Output {
     private tin.p2p.socket_layer.Output output;
@@ -19,6 +17,11 @@ public class ParserOutput implements Runnable, Output {
     @Override
     public void addSendableObjectToQueue(SendableObject sendableObject) {
         this.sendableObjectsQueue.add(sendableObject);
+    }
+
+    @Override
+    public void listenForPortInfo() {
+        output.listenForPortInfo();
     }
 
     public void sendLoop() {

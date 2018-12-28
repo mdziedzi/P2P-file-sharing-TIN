@@ -14,5 +14,10 @@ public class Serializer implements Output{
         //todo
         output.addSendableObjectToQueue(new ObjectToSend());
     }
+
+    @Override
+    public void listenForPortInfo() {
+        output.listenForPortInfo();
+    }
 }
 

@@ -2,6 +2,7 @@ package tin.p2p.controller_layer;
 
 import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.nodes_layer.NewRemoteNodeListener;
+import tin.p2p.nodes_layer.RemoteNode;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -29,12 +30,15 @@ public class FrameworkController {
      * @param callback Object on which the callback will be performed.
      */
     public void connectToNetByIP(String ip, String password, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
-//        CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(ip))
-//                .thenAccept(t -> callback.onConnectToNetByIPSucces())
-//                .exceptionally((t) -> {
-//                    callback.onConnectToNetByIPFailure();
-//                    return null;
-//                });
+
+        CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(ip))
+                .thenAccept(RemoteNode::connectToNetByIp).thenAccept(t -> callback.onConnectToNetByIPSucces())
+                .exceptionally((t) -> {
+                    callback.onConnectToNetByIPFailure();
+                    return null;
+                });
+
+
     }
 
 }
