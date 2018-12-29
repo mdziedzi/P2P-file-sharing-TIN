@@ -19,7 +19,7 @@ public class FrameworkController {
      */
     public void createNewNet(String password, ControllerGUIInterface.CreateNewNetCallback callback) {
         this.newRemoteNodeListener = LayersFactory.initNewNodesListenerLayers();
-        newRemoteNodeListener.run();
+        newRemoteNodeListener.start();
 
     }
 

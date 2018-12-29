@@ -43,8 +43,8 @@ public class LayersFactory {
 
         RemoteNodesRepository.registerNode(remoteNode);
 
-        ((ParserInput) parserInput).run();
-        ((ParserOutput) parserOutput).run();
+        ((ParserInput) parserInput).start();
+        ((ParserOutput) parserOutput).start();
 
         return remoteNode;
     }
@@ -76,8 +76,8 @@ public class LayersFactory {
 
         RemoteNodesRepository.registerNode(remoteNode);
 
-        ((ParserInput) parserInput).run();
-        ((ParserOutput) parserOutput).run();
+        ((ParserInput) parserInput).start();
+        ((ParserOutput) parserOutput).start();
     }
 }
 

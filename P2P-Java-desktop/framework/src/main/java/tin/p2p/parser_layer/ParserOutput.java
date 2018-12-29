@@ -4,7 +4,7 @@ package tin.p2p.parser_layer;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class ParserOutput implements Runnable, Output {
+public class ParserOutput extends Thread implements Output {
     private tin.p2p.socket_layer.Output output;
 
     private ConcurrentLinkedQueue<SendableObject> sendableObjectsQueue = new ConcurrentLinkedQueue<>();

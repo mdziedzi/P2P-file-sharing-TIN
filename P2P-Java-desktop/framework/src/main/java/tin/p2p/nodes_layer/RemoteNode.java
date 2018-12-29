@@ -4,7 +4,7 @@ import tin.p2p.serialization_layer.Output;
 
 import java.util.ArrayList;
 
-public class RemoteNode implements ReceiverInterface, SenderInterface{
+public class RemoteNode implements ReceiverInterface, SenderInterface, Comparable{
     // todo kolejka do której wrzuca deserializator
     private Output output;
 
@@ -31,6 +31,11 @@ public class RemoteNode implements ReceiverInterface, SenderInterface{
 
     private void authenticateMyself() {
         //todo
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
     }
 
 }

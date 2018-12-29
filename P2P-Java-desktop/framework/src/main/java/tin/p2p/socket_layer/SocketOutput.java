@@ -15,6 +15,7 @@ public class SocketOutput implements Output{
     public SocketOutput() {}
 
     public SocketOutput(String ip, int port) throws IOException {
+        System.out.println("Create socket by connecting to " + ip + port);
         connect(new InetSocketAddress(ip, port));
     }
 

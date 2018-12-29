@@ -4,7 +4,7 @@ import tin.p2p.socket_layer.NewConnectInput;
 
 import java.io.IOException;
 
-public class NewRemoteNodeListener implements Runnable {
+public class NewRemoteNodeListener extends Thread {
     private NewConnectInput newConnectInput;
 
     public NewRemoteNodeListener(NewConnectInput newConnectInput) {

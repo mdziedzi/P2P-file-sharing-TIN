@@ -4,7 +4,7 @@ import tin.p2p.utils.Constants;
 
 import java.io.IOException;
 
-public class ParserInput implements Runnable, Input{
+public class ParserInput extends Thread implements Input{
     private tin.p2p.socket_layer.Input input;
     private tin.p2p.serialization_layer.Input higherLayerInput;
     @Override
