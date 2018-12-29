@@ -16,17 +16,21 @@ public class SocketInput implements Input{
         DataInputStream dis = new DataInputStream(socket.getInputStream());
         byte[] receivedData = new byte[length];
         dis.readFully(receivedData, 0, receivedData.length);
-        System.out.println(receivedData);
+        System.out.println("getNNextBytes: " + receivedData);
+        for (int i = 0; i < receivedData.length; i++) {
+            System.out.print(receivedData[i] + " ");
+            System.out.println();
+        }
         return receivedData;
     }
 
     @Override
     public byte getNextByte() throws IOException {
         DataInputStream dis = new DataInputStream(socket.getInputStream());
-        byte inputInt = dis.readByte();
+        byte input = dis.readByte();
         //TODO obsługa little endian
-        System.out.println(inputInt);
-        return inputInt;
+        System.out.println("getNextByte: " + input);
+        return input;
     }
 }
 

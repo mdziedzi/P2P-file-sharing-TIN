@@ -8,6 +8,8 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     // todo kolejka do której wrzuca deserializator
     private Output output;
 
+    private boolean isAuthorized = false;
+
     public RemoteNode(Output output) {
         this.output = output;
     }
@@ -18,19 +20,36 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     }
 
+    @Override
+    public void onPasswordReceived(String password) {
+        System.out.println("Received passowrd (remote, my):");
+        System.out.println(password);
+        System.out.println(PasswordRepository.getPassword());
+        if (password.equals(PasswordRepository.getPassword())) {
+            System.out.println("good password");
+            isAuthorized = true;
+            output.sendPasswordConfirmed(true);
 
-//    public Void connect() {
-//        output.connect();
-//        return null;
-//    }
+        }
+    }
 
-    public Void connectToNetByIp() {
-        authenticateMyself();
+    @Override
+    public void onPasswordCorrect() {
+        // todo
+    }
+
+    @Override
+    public void onPasswordReject() {
+        // todo
+    }
+
+    public Void connectToNetByIp(String password) {
+        authenticateMyself(password);
         return null;
     }
 
-    private void authenticateMyself() {
-        output.sendTestData("password");
+    private void authenticateMyself(String password) {
+        output.sendPassword(password);
         //todo
     }
 

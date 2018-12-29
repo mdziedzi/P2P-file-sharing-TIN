@@ -8,4 +8,7 @@ public final class Constants {
 
     public static final int OPCODE_LENGTH = 1;
     public static final int HASH_LENGTH = 64;
+
+    public static final byte OPCODE_PASS_RESPONSE_LENGTH = 1;
+    public static final byte OPCODE_PASS_RESPONSE = 11;
 }

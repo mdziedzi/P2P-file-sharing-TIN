@@ -2,8 +2,10 @@ package tin.p2p.controller_layer;
 
 import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.nodes_layer.NewRemoteNodeListener;
-import tin.p2p.nodes_layer.RemoteNode;
+import tin.p2p.nodes_layer.PasswordHasher;
+import tin.p2p.nodes_layer.PasswordRepository;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.CompletableFuture;
 
 public class FrameworkController {
@@ -19,6 +21,11 @@ public class FrameworkController {
      */
     public void createNewNet(String password, ControllerGUIInterface.CreateNewNetCallback callback) {
         this.newRemoteNodeListener = LayersFactory.initNewNodesListenerLayers();
+        try {
+            PasswordRepository.setPassword(PasswordHasher.hash(password));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         newRemoteNodeListener.start();
 
     }
@@ -31,8 +38,15 @@ public class FrameworkController {
      */
     public void connectToNetByIP(String ip, String password, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
 
+        try {
+            password = PasswordHasher.hash(password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        PasswordRepository.setPassword(password);
+        String finalPassword = password;
         CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(ip))
-                .thenAccept(RemoteNode::connectToNetByIp).thenAccept(t -> callback.onConnectToNetByIPSucces())
+                .thenAccept(t -> t.connectToNetByIp(finalPassword)).thenAccept(t -> callback.onConnectToNetByIPSucces())
                 .exceptionally((t) -> {
                     callback.onConnectToNetByIPFailure();
                     return null;
