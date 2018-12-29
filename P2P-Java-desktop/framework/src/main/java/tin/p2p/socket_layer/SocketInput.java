@@ -16,6 +16,7 @@ public class SocketInput implements Input{
         DataInputStream dis = new DataInputStream(socket.getInputStream());
         byte[] receivedData = new byte[length];
         dis.readFully(receivedData, 0, receivedData.length);
+        System.out.println(receivedData);
         return receivedData;
     }
 
@@ -24,6 +25,7 @@ public class SocketInput implements Input{
         DataInputStream dis = new DataInputStream(socket.getInputStream());
         byte inputInt = dis.readByte();
         //TODO obsługa little endian
+        System.out.println(inputInt);
         return inputInt;
     }
 }

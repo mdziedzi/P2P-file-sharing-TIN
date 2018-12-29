@@ -4,6 +4,8 @@ import tin.p2p.utils.Constants;
 
 import java.io.IOException;
 
+import static tin.p2p.utils.Constants.HASH_LENGTH;
+
 public class ParserInput extends Thread implements Input{
     private tin.p2p.socket_layer.Input input;
     private tin.p2p.serialization_layer.Input higherLayerInput;
@@ -23,14 +25,16 @@ public class ParserInput extends Thread implements Input{
             byte opcode = 0;
             try {
                 opcode = input.getNextByte();
+                System.out.println(opcode);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             switch (opcode) {
-                case Constants.OPCODE_CONNECT_TO_NET:
+                case Constants.OPCODE_WANT_TO_JOIN_INIT:
                     byte[] inputData = new byte[0];
                     try {
-                        inputData = input.getNNextBytes(64);
+                        inputData = input.getNNextBytes(HASH_LENGTH);
+                        System.out.println(inputData);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

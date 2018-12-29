@@ -30,6 +30,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     }
 
     private void authenticateMyself() {
+        output.sendTestData("password");
         //todo
     }
 
