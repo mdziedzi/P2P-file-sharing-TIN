@@ -33,8 +33,5 @@ public class RemoteNode implements ReceiverInterface, SenderInterface{
         //todo
     }
 
-    private void listenForPortInfo() {
-        output.listenForPortInfo();
-    }
 }
 

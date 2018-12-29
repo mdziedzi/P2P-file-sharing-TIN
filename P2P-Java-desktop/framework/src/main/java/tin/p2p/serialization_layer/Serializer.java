@@ -15,9 +15,5 @@ public class Serializer implements Output{
         output.addSendableObjectToQueue(new ObjectToSend());
     }
 
-    @Override
-    public void listenForPortInfo() {
-        output.listenForPortInfo();
-    }
 }
 

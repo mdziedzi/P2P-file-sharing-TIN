@@ -19,11 +19,6 @@ public class ParserOutput implements Runnable, Output {
         this.sendableObjectsQueue.add(sendableObject);
     }
 
-    @Override
-    public void listenForPortInfo() {
-        output.listenForPortInfo();
-    }
-
     public void sendLoop() {
         while (true) {
             SendableObject sendableObject = sendableObjectsQueue.poll();
