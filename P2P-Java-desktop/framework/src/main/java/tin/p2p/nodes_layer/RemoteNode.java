@@ -25,7 +25,6 @@ public class RemoteNode implements ReceiverInterface, SenderInterface{
 //    }
 
     public Void connectToNetByIp() {
-        listenForPortInfo();
         authenticateMyself();
         return null;
     }
