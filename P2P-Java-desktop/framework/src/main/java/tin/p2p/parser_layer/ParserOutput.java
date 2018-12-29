@@ -23,8 +23,11 @@ public class ParserOutput extends Thread implements Output {
         while (true) {
             SendableObject sendableObject = sendableObjectsQueue.poll();
             try {
-                output.send(sendableObject.getDataToSend());
-            } catch (IOException e) {
+                if (sendableObject != null) {
+                    output.send(sendableObject.getDataToSend());
+                }
+                Thread.sleep(100);
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         }

@@ -11,8 +11,6 @@ public class SocketInput implements Input{
         this.socket = socket;
     }
 
-    public SocketInput() {}
-
     @Override
     public byte[] getNNextBytes(int length) throws IOException {
         DataInputStream dis = new DataInputStream(socket.getInputStream());
