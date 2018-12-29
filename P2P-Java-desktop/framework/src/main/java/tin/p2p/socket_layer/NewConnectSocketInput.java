@@ -16,10 +16,7 @@ public class NewConnectSocketInput implements NewConnectInput {
     public void acceptNewNode() throws IOException {
         Socket socket = serverSocket.accept();
 
-        // wyslij na jakim porcie teraz bedziesz obslugiwal
-        LayersFactory.initLayersOfNewRemoteNode(socket); // tutaj nowy soket
-
-        // wyslij port na którym bedziesz dalej sluchal
+        LayersFactory.initLayersOfNewRemoteNode(socket);
     }
 
 } 
