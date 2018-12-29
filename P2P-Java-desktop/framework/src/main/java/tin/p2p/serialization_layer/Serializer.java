@@ -4,6 +4,7 @@ import tin.p2p.parser_layer.ObjectToSend;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import static tin.p2p.utils.Constants.*;
 
@@ -30,6 +31,20 @@ public class Serializer implements Output{
         ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
         byteBuffer.put(OPCODE_PASS_RESPONSE);
         byteBuffer.put((byte) (b ? 1 : 0));
+        output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
+    }
+
+    @Override
+    public void sendListOfNodes(ArrayList<Integer> ips) {
+        int nRecords = ips.size();
+        int dataArrayLenght = OPCODE_LENGTH + N_RECORDS_LENGTH + nRecords * RECORD_LENGTH;
+        ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
+//        byteBuffer.order(ByteOrder.LITTLE_ENDIAN); // todo: przemyslec to
+        byteBuffer.put(OPCODE_LIST_OD_KNOWN_NODES);
+        byteBuffer.putInt(nRecords);
+        for (int i = 0; i < nRecords; i++) {
+            byteBuffer.putInt(ips.get(i));
+        }
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }
 

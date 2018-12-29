@@ -15,9 +15,9 @@ public class NewConnectSocketInput implements NewConnectInput {
 
     public void acceptNewNode() throws IOException {
         Socket socket = serverSocket.accept();
-        System.out.println("Achieved new connection " + socket.getRemoteSocketAddress().toString());
+        System.out.println("Achieved new connection " + socket.getInetAddress().getHostAddress());
 
-        LayersFactory.initLayersOfNewRemoteNode(socket);
+        LayersFactory.initLayersOfNewRemoteNode(socket, socket.getInetAddress().getHostAddress());
     }
 
 } 

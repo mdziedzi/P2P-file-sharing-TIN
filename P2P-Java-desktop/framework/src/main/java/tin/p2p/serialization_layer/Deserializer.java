@@ -6,9 +6,9 @@ import tin.p2p.nodes_layer.RemoteNode;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
-import static tin.p2p.utils.Constants.OPCODE_PASS_RESPONSE;
-import static tin.p2p.utils.Constants.OPCODE_WANT_TO_JOIN_INIT;
+import static tin.p2p.utils.Constants.*;
 
 public class Deserializer implements Input{
     private ReceiverInterface receiver;
@@ -33,9 +33,37 @@ public class Deserializer implements Input{
                     receiver.onPasswordReject();
                 }
                 break;
+            case OPCODE_LIST_OD_KNOWN_NODES:
+                data = ByteBuffer.wrap(inputData);
+                receiver.onNodeListReceived(unpackLostOfKnownNodes(data));
+                break;
             default:
                 System.out.println("Deserializer: bad opcode!");
         }
+    }
+
+    private ArrayList<String> unpackLostOfKnownNodes(ByteBuffer data) {
+        int nRecords = data.getInt();
+
+        ArrayList<Integer> ipsInBytes = new ArrayList<>();
+        for (int i = 0; i < nRecords; i++) {
+            ipsInBytes.add(data.getInt());
+        }
+
+        ArrayList<String> ipsInString = new ArrayList<>();
+        for (Integer i : ipsInBytes) {
+            ipsInString.add(translateToString(i));
+        }
+
+        return ipsInString;
+    }
+
+    // pdk
+    private String translateToString(Integer i) {
+        return ((i >> 24) & 0xFF) + "." +
+                ((i >> 16) & 0xFF) + "." +
+                ((i >> 8) & 0xFF) + "." +
+                (i & 0xFF);
     }
 
     @Override

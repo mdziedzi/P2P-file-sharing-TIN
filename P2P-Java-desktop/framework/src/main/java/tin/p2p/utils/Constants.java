@@ -11,4 +11,9 @@ public final class Constants {
 
     public static final byte OPCODE_PASS_RESPONSE_LENGTH = 1;
     public static final byte OPCODE_PASS_RESPONSE = 11;
+
+    public static final byte N_RECORDS_LENGTH = 4;
+    public static final byte RECORD_LENGTH = 4;
+    public static final byte OPCODE_LIST_OD_KNOWN_NODES = 12;
+
 }
