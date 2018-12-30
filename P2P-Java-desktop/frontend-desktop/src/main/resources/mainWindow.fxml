@@ -45,7 +45,6 @@
                <children>
                   <TableView fx:id="nodesTable" prefHeight="388.0" prefWidth="600.0">
                     <columns>
-                      <TableColumn prefWidth="35.0" text="#" />
                         <TableColumn fx:id="nodeIpCol" prefWidth="263.0" text="IP" />
                     </columns>
                   </TableView>

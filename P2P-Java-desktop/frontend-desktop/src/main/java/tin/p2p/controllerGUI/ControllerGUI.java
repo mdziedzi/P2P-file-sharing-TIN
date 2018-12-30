@@ -1,8 +1,10 @@
 package tin.p2p.controllerGUI;
 
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,7 +31,7 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer {
     @FXML
     private TableView<String> nodesTable;
     @FXML
-    private TableColumn<?, ?> nodeIpCol;
+    private TableColumn<String, String> nodeIpCol;
 
     public static final ObservableList<String> nodesDataList = FXCollections.observableArrayList();
 
@@ -41,6 +43,8 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer {
 
     public ControllerGUI() {
         FrameworkController.getInstance().registerListOfNodesViewer(this);
+
+
     }
 
 
@@ -81,19 +85,22 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer {
     }
 
     @FXML
-    void refreshNodesTable(ActionEvent event) {
-        nodesDataList.clear();
-        nodesDataList.addAll(FrameworkController.getInstance().getListOfNodes());
-        nodesTable.setItems(nodesDataList);
+    void refreshNodesTable(Event event) {
+        ArrayList<String> nodes = FrameworkController.getInstance().getListOfNodes();
+        setNodesTableContent(nodes);
     }
 
 
     @Override
     public void onListOfNodesUpdated(ArrayList<String> nodesIps) {
-        nodesIps.forEach(System.out::println);
-        nodeIpCol.setCellValueFactory(new PropertyValueFactory<>("ip"));
-        nodesDataList.clear();
-        nodesDataList.addAll(nodesIps);
-        nodesTable.setItems(nodesDataList);
+        setNodesTableContent(nodesIps);
+    }
+
+    private void setNodesTableContent(ArrayList<String> nodesIps) {
+        if(nodesIps != null) {
+            nodeIpCol.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue()));
+            nodesDataList.setAll(nodesIps);
+            nodesTable.setItems(nodesDataList);
+        }
     }
 }
