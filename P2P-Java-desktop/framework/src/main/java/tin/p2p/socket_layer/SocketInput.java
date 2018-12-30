@@ -19,7 +19,6 @@ public class SocketInput implements Input{
         System.out.println("getNNextBytes: " + receivedData);
         for (int i = 0; i < receivedData.length; i++) {
             System.out.print(receivedData[i] + " ");
-            System.out.println();
         }
         return receivedData;
     }
