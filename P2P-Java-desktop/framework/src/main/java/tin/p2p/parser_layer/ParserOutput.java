@@ -29,6 +29,8 @@ public class ParserOutput extends Thread implements Output {
                 Thread.sleep(100);
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
+                output.closeConnection();
+                return;
             }
         }
     }

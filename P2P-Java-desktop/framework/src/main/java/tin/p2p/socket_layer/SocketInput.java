@@ -1,6 +1,7 @@
 package tin.p2p.socket_layer;
 
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -30,6 +31,17 @@ public class SocketInput implements Input{
         //TODO obsługa little endian
         System.out.println("getNextByte: " + input);
         return input;
+    }
+
+    @Override
+    public void closeConnection() {
+        if(socket != null) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 

@@ -30,6 +30,8 @@ public class ParserInput extends Thread implements Input{
                 System.out.println("ParserInput opcode: " + opcode);
             } catch (IOException e) {
                 e.printStackTrace();
+                input.closeConnection();
+                return;
             }
             switch (opcode) {
                 case Constants.OPCODE_WANT_TO_JOIN_INIT:
@@ -62,6 +64,8 @@ public class ParserInput extends Thread implements Input{
             System.out.println(nRecords);
         } catch (IOException e) {
             e.printStackTrace();
+            input.closeConnection();
+            return;
         }
 
         ByteBuffer inputData = ByteBuffer.allocate(nRecordsLength + nRecords * RECORD_LENGTH);
@@ -70,6 +74,8 @@ public class ParserInput extends Thread implements Input{
             inputData.put(input.getNNextBytes(nRecords * RECORD_LENGTH));
         } catch (IOException e) {
             e.printStackTrace();
+            input.closeConnection();
+            return;
         }
 
 
@@ -83,6 +89,8 @@ public class ParserInput extends Thread implements Input{
             System.out.println(inputData);
         } catch (IOException e) {
             e.printStackTrace();
+            input.closeConnection();
+            return;
         }
         deserializatorInput.deserialize(opcode, inputData);
     }
