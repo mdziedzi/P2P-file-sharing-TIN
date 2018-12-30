@@ -6,10 +6,13 @@ import tin.p2p.nodes_layer.PasswordHasher;
 import tin.p2p.nodes_layer.PasswordRepository;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 public class FrameworkController {
     private static final FrameworkController instance = new FrameworkController();
+    private ControllerGUIInterface.ListOfNodesViewer listOfNodesViewer;
+
     private FrameworkController() {}
     private NewRemoteNodeListener newRemoteNodeListener;
 
@@ -28,6 +31,10 @@ public class FrameworkController {
         }
         newRemoteNodeListener.start();
 
+    }
+
+    public void registerListOfNodesViewer(ControllerGUIInterface.ListOfNodesViewer listOfNodesViewer) {
+        this.listOfNodesViewer = listOfNodesViewer;
     }
 
 
@@ -55,5 +62,10 @@ public class FrameworkController {
 
     }
 
+    public void updateViewOfRemoteNodes(ArrayList<String> remoteNodesIps) {
+        if (listOfNodesViewer != null) {
+            listOfNodesViewer.onListOfNodesUpdated(remoteNodesIps);
+        }
+    }
 }
 

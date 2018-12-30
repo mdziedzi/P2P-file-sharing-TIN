@@ -1,5 +1,7 @@
 package tin.p2p.controller_layer;
 
+import java.util.ArrayList;
+
 public interface ControllerGUIInterface {
 
     /**
@@ -59,5 +61,10 @@ public interface ControllerGUIInterface {
         void onDisconnectFailure();
 
     }
+
+    interface ListOfNodesViewer {
+        void onListOfNodesUpdated(ArrayList<String> nodesIps);
+    }
+
 
 }

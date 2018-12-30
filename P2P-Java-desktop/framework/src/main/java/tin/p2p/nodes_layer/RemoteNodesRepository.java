@@ -1,5 +1,7 @@
 package tin.p2p.nodes_layer;
 
+import tin.p2p.controller_layer.FrameworkController;
+
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -8,6 +10,13 @@ public class RemoteNodesRepository {
 
     public static void registerNode(RemoteNode remoteNode) {
         remoteNodes.add(remoteNode);
+        notifyGui();
+    }
+
+    private static void notifyGui() {
+        ArrayList<String> remoteNodesIps = new ArrayList<>();
+        remoteNodes.forEach(rn -> remoteNodesIps.add(rn.getIp()));
+        FrameworkController.getInstance().updateViewOfRemoteNodes(remoteNodesIps);
     }
 
     public static ArrayList<Integer> getItegerIpList() {
@@ -15,5 +24,7 @@ public class RemoteNodesRepository {
         remoteNodes.forEach(remoteNode -> ips.add(remoteNode.getIpAsInteger()));
         return ips;
     }
+
+
 }
 
