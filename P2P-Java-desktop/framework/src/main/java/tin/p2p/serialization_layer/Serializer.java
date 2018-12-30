@@ -48,5 +48,14 @@ public class Serializer implements Output{
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }
 
+    @Override
+    public void sendPasswordToRemoteNodeOfTheSameNet(String passwordHash) {
+        int dataArrayLenght = OPCODE_LENGTH + HASH_LENGTH;
+        ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
+        byteBuffer.put(OPCODE_WANT_TO_JOIN);
+        byteBuffer.put(passwordHash.getBytes(StandardCharsets.US_ASCII));
+        output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
+    }
+
 }
 

@@ -41,6 +41,9 @@ public class ParserInput extends Thread implements Input{
                 case Constants.OPCODE_LIST_OD_KNOWN_NODES:
                     readListOfKnownNodes(opcode, N_RECORDS_LENGTH);
                     break;
+                case Constants.OPCODE_WANT_TO_JOIN:
+                    getRestData(opcode, HASH_LENGTH);
+                    break;
                 default:
                     //todo: co z reszta danych (wypisuje sie 2 razy)
                     System.err.println("Unknown opcode");

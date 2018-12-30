@@ -1,10 +1,12 @@
 package tin.p2p.nodes_layer;
 
+import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.serialization_layer.Output;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
-public class RemoteNode implements ReceiverInterface, SenderInterface, Comparable{
+public class RemoteNode implements ReceiverInterface, SenderInterface, Comparable {
     private String ip;
 
     // todo kolejka do której wrzuca deserializator
@@ -21,30 +23,42 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     @Override
     public void onNodeListReceived(ArrayList<String> nodes) {
         // todo
-        nodes.forEach(System.out::println);
+        nodes.forEach((node) -> {
+                    System.out.println(node);
+                    CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(node))
+                            .thenAccept(RemoteNode::connectToRemoteNodeOfTheSameNet)
+                            .exceptionally((t) -> {
+                                t.printStackTrace();
+                                return null;
+                            });
+                }
+        );
+
+    }
+
+    private void connectToRemoteNodeOfTheSameNet() {
+        output.sendPasswordToRemoteNodeOfTheSameNet(PasswordRepository.getPassword());
     }
 
     @Override
-    public void onPasswordReceived(String password) {
-        System.out.println("Received passowrd (remote, my):");
-        System.out.println(password);
-        System.out.println(PasswordRepository.getPassword());
-        if (password.equals(PasswordRepository.getPassword())) {
-            System.out.println("good password");
-            isAuthorized = true;
-            output.sendPasswordConfirmed(true);
-        }
-
+    public void onNewParticipantPasswordReceived(String passwordHash) {
+        authorizeNode(passwordHash);
 
         ArrayList<Integer> ips = RemoteNodesRepository.getItegerIpList();
         ips.removeIf(s -> s.equals(getIpAsInteger()));
         output.sendListOfNodes(ips);
     }
 
-//    public ArrayList<Integer> getIpNumber() {
-//        ArrayList<Integer> ips = RemoteNodesRepository.getItegerIpList();
-//        ips.removeIf(i -> i.equals())
-//    }
+    private void authorizeNode(String passwordHash) {
+        System.out.println("Received passowrd (remote, my):");
+        System.out.println(passwordHash);
+        System.out.println(PasswordRepository.getPassword());
+        if (passwordHash.equals(PasswordRepository.getPassword())) {
+            System.out.println("good passwordHash");
+            isAuthorized = true;
+            output.sendPasswordConfirmed(true);
+        }
+    }
 
     public int getIpAsInteger() { // todo: move it to serializator
         String[] parts;
@@ -65,6 +79,11 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     @Override
     public void onPasswordReject() {
         // todo
+    }
+
+    @Override
+    public void onNewPasswordReceived(String passwordHash) {
+        authorizeNode(passwordHash);
     }
 
     public Void connectToNetByIp(String password) {

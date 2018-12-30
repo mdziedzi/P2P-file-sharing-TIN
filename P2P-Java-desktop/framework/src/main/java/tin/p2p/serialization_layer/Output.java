@@ -9,4 +9,6 @@ public interface Output {
     void sendPasswordConfirmed(boolean b);
 
     void sendListOfNodes(ArrayList<Integer> ips);
+
+    void sendPasswordToRemoteNodeOfTheSameNet(String passwordHash);
 }

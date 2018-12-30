@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public interface ReceiverInterface {
     void onNodeListReceived(ArrayList<String> nodes);
 
-    void onPasswordReceived(String password);
+    void onNewParticipantPasswordReceived(String password);
 
     void onPasswordCorrect();
 
     void onPasswordReject();
+
+    void onNewPasswordReceived(String passwordHash);
 }
 

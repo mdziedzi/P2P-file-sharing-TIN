@@ -22,8 +22,7 @@ public class Deserializer implements Input{
         switch (opcode) {
             case OPCODE_WANT_TO_JOIN_INIT:
                 data = ByteBuffer.wrap(inputData);
-                String password = StandardCharsets.US_ASCII.decode(data).toString();
-                receiver.onPasswordReceived(password);
+                receiver.onNewParticipantPasswordReceived(decode(data));
                 break;
             case OPCODE_PASS_RESPONSE:
                 data = ByteBuffer.wrap(inputData);
@@ -37,9 +36,16 @@ public class Deserializer implements Input{
                 data = ByteBuffer.wrap(inputData);
                 receiver.onNodeListReceived(unpackLostOfKnownNodes(data));
                 break;
+            case OPCODE_WANT_TO_JOIN:
+                data = ByteBuffer.wrap(inputData);
+                receiver.onNewPasswordReceived(decode(data));
             default:
                 System.out.println("Deserializer: bad opcode!");
         }
+    }
+
+    private String decode(ByteBuffer data) {
+        return StandardCharsets.US_ASCII.decode(data).toString();
     }
 
     private ArrayList<String> unpackLostOfKnownNodes(ByteBuffer data) {
