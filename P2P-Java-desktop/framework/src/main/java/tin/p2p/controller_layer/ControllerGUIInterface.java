@@ -66,5 +66,8 @@ public interface ControllerGUIInterface {
         void onListOfNodesUpdated(ArrayList<String> nodesIps);
     }
 
+    interface ListOfFilesCallback {
+        void onListOfFilesReceived(ArrayList<String[]> filesList);// nazwa, rozmiar, ip
+    }
 
 }

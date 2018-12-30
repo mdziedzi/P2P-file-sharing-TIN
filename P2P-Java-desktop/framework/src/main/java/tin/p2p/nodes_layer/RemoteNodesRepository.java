@@ -14,15 +14,19 @@ public class RemoteNodesRepository {
     }
 
     private static void notifyGui() {
-        ArrayList<String> remoteNodesIps = new ArrayList<>();
-        remoteNodes.forEach(rn -> remoteNodesIps.add(rn.getIp()));
-        FrameworkController.getInstance().updateViewOfRemoteNodes(remoteNodesIps);
+        FrameworkController.getInstance().updateViewOfRemoteNodes(getStringIpList());
     }
 
     public static ArrayList<Integer> getItegerIpList() {
         ArrayList<Integer> ips = new ArrayList<>();
         remoteNodes.forEach(remoteNode -> ips.add(remoteNode.getIpAsInteger()));
         return ips;
+    }
+
+    public static ArrayList<String> getStringIpList() {
+        ArrayList<String> remoteNodesIps = new ArrayList<>();
+        remoteNodes.forEach(rn -> remoteNodesIps.add(rn.getIp()));
+        return remoteNodesIps;
     }
 
 

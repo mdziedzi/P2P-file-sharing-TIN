@@ -4,6 +4,7 @@ import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.nodes_layer.NewRemoteNodeListener;
 import tin.p2p.nodes_layer.PasswordHasher;
 import tin.p2p.nodes_layer.PasswordRepository;
+import tin.p2p.nodes_layer.RemoteNodesRepository;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -58,8 +59,14 @@ public class FrameworkController {
                     callback.onConnectToNetByIPFailure();
                     return null;
                 });
+    }
 
+    public void getListOfFilesInNet(ControllerGUIInterface.ListOfFilesCallback callback) {
+        //todo
+    }
 
+    public ArrayList<String> getListOfNodes() {
+        return RemoteNodesRepository.getStringIpList();
     }
 
     public void updateViewOfRemoteNodes(ArrayList<String> remoteNodesIps) {
@@ -67,5 +74,6 @@ public class FrameworkController {
             listOfNodesViewer.onListOfNodesUpdated(remoteNodesIps);
         }
     }
+
 }
 
