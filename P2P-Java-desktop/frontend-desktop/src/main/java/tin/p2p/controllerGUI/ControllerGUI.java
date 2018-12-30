@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import tin.p2p.controller_layer.ControllerGUIInterface;
+import tin.p2p.controller_layer.FrameworkController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,7 +40,10 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer {
     private TableView<?> filesInNetTable;
 
     public ControllerGUI() {
+        FrameworkController.getInstance().registerListOfNodesViewer(this);
     }
+
+
 
     @FXML
     void joinNetBtnClick(ActionEvent event) throws IOException {
@@ -76,9 +80,17 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer {
 
     }
 
+    @FXML
+    void refreshNodesTable(ActionEvent event) {
+        nodesDataList.clear();
+        nodesDataList.addAll(FrameworkController.getInstance().getListOfNodes());
+        nodesTable.setItems(nodesDataList);
+    }
+
 
     @Override
     public void onListOfNodesUpdated(ArrayList<String> nodesIps) {
+        nodesIps.forEach(System.out::println);
         nodeIpCol.setCellValueFactory(new PropertyValueFactory<>("ip"));
         nodesDataList.clear();
         nodesDataList.addAll(nodesIps);
