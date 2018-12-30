@@ -2,15 +2,15 @@ package tin.p2p.nodes_layer;
 
 import java.util.concurrent.ConcurrentSkipListSet;
 
-public class FileListRepository {
-    private static final FileListRepository instance = new FileListRepository();
+public class RemoteFileListRepository {
+    private static final RemoteFileListRepository instance = new RemoteFileListRepository();
     private ConcurrentSkipListSet<FileDTO> fileList = new ConcurrentSkipListSet<>();
 
 
-    private FileListRepository() {
+    private RemoteFileListRepository() {
     }
 
-    public static FileListRepository getInstance() {
+    public static RemoteFileListRepository getInstance() {
         return instance;
     }
 

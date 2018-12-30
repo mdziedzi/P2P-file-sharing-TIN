@@ -65,5 +65,20 @@ public class Serializer implements Output{
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }
 
+    @Override
+    public void sendListOfFiles(ArrayList<ArrayList<String>> fileList) {
+        int nRecords = fileList.size();
+        int dataArrayLenght = OPCODE_LENGTH + N_RECORDS_LENGTH + nRecords * FILE_LIST_ELEMENT_LENGTH * AMOUNT_OF_ELEMENTS_IN_ROW;
+        ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
+//        byteBuffer.order(ByteOrder.LITTLE_ENDIAN); // todo: przemyslec to
+        byteBuffer.put(OPCODE_LIST_OF_FILES);
+        byteBuffer.putInt(nRecords);
+        for (int i = 0; i < nRecords; i++) {
+            System.out.println();
+            fileList.get(i).forEach(s -> byteBuffer.put()); // todo: dopelniac bity zrobic tablice bajtow itd.
+        }
+        output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
+    }
+
 }
 

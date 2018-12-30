@@ -14,4 +14,5 @@ public interface Output {
 
     void requestForFileList();
 
+    void sendListOfFiles(ArrayList<ArrayList<String>> fileList);
 }

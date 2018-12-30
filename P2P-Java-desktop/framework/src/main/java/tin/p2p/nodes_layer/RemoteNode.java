@@ -91,6 +91,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     @Override
     public void onFileListRequest() {
+        output.sendListOfFiles(LocalFileListRepository.getInstance().getFileList());
         // todo
 
     }
