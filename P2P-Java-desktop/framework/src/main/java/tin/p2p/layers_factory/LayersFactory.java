@@ -3,6 +3,7 @@ package tin.p2p.layers_factory;
 import tin.p2p.nodes_layer.NewRemoteNodeListener;
 import tin.p2p.nodes_layer.RemoteNode;
 import tin.p2p.nodes_layer.RemoteNodesRepository;
+import tin.p2p.nodes_layer.SenderInterface;
 import tin.p2p.parser_layer.ParserInput;
 import tin.p2p.parser_layer.ParserOutput;
 import tin.p2p.serialization_layer.Deserializer;
@@ -21,7 +22,7 @@ public class LayersFactory {
     }
     private LayersFactory() {}
 
-    public static RemoteNode initLayersOfNewRemoteNode(String ip) {
+    public static SenderInterface initLayersOfNewRemoteNode(String ip) {
 
         Output socketOutput = null;
         Input socketInput = null;

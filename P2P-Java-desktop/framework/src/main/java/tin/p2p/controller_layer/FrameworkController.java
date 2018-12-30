@@ -61,7 +61,7 @@ public class FrameworkController {
     public void getListOfFilesInNet(ControllerGUIInterface.ListOfFilesCallback callback) {
         //todo
         CompletableFuture.supplyAsync(() -> {
-            RemoteNodesRepository.getRemoteNodes().forEach(RemoteNode::requestForFileList);
+            RemoteNodesRepository.getRemoteNodes().forEach(SenderInterface::requestForFileList);
             return null;
         });
     }

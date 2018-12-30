@@ -26,7 +26,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
         nodes.forEach((node) -> {
                     System.out.println(node);
                     CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(node))
-                            .thenAccept(RemoteNode::connectToRemoteNodeOfTheSameNet)
+                            .thenAccept(SenderInterface::connectToRemoteNodeOfTheSameNet)
                             .exceptionally((t) -> {
                                 t.printStackTrace();
                                 return null;
@@ -36,7 +36,8 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     }
 
-    private void connectToRemoteNodeOfTheSameNet() {
+    @Override
+    public void connectToRemoteNodeOfTheSameNet() {
         output.sendPasswordToRemoteNodeOfTheSameNet(PasswordRepository.getPassword());
     }
 
@@ -92,6 +93,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     }
 
+    @Override
     public Void connectToNetByIp(String password) {
         authenticateMyself(password);
         return null;
@@ -111,6 +113,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
         return ip;
     }
 
+    @Override
     public Void requestForFileList() {
         output.requestForFileList();
         return null;

@@ -21,7 +21,7 @@ import tin.p2p.controller_layer.FrameworkController;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer {
+public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, ControllerGUIInterface.ListOfFilesCallback {
 
     @FXML
     private Button changeNetworkBtnId;
@@ -102,5 +102,10 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer {
             nodesDataList.setAll(nodesIps);
             nodesTable.setItems(nodesDataList);
         }
+    }
+
+    @Override
+    public void onListOfFilesReceived(ArrayList<ArrayList<String>> filesList) {
+
     }
 }
