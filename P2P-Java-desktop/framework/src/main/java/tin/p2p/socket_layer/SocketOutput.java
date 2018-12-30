@@ -22,6 +22,10 @@ public class SocketOutput implements Output{
     public void send(byte[] data) throws IOException {
         DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
         dos.write(data);
+        System.out.print("Socket Output - Send: ");
+        for (int i = 0; i < data.length; i++) {
+            System.out.print(data[i] + " ");
+        }
     }
 
     @Override
