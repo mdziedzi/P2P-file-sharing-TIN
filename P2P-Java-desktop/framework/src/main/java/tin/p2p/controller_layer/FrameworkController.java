@@ -1,10 +1,7 @@
 package tin.p2p.controller_layer;
 
 import tin.p2p.layers_factory.LayersFactory;
-import tin.p2p.nodes_layer.NewRemoteNodeListener;
-import tin.p2p.nodes_layer.PasswordHasher;
-import tin.p2p.nodes_layer.PasswordRepository;
-import tin.p2p.nodes_layer.RemoteNodesRepository;
+import tin.p2p.nodes_layer.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -63,6 +60,15 @@ public class FrameworkController {
 
     public void getListOfFilesInNet(ControllerGUIInterface.ListOfFilesCallback callback) {
         //todo
+        CompletableFuture.supplyAsync(() -> {
+            RemoteNodesRepository.getRemoteNodes().forEach(RemoteNode::requestForFileList);
+            return null;
+        })
+                .thenAccept((r) -> callback.onListOfFilesReceived(FileListRepository.getInstance().getFileList()))
+                .exceptionally((t) -> {
+//                    callback. // todo
+                    return null;
+                });
     }
 
     public ArrayList<String> getListOfNodes() {

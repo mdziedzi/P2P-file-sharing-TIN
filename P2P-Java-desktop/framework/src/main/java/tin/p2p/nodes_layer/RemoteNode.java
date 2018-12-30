@@ -104,5 +104,10 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     public String getIp() {
         return ip;
     }
+
+    public Void requestForFileList() {
+//        output. //todo
+        return null;
+    }
 }
 

@@ -29,6 +29,8 @@ public class RemoteNodesRepository {
         return remoteNodesIps;
     }
 
-
+    public static ConcurrentSkipListSet<RemoteNode> getRemoteNodes() {
+        return remoteNodes;
+    }
 }
 
