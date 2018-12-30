@@ -16,23 +16,27 @@ import javafx.stage.WindowEvent;
 import tin.p2p.controller_layer.ControllerGUIInterface;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class ControllerGUI implements ControllerGUIInterface {
+public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer {
 
     @FXML
     private Button changeNetworkBtnId;
+    @FXML
+    private Button joinNetBtnId;
 
     @FXML
     private TableView<String> nodesTable;
     @FXML
     private TableColumn<?, ?> nodeIpCol;
-    @FXML
-    private TableColumn<?, ?> nodeNameCol;
 
     public static final ObservableList<String> nodesDataList = FXCollections.observableArrayList();
 
+
     @FXML
-    private Button joinNetBtnId;
+    private TableColumn<?, ?> fileNameCol;
+    @FXML
+    private TableView<?> filesInNetTable;
 
     public ControllerGUI() {
     }
@@ -48,9 +52,9 @@ public class ControllerGUI implements ControllerGUIInterface {
         stage.setTitle("Dołącz do sieci");
         stage.show();
 
-        stage.setOnCloseRequest((WindowEvent event1) -> {
-            loadNodesTable();
-        });
+//        stage.setOnCloseRequest((WindowEvent event1) -> {
+//            loadNodesTable();
+//        });
 
     }
 
@@ -66,19 +70,18 @@ public class ControllerGUI implements ControllerGUIInterface {
         stage.setTitle("Stwórz nową sieć");
         stage.show();
 
-        stage.setOnCloseRequest((WindowEvent event1) -> {
-            loadNodesTable();
-        });
+//        stage.setOnCloseRequest((WindowEvent event1) -> {
+//            loadNodesTable();
+//        });
 
     }
 
-    private void loadNodesTable() {
-        nodeNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+    @Override
+    public void onListOfNodesUpdated(ArrayList<String> nodesIps) {
         nodeIpCol.setCellValueFactory(new PropertyValueFactory<>("ip"));
         nodesDataList.clear();
-//        nodesDataList.addAll(this.backend.getNodesInNetwork());
+        nodesDataList.addAll(nodesIps);
         nodesTable.setItems(nodesDataList);
     }
-
-
 }

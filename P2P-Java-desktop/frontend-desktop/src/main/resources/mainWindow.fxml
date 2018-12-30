@@ -30,10 +30,10 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TableView prefHeight="366.0" prefWidth="600.0">
+                  <TableView fx:id="filesInNetTable" prefHeight="366.0" prefWidth="600.0">
                     <columns>
                       <TableColumn prefWidth="75.0" text="#" />
-                      <TableColumn prefWidth="75.0" text="Nazwa" />
+                      <TableColumn fx:id="fileNameCol" prefWidth="176.0" text="Nazwa" />
                     </columns>
                   </TableView>
                </children></AnchorPane>
@@ -46,8 +46,7 @@
                   <TableView fx:id="nodesTable" prefHeight="388.0" prefWidth="600.0">
                     <columns>
                       <TableColumn prefWidth="35.0" text="#" />
-                      <TableColumn fx:id="nodeNameCol" prefWidth="205.0" text="Nazwa" />
-                        <TableColumn fx:id="nodeIpCol" prefWidth="199.0" text="IP" />
+                        <TableColumn fx:id="nodeIpCol" prefWidth="263.0" text="IP" />
                     </columns>
                   </TableView>
                </children>

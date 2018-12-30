@@ -4,9 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import tin.p2p.controller_layer.ControllerGUIInterface;
 import tin.p2p.controller_layer.FrameworkController;
 
-public class NewNetController implements ControllerGUI.CreateNewNetCallback {
+public class NewNetController implements ControllerGUIInterface.CreateNewNetCallback {
     @FXML
     private PasswordField newNetPassword;
 
