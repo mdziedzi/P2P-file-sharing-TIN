@@ -75,6 +75,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     @Override
     public void onPasswordCorrect() {
         // todo: powiedz ze sie polaczylismy z siecia
+        System.out.println("onPasswordCorrect: ");
         FrameworkController.getInstance().initListeningForNewNodes();
     }
 
