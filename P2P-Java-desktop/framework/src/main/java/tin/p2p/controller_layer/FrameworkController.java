@@ -63,12 +63,7 @@ public class FrameworkController {
         CompletableFuture.supplyAsync(() -> {
             RemoteNodesRepository.getRemoteNodes().forEach(RemoteNode::requestForFileList);
             return null;
-        })
-                .thenAccept((r) -> callback.onListOfFilesReceived(FileListRepository.getInstance().getFileList()))
-                .exceptionally((t) -> {
-//                    callback. // todo
-                    return null;
-                });
+        });
     }
 
     public ArrayList<String> getListOfNodes() {

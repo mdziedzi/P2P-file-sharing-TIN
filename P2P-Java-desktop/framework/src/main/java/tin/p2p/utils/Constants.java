@@ -18,4 +18,6 @@ public final class Constants {
 
     public static final byte OPCODE_WANT_TO_JOIN = 13;
 
+    public static final byte OPCODE_FILE_LIST_REQUEST = 20;
+
 }

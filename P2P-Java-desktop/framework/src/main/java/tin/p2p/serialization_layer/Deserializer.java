@@ -39,6 +39,10 @@ public class Deserializer implements Input{
             case OPCODE_WANT_TO_JOIN:
                 data = ByteBuffer.wrap(inputData);
                 receiver.onNewPasswordReceived(decode(data));
+                break;
+            case OPCODE_FILE_LIST_REQUEST:
+                receiver.onFileListRequest();
+                break;
             default:
                 System.out.println("Deserializer: bad opcode!");
         }

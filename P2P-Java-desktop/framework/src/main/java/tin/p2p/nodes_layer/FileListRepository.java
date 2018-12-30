@@ -1,11 +1,10 @@
 package tin.p2p.nodes_layer;
 
-import java.util.ArrayList;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class FileListRepository {
     private static final FileListRepository instance = new FileListRepository();
-    private ConcurrentSkipListSet<ArrayList<String>> fileList = new ConcurrentSkipListSet<>();
+    private ConcurrentSkipListSet<FileDTO> fileList = new ConcurrentSkipListSet<>();
 
 
     private FileListRepository() {
@@ -15,7 +14,11 @@ public class FileListRepository {
         return instance;
     }
 
-    public ArrayList<ArrayList<String>> getFileList() {
-        return new ArrayList<>(fileList);
-    }
+//    public ArrayList<> getFileList() {
+//        return new ArrayList<>(fileList);
+//    } // todo
+
+//    public void addFileList(ArrayList<String> fileList) { //todo
+//        fileList.add(fileList);
+//    }
 }

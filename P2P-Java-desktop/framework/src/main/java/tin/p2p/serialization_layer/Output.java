@@ -11,4 +11,7 @@ public interface Output {
     void sendListOfNodes(ArrayList<Integer> ips);
 
     void sendPasswordToRemoteNodeOfTheSameNet(String passwordHash);
+
+    void requestForFileList();
+
 }

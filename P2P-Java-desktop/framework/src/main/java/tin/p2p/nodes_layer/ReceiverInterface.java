@@ -12,5 +12,7 @@ public interface ReceiverInterface {
     void onPasswordReject();
 
     void onNewPasswordReceived(String passwordHash);
+
+    void onFileListRequest();
 }
 

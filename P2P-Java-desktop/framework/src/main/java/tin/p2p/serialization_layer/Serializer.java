@@ -57,5 +57,13 @@ public class Serializer implements Output{
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }
 
+    @Override
+    public void requestForFileList() {
+        int dataArrayLenght = OPCODE_LENGTH;
+        ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
+        byteBuffer.put(OPCODE_FILE_LIST_REQUEST);
+        output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
+    }
+
 }
 

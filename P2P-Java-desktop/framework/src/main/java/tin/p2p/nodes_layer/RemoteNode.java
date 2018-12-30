@@ -86,6 +86,12 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
         authorizeNode(passwordHash);
     }
 
+    @Override
+    public void onFileListRequest() {
+        // todo
+
+    }
+
     public Void connectToNetByIp(String password) {
         authenticateMyself(password);
         return null;
@@ -106,7 +112,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     }
 
     public Void requestForFileList() {
-//        output. //todo
+        output.requestForFileList();
         return null;
     }
 }
