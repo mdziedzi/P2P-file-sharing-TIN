@@ -76,5 +76,11 @@ public class FrameworkController {
         }
     }
 
+    public void initListeningForNewNodes() {
+        if (newRemoteNodeListener == null) {
+            newRemoteNodeListener = LayersFactory.initNewNodesListenerLayers();
+            newRemoteNodeListener.start();
+        }
+    }
 }
 

@@ -1,5 +1,6 @@
 package tin.p2p.nodes_layer;
 
+import tin.p2p.controller_layer.FrameworkController;
 import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.serialization_layer.Output;
 
@@ -22,7 +23,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     @Override
     public void onNodeListReceived(ArrayList<String> nodes) {
-        // todo
+        System.out.println("onNodeListReceived");
         nodes.forEach((node) -> {
                     System.out.println(node);
                     CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(node))
@@ -73,8 +74,8 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     @Override
     public void onPasswordCorrect() {
-        // todo callback na froncie
-
+        // todo: powiedz ze sie polaczylismy z siecia
+        FrameworkController.getInstance().initListeningForNewNodes();
     }
 
     @Override

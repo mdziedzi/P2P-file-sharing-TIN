@@ -13,7 +13,8 @@ public class NewConnectSocketInput implements NewConnectInput {
     public NewConnectSocketInput() throws IOException {
     }
 
-    public void acceptNewNode() throws IOException {
+    public void acceptNewNode() throws IOException, SecurityException {
+        System.out.println("slucham dalej");
         Socket socket = serverSocket.accept();
         System.out.println("Achieved new connection " + socket.getInetAddress().getHostAddress());
 

@@ -63,6 +63,7 @@ public class Deserializer implements Input{
         ArrayList<String> ipsInString = new ArrayList<>();
         for (Integer i : ipsInBytes) {
             ipsInString.add(translateToString(i));
+            System.out.println("translate: " + translateToString(i));
         }
 
         return ipsInString;
