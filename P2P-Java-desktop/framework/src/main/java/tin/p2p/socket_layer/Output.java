@@ -8,4 +8,5 @@ public interface Output {
 
     Socket getSocket();
 
+    void closeConnection();
 }
