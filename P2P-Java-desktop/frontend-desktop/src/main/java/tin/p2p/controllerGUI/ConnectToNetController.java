@@ -5,9 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import tin.p2p.controller_layer.ControllerGUIInterface;
 import tin.p2p.controller_layer.FrameworkController;
 
-public class ConnectToNetController implements ControllerGUI.ConnectToNetByIPCallback {
+public class ConnectToNetController implements ControllerGUIInterface.ConnectToNetByIPCallback {
     @FXML
     private Button connectBtn;
 
