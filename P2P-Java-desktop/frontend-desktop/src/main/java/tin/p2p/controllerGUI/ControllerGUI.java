@@ -14,12 +14,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import tin.p2p.controller_layer.ControllerGUIInterface;
 import tin.p2p.controller_layer.FrameworkController;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, ControllerGUIInterface.ListOfFilesCallback {
 
@@ -37,9 +38,11 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
 
 
     @FXML
-    private TableColumn<?, ?> fileNameCol;
+    private TableColumn<File, String> fileNameCol;
     @FXML
-    private TableView<?> filesInNetTable;
+    private TableView<File> filesInNetTable;
+
+    public static final ObservableList<File> filesInNet= FXCollections.observableArrayList();
 
     public ControllerGUI() {
         FrameworkController.getInstance().registerListOfNodesViewer(this);
@@ -96,6 +99,11 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
         setNodesTableContent(nodesIps);
     }
 
+    @FXML
+    void onRefreshFilesListRequest(ActionEvent event) {
+        FrameworkController.getInstance().getListOfFilesInNet(this);
+    }
+
     private void setNodesTableContent(ArrayList<String> nodesIps) {
         if(nodesIps != null) {
             nodeIpCol.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue()));
@@ -106,6 +114,13 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
 
     @Override
     public void onListOfFilesReceived(ArrayList<ArrayList<String>> filesList) {
+        if (filesList != null)
+            setFilesTableContent(filesList.stream().map(File::new).collect(Collectors.toList()));
+    }
 
+    private void setFilesTableContent(List<File> files) {
+        fileNameCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
+        filesInNet.addAll(files);
+        filesInNetTable.setItems(filesInNet);
     }
 }

@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 public class FrameworkController {
     private static final FrameworkController instance = new FrameworkController();
     private ControllerGUIInterface.ListOfNodesViewer listOfNodesViewer;
+    private ControllerGUIInterface.ListOfFilesCallback listOfFilesCallback;
 
     private FrameworkController() {}
     private NewRemoteNodeListener newRemoteNodeListener;
@@ -59,6 +60,7 @@ public class FrameworkController {
     }
 
     public void getListOfFilesInNet(ControllerGUIInterface.ListOfFilesCallback callback) {
+        this.listOfFilesCallback = callback;
         //todo
         CompletableFuture.supplyAsync(() -> {
             RemoteNodesRepository.getRemoteNodes().forEach(SenderInterface::requestForFileList);
