@@ -32,9 +32,9 @@
                <children>
                   <TableView fx:id="filesInNetTable" layoutY="24.0" prefHeight="342.0" prefWidth="600.0">
                     <columns>
-                      <TableColumn fx:id="fileNameCol" prefWidth="176.0" text="Nazwa" />
-                        <TableColumn fx:id="fileNameCol1" prefWidth="176.0" text="Rozmiar" />
-                        <TableColumn fx:id="fileNameCol11" prefWidth="176.0" text="Posiadacze" />
+                      <TableColumn fx:id="fileNameCol" prefWidth="162.0" text="Nazwa" />
+                        <TableColumn fx:id="fileSizeCol" prefWidth="126.0" text="Rozmiar" />
+                        <TableColumn fx:id="fileOwnerCol" prefWidth="240.0" text="Posiadacz" />
                     </columns>
                   </TableView>
                   <Button layoutY="2.0" mnemonicParsing="false" onAction="#onRefreshFilesListRequest" prefHeight="25.0" prefWidth="85.0" text="Odśwież" />

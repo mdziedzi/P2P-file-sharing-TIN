@@ -40,6 +40,10 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
     @FXML
     private TableColumn<File, String> fileNameCol;
     @FXML
+    private TableColumn<File, Integer> fileSizeCol;
+    @FXML
+    private TableColumn<File, String> fileOwnerCol;
+    @FXML
     private TableView<File> filesInNetTable;
 
     public static final ObservableList<File> filesInNet= FXCollections.observableArrayList();
@@ -102,6 +106,9 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
     @FXML
     void onRefreshFilesListRequest(ActionEvent event) {
         FrameworkController.getInstance().getListOfFilesInNet(this);
+
+        filesInNet.clear();
+        filesInNetTable.setItems(filesInNet);
     }
 
     private void setNodesTableContent(ArrayList<String> nodesIps) {
@@ -113,13 +120,17 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
     }
 
     @Override
-    public void onListOfFilesReceived(ArrayList<ArrayList<String>> filesList) {
+    public void onListOfFilesReceived(ArrayList<ArrayList<String>> filesList, String filesOwner) {
         if (filesList != null)
-            setFilesTableContent(filesList.stream().map(File::new).collect(Collectors.toList()));
+            setFilesTableContent(filesList.stream()
+                    .map(fileAttributes -> new File(fileAttributes, filesOwner)).collect(Collectors.toList()));
     }
 
     private void setFilesTableContent(List<File> files) {
         fileNameCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
+        fileSizeCol.setCellValueFactory(new PropertyValueFactory<File, Integer>("size"));
+        fileOwnerCol.setCellValueFactory(new PropertyValueFactory<File, String>("ip"));
+
         filesInNet.addAll(files);
         filesInNetTable.setItems(filesInNet);
     }

@@ -6,20 +6,14 @@ public class File {
     private String name;
     private String ip;
     private String hash;
-    private String size;
+    private Integer size;
 
-    public File(String name, String ip, String hash, String size) {
-        this.name = name;
-        this.ip = ip;
-        this.hash = hash;
-        this.size = size;
-    }
-
-    public File(ArrayList<String> fileParams) {
+    public File(ArrayList<String> fileParams, String filesOwner) {
         // todo obsługa błędu gdy nie wszystkie 4 pola są dostępne
         this.name = fileParams.get(0);
         this.hash = fileParams.get(1);
-        this.size = fileParams.get(2);
+        this.size = Integer.valueOf(fileParams.get(2));
+        this.ip = filesOwner;
     }
 
     public String getName() {
@@ -34,7 +28,7 @@ public class File {
         return hash;
     }
 
-    public String getSize() {
+    public Integer getSize() {
         return size;
     }
 

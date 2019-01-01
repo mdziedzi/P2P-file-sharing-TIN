@@ -67,7 +67,7 @@ public interface ControllerGUIInterface {
     }
 
     interface ListOfFilesCallback {
-        void onListOfFilesReceived(ArrayList<ArrayList<String>> filesList);// nazwa, rozmiar, ip
+        void onListOfFilesReceived(ArrayList<ArrayList<String>> filesList, String filesOwner);// nazwa, hash, rozmiar
     }
 
 }

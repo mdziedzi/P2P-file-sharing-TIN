@@ -88,9 +88,9 @@ public class FrameworkController {
         }
     }
 
-    public void updateViewOfFilesList(ArrayList<ArrayList<String>> listOfFiles) {
+    public void updateViewOfFilesList(ArrayList<ArrayList<String>> listOfFiles, String filesOwner) {
         if(listOfFiles != null)
-            listOfFilesCallback.onListOfFilesReceived(listOfFiles);
+            listOfFilesCallback.onListOfFilesReceived(listOfFiles, filesOwner);
     }
 }
 
