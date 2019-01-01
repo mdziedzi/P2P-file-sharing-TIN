@@ -17,6 +17,12 @@ public class FileDTO implements Comparable {
         this.size = size;
     }
 
+    public FileDTO(String fileName, String fileHash, Integer fileSize) {
+        this.name = fileName;
+        this.hash = fileHash;
+        this.size = fileSize;
+    }
+
     public String getName() {
         return name;
     }

@@ -66,10 +66,10 @@ public class Deserializer implements Input{
             byte[] fileHashTmp = new byte[FILE_LIST_HASH_LENGTH];
 
             data.get(fileNameTmp);
-            fileAttributes.add(StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(fileNameTmp)).toString());
+            fileAttributes.add(StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(fileNameTmp)).toString().trim());
 
             data.get(fileHashTmp);
-            fileAttributes.add(StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(fileHashTmp)).toString());
+            fileAttributes.add(StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(fileHashTmp)).toString().trim());
 
             fileAttributes.add(String.valueOf(data.getInt()));
 
