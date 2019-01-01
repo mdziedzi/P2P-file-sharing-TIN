@@ -1,5 +1,6 @@
 package tin.p2p.serialization_layer;
 
+import org.apache.log4j.Logger;
 import tin.p2p.parser_layer.ObjectToSend;
 
 import java.nio.ByteBuffer;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import static tin.p2p.utils.Constants.*;
 
 public class Serializer implements Output{
+    final static Logger log = Logger.getLogger(Serializer.class.getName());
+
     private tin.p2p.parser_layer.Output output;
 
     public Serializer(tin.p2p.parser_layer.Output output) {

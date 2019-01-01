@@ -1,14 +1,18 @@
 package tin.p2p.parser_layer;
 
+import org.apache.log4j.Logger;
 import tin.p2p.utils.Constants;
 
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import static tin.p2p.utils.Constants.*;
 
 public class ParserInput extends Thread implements Input{
+    final static Logger log = Logger.getLogger(ParserInput.class.getName());
+
     private tin.p2p.socket_layer.Input input;
     private tin.p2p.serialization_layer.Input deserializatorInput;
     @Override
@@ -27,7 +31,7 @@ public class ParserInput extends Thread implements Input{
             byte opcode = 0;
             try {
                 opcode = input.getNextByte();
-                System.out.println("ParserInput opcode: " + opcode);
+                log.debug("ParserInput opcode: " + opcode);
             } catch (IOException e) {
                 e.printStackTrace();
                 input.closeConnection();
@@ -51,7 +55,7 @@ public class ParserInput extends Thread implements Input{
                     break;
                 default:
                     //todo: co z reszta danych (wypisuje sie 2 razy)
-                    System.err.println("Unknown opcode");
+                    log.error("Unknown opcode");
 
             }
         }
@@ -61,7 +65,7 @@ public class ParserInput extends Thread implements Input{
         int nRecords = 0;
         try {
             nRecords = new BigInteger(input.getNNextBytes(nRecordsLength)).intValue();
-            System.out.println(nRecords);
+            log.debug("readListOfKnownNodes - nodes number: " + nRecords);
         } catch (IOException e) {
             e.printStackTrace();
             input.closeConnection();
@@ -86,7 +90,7 @@ public class ParserInput extends Thread implements Input{
         byte[] inputData = new byte[0];
         try {
             inputData = input.getNNextBytes(dataLength);
-            System.out.println(inputData);
+            log.debug("getRestData" + Arrays.toString(inputData));
         } catch (IOException e) {
             e.printStackTrace();
             input.closeConnection();

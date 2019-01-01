@@ -1,9 +1,12 @@
 package tin.p2p.nodes_layer;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class LocalFileListRepository {
+    final static Logger log = Logger.getLogger(LocalFileListRepository.class.getName());
 
     private static final LocalFileListRepository instance = new LocalFileListRepository();
     private ConcurrentSkipListSet<FileDTO> fileList = new ConcurrentSkipListSet<>();

@@ -1,10 +1,14 @@
 package tin.p2p.nodes_layer;
 
+import org.apache.log4j.Logger;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class PasswordHasher {
+    final static Logger log = Logger.getLogger(PasswordHasher.class.getName());
+
     public static String hash(String input) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.reset();

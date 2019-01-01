@@ -1,5 +1,6 @@
 package tin.p2p.controller_layer;
 
+import org.apache.log4j.Logger;
 import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.nodes_layer.*;
 
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 public class FrameworkController {
+    final static Logger log = Logger.getLogger(FrameworkController.class.getName());
+
     private static final FrameworkController instance = new FrameworkController();
     private ControllerGUIInterface.ListOfNodesViewer listOfNodesViewer;
     private ControllerGUIInterface.ListOfFilesCallback listOfFilesCallback;

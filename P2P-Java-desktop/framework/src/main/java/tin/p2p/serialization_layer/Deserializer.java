@@ -1,6 +1,7 @@
 package tin.p2p.serialization_layer;
 
 
+import org.apache.log4j.Logger;
 import tin.p2p.nodes_layer.ReceiverInterface;
 import tin.p2p.nodes_layer.RemoteNode;
 
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import static tin.p2p.utils.Constants.*;
 
 public class Deserializer implements Input{
+    final static Logger log = Logger.getLogger(Deserializer.class.getName());
+
     private ReceiverInterface receiver;
 
     public Deserializer() {
@@ -63,7 +66,7 @@ public class Deserializer implements Input{
         ArrayList<String> ipsInString = new ArrayList<>();
         for (Integer i : ipsInBytes) {
             ipsInString.add(translateToString(i));
-            System.out.println("translate: " + translateToString(i));
+            log.debug("Translate IP:" + translateToString(i));
         }
 
         return ipsInString;

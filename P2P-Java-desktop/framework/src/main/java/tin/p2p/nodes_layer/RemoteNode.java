@@ -1,5 +1,6 @@
 package tin.p2p.nodes_layer;
 
+import org.apache.log4j.Logger;
 import tin.p2p.controller_layer.FrameworkController;
 import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.serialization_layer.Output;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 public class RemoteNode implements ReceiverInterface, SenderInterface, Comparable {
+    final static Logger log = Logger.getLogger(RemoteNode.class.getName());
+
     private String ip;
 
     // todo kolejka do której wrzuca deserializator
@@ -23,9 +26,10 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     @Override
     public void onNodeListReceived(ArrayList<String> nodes) {
-        System.out.println("onNodeListReceived");
+        log.debug("onNodeListReceived");
+
         nodes.forEach((node) -> {
-                    System.out.println(node);
+                    log.debug("onNodeListReceived: node:" + node);
                     CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(node))
                             .thenAccept(SenderInterface::connectToRemoteNodeOfTheSameNet)
                             .exceptionally((t) -> {
@@ -52,11 +56,11 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     }
 
     private void authorizeNode(String passwordHash) {
-        System.out.println("Received passowrd (remote, my):");
-        System.out.println(passwordHash);
-        System.out.println(PasswordRepository.getPassword());
+        log.debug("Received password: " + passwordHash);
+        log.debug("My stored passwordHash: " + PasswordRepository.getPassword());
+
         if (passwordHash.equals(PasswordRepository.getPassword())) {
-            System.out.println("good passwordHash");
+            log.debug("Good password hash");
             isAuthorized = true;
             output.sendPasswordConfirmed(true);
         }
@@ -75,7 +79,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     @Override
     public void onPasswordCorrect() {
         // todo: powiedz ze sie polaczylismy z siecia
-        System.out.println("onPasswordCorrect: ");
+        log.debug("onPasswordCorrect: ");
         FrameworkController.getInstance().initListeningForNewNodes();
     }
 

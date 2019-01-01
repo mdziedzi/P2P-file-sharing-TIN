@@ -1,5 +1,6 @@
 package tin.p2p.layers_factory;
 
+import org.apache.log4j.Logger;
 import tin.p2p.nodes_layer.NewRemoteNodeListener;
 import tin.p2p.nodes_layer.RemoteNode;
 import tin.p2p.nodes_layer.RemoteNodesRepository;
@@ -15,6 +16,8 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class LayersFactory {
+    final static Logger log = Logger.getLogger(LayersFactory.class.getName());
+
     private static LayersFactory instance = new LayersFactory();
 
     public static LayersFactory getInstance() {
