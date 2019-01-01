@@ -4,6 +4,7 @@ package tin.p2p.parser_layer;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ParserOutput extends Thread implements Output {
@@ -11,7 +12,7 @@ public class ParserOutput extends Thread implements Output {
 
     private tin.p2p.socket_layer.Output output;
 
-    private ConcurrentLinkedQueue<SendableObject> sendableObjectsQueue = new ConcurrentLinkedQueue<>();
+    private Queue<SendableObject> sendableObjectsQueue = new ConcurrentLinkedQueue<>();
 
     public ParserOutput(tin.p2p.socket_layer.Output lowerLayerOutput) {
         this.output = lowerLayerOutput;
@@ -20,7 +21,10 @@ public class ParserOutput extends Thread implements Output {
 
     @Override
     public void addSendableObjectToQueue(SendableObject sendableObject) {
-        this.sendableObjectsQueue.add(sendableObject);
+        synchronized (sendableObjectsQueue) {
+            this.sendableObjectsQueue.add(sendableObject);
+            this.sendableObjectsQueue.notifyAll();
+        }
     }
 
     public void sendLoop() {
@@ -30,7 +34,9 @@ public class ParserOutput extends Thread implements Output {
                 if (sendableObject != null) {
                     output.send(sendableObject.getDataToSend());
                 }
-                Thread.sleep(100);
+                synchronized (sendableObjectsQueue) { // todo zastanowić się czy można nie używać bloku synchronized albo inny typ kolejki
+                    sendableObjectsQueue.wait();
+                }
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
                 output.closeConnection();
