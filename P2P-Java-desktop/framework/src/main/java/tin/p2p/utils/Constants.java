@@ -20,8 +20,9 @@ public final class Constants {
 
     public static final byte OPCODE_FILE_LIST_REQUEST = 20;
 
-    public static final byte FILE_LIST_ELEMENT_LENGTH = 64;
-    public static final byte AMOUNT_OF_ELEMENTS_IN_ROW = 4;
+    public static final byte FILE_LIST_HASH_LENGTH = 64;
+    public static final byte FILE_LIST_NAME_LENGTH = 64;
+    public static final byte FILE_LIST_FILE_SIZE_LENGTH = 4;
     public static final byte OPCODE_LIST_OF_FILES = 21;
 
 }

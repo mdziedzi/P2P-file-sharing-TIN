@@ -87,5 +87,10 @@ public class FrameworkController {
             newRemoteNodeListener.start();
         }
     }
+
+    public void updateViewOfFilesList(ArrayList<ArrayList<String>> listOfFiles) {
+        if(listOfFiles != null)
+            listOfFilesCallback.onListOfFilesReceived(listOfFiles);
+    }
 }
 

@@ -101,6 +101,16 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     }
 
     @Override
+    public void onFileListReceived(ArrayList<ArrayList<String>> listOfFiles) {
+        listOfFiles.forEach(strings -> {
+            log.debug("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
+        });
+
+
+        FrameworkController.getInstance().updateViewOfFilesList(listOfFiles);
+    }
+
+    @Override
     public Void connectToNetByIp(String password) {
         authenticateMyself(password);
         return null;

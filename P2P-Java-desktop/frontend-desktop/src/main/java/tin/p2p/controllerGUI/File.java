@@ -18,9 +18,8 @@ public class File {
     public File(ArrayList<String> fileParams) {
         // todo obsługa błędu gdy nie wszystkie 4 pola są dostępne
         this.name = fileParams.get(0);
-        this.ip = fileParams.get(1);
-        this.hash = fileParams.get(2);
-        this.size = fileParams.get(3);
+        this.hash = fileParams.get(1);
+        this.size = fileParams.get(2);
     }
 
     public String getName() {
@@ -37,6 +36,16 @@ public class File {
 
     public String getSize() {
         return size;
+    }
+
+    @Override
+    public String toString() {
+        return "File{" +
+                "name='" + name + '\'' +
+                ", ip='" + ip + '\'' +
+                ", hash='" + hash + '\'' +
+                ", size='" + size + '\'' +
+                '}';
     }
 }
 

@@ -37,7 +37,7 @@ public class Deserializer implements Input{
                 break;
             case OPCODE_LIST_OD_KNOWN_NODES:
                 data = ByteBuffer.wrap(inputData);
-                receiver.onNodeListReceived(unpackLostOfKnownNodes(data));
+                receiver.onNodeListReceived(unpackListOfKnownNodes(data));
                 break;
             case OPCODE_WANT_TO_JOIN:
                 data = ByteBuffer.wrap(inputData);
@@ -46,16 +46,44 @@ public class Deserializer implements Input{
             case OPCODE_FILE_LIST_REQUEST:
                 receiver.onFileListRequest();
                 break;
+            case OPCODE_LIST_OF_FILES:
+                data = ByteBuffer.wrap(inputData);
+                receiver.onFileListReceived(unpackListOfFiles(data));
+                break;
             default:
-                System.out.println("Deserializer: bad opcode!");
+                log.error("Deserializer: bad opcode!");
         }
+    }
+
+    private ArrayList<ArrayList<String>> unpackListOfFiles(ByteBuffer data) {
+        int nRecords = data.getInt();
+
+        ArrayList<ArrayList<String>> stringFileList = new ArrayList<>();
+
+        for (int i = 0; i < nRecords; i++) {
+            ArrayList<String> fileAttributes = new ArrayList<>();
+            byte[] fileNameTmp = new byte[FILE_LIST_NAME_LENGTH];
+            byte[] fileHashTmp = new byte[FILE_LIST_HASH_LENGTH];
+
+            data.get(fileNameTmp);
+            fileAttributes.add(StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(fileNameTmp)).toString());
+
+            data.get(fileHashTmp);
+            fileAttributes.add(StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(fileHashTmp)).toString());
+
+            fileAttributes.add(String.valueOf(data.getInt()));
+
+            stringFileList.add(fileAttributes);
+        }
+
+        return stringFileList;
     }
 
     private String decode(ByteBuffer data) {
         return StandardCharsets.US_ASCII.decode(data).toString();
     }
 
-    private ArrayList<String> unpackLostOfKnownNodes(ByteBuffer data) {
+    private ArrayList<String> unpackListOfKnownNodes(ByteBuffer data) {
         int nRecords = data.getInt();
 
         ArrayList<Integer> ipsInBytes = new ArrayList<>();

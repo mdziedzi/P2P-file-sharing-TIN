@@ -71,14 +71,28 @@ public class Serializer implements Output{
     @Override
     public void sendListOfFiles(ArrayList<ArrayList<String>> fileList) {
         int nRecords = fileList.size();
-        int dataArrayLenght = OPCODE_LENGTH + N_RECORDS_LENGTH + nRecords * FILE_LIST_ELEMENT_LENGTH * AMOUNT_OF_ELEMENTS_IN_ROW;
+        int dataArrayLenght = OPCODE_LENGTH + N_RECORDS_LENGTH + (nRecords * (FILE_LIST_NAME_LENGTH + FILE_LIST_HASH_LENGTH + FILE_LIST_FILE_SIZE_LENGTH));
         ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
 //        byteBuffer.order(ByteOrder.LITTLE_ENDIAN); // todo: przemyslec to
         byteBuffer.put(OPCODE_LIST_OF_FILES);
         byteBuffer.putInt(nRecords);
+
+        log.debug("Serialize list of files: nRecords:" + nRecords);
+        fileList.forEach(strings -> {
+            log.debug("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
+        });
         for (int i = 0; i < nRecords; i++) {
-            System.out.println();
-            fileList.get(i).forEach(s -> byteBuffer.put()); // todo: dopelniac bity zrobic tablice bajtow itd.
+            ByteBuffer tmpBufferFileName = ByteBuffer.allocate(FILE_LIST_NAME_LENGTH);
+            ByteBuffer tmpBufferHashName = ByteBuffer.allocate(FILE_LIST_HASH_LENGTH);
+            ByteBuffer tmpBufferFileSize = ByteBuffer.allocate(FILE_LIST_FILE_SIZE_LENGTH);
+
+            tmpBufferFileName.put(fileList.get(i).get(0).getBytes(StandardCharsets.US_ASCII));
+            tmpBufferHashName.put(fileList.get(i).get(1).getBytes(StandardCharsets.US_ASCII));
+            tmpBufferFileSize.putInt(Integer.valueOf(fileList.get(i).get(2)));
+
+            byteBuffer.put(tmpBufferFileName.array());
+            byteBuffer.put(tmpBufferHashName.array());
+            byteBuffer.put(tmpBufferFileSize.array());
         }
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }

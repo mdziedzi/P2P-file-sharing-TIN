@@ -14,5 +14,7 @@ public interface ReceiverInterface {
     void onNewPasswordReceived(String passwordHash);
 
     void onFileListRequest();
+
+    void onFileListReceived(ArrayList<ArrayList<String>> listOfFiles);
 }
 

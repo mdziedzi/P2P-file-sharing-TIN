@@ -53,12 +53,41 @@ public class ParserInput extends Thread implements Input{
                 case Constants.OPCODE_FILE_LIST_REQUEST:
                     getRestData(opcode, 0);
                     break;
+                case Constants.OPCODE_LIST_OF_FILES:
+                    readListOfFiles(opcode, N_RECORDS_LENGTH);
+                    break;
                 default:
                     //todo: co z reszta danych (wypisuje sie 2 razy)
                     log.error("Unknown opcode");
 
             }
         }
+    }
+
+    private void readListOfFiles(byte opcode, byte nRecordsLength) {
+        int nRecords = 0;
+        try {
+            nRecords = new BigInteger(input.getNNextBytes(nRecordsLength)).intValue();
+
+            log.debug("readListOfFiles - files number: " + nRecords);
+        } catch (IOException e) {
+            e.printStackTrace();
+            input.closeConnection();
+            return;
+        }
+
+        ByteBuffer inputData = ByteBuffer.allocate(nRecordsLength + (nRecords * (FILE_LIST_NAME_LENGTH + FILE_LIST_HASH_LENGTH + FILE_LIST_FILE_SIZE_LENGTH)));
+        inputData.putInt(nRecords);
+        try {
+            inputData.put(input.getNNextBytes(nRecords * (FILE_LIST_NAME_LENGTH + FILE_LIST_HASH_LENGTH + FILE_LIST_FILE_SIZE_LENGTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            input.closeConnection();
+            return;
+        }
+
+
+        deserializatorInput.deserialize(opcode, inputData.array());
     }
 
     private void readListOfKnownNodes(byte opcode, int nRecordsLength) {

@@ -20,17 +20,18 @@ public class LocalFileListRepository {
     }
 
     public ArrayList<ArrayList<String>> getFileList() {
-
+        //todo mockup
+        fileList.add(new FileDTO(null, "File1", "127.0.0.1", "ssawdaw", 121));
         ArrayList<ArrayList<String>> stringFileList = new ArrayList<>();
 
         fileList.forEach(fileDTO -> {
             ArrayList<String> tmp = new ArrayList<>();
             tmp.add(fileDTO.getName());
-            tmp.add(fileDTO.getSize());
             tmp.add(fileDTO.getHash());
-            tmp.add(fileDTO.getIp());
+            tmp.add(fileDTO.getSize().toString());
             stringFileList.add(tmp);
         });
+        fileList.clear();
 
         return stringFileList;
     }
