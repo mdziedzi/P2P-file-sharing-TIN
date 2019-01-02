@@ -40,7 +40,7 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
     @FXML
     private TableColumn<File, String> fileNameCol;
     @FXML
-    private TableColumn<File, Integer> fileSizeCol;
+    private TableColumn<File, Long> fileSizeCol;
     @FXML
     private TableColumn<File, String> fileOwnerCol;
     @FXML
@@ -108,7 +108,7 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
         FrameworkController.getInstance().getListOfFilesInNet(this);
 
         filesInNet.clear();
-        filesInNetTable.setItems(filesInNet);
+//        filesInNetTable.setItems(filesInNet);
     }
 
     private void setNodesTableContent(ArrayList<String> nodesIps) {
@@ -128,7 +128,7 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
 
     private void setFilesTableContent(List<File> files) {
         fileNameCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
-        fileSizeCol.setCellValueFactory(new PropertyValueFactory<File, Integer>("size"));
+        fileSizeCol.setCellValueFactory(new PropertyValueFactory<File, Long>("size"));
         fileOwnerCol.setCellValueFactory(new PropertyValueFactory<File, String>("ip"));
 
         filesInNet.addAll(files);

@@ -71,7 +71,7 @@ public class Deserializer implements Input{
             data.get(fileHashTmp);
             fileAttributes.add(StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(fileHashTmp)).toString().trim());
 
-            fileAttributes.add(String.valueOf(data.getInt()));
+            fileAttributes.add(String.valueOf(data.getLong()));
 
             stringFileList.add(fileAttributes);
         }

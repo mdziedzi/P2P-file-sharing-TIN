@@ -22,7 +22,7 @@ public final class Constants {
 
     public static final byte FILE_LIST_HASH_LENGTH = 64;
     public static final byte FILE_LIST_NAME_LENGTH = 64;
-    public static final byte FILE_LIST_FILE_SIZE_LENGTH = 4;
+    public static final byte FILE_LIST_FILE_SIZE_LENGTH = 8;
     public static final byte OPCODE_LIST_OF_FILES = 21;
 
 }

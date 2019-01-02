@@ -88,7 +88,7 @@ public class Serializer implements Output{
 
             tmpBufferFileName.put(fileList.get(i).get(0).getBytes(StandardCharsets.US_ASCII));
             tmpBufferHashName.put(fileList.get(i).get(1).getBytes(StandardCharsets.US_ASCII));
-            tmpBufferFileSize.putInt(Integer.valueOf(fileList.get(i).get(2)));
+            tmpBufferFileSize.putLong(Long.valueOf(fileList.get(i).get(2)));
 
             byteBuffer.put(tmpBufferFileName.array());
             byteBuffer.put(tmpBufferHashName.array());

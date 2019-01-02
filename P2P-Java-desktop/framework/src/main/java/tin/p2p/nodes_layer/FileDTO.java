@@ -7,9 +7,9 @@ public class FileDTO implements Comparable {
     private String name;
     private String ip;
     private String hash;
-    private Integer size;
+    private Long size;
 
-    public FileDTO(RemoteNode remoteNode, String name, String ip, String hash, Integer size) {
+    public FileDTO(RemoteNode remoteNode, String name, String ip, String hash, Long size) {
         this.remoteNode = remoteNode;
         this.name = name;
         this.ip = ip;
@@ -17,7 +17,7 @@ public class FileDTO implements Comparable {
         this.size = size;
     }
 
-    public FileDTO(String fileName, String fileHash, Integer fileSize) {
+    public FileDTO(String fileName, String fileHash, Long fileSize) {
         this.name = fileName;
         this.hash = fileHash;
         this.size = fileSize;
@@ -35,7 +35,7 @@ public class FileDTO implements Comparable {
         return hash;
     }
 
-    public Integer getSize() {
+    public Long getSize() {
         return size;
     }
 

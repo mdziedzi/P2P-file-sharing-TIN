@@ -45,7 +45,7 @@ public class LocalFileListRepository {
             if (fileName.length() > FILE_LIST_NAME_LENGTH) {
                 log.error("File name too long. This file is omitted in sharing on net: " + fileName);
             } else {
-                Integer fileSize = Math.toIntExact(file.length()); // todo może przesyłać w sieci jako long
+                Long fileSize = file.length();
                 String fileHash = null;
                 try {
                     fileHash = hashFileContent(file);
