@@ -1,6 +1,7 @@
 package tin.p2p.serialization_layer;
 
 
+import org.apache.commons.lang3.tuple.Pair;
 import tin.p2p.nodes_layer.ReceiverInterface;
 import tin.p2p.nodes_layer.RemoteNode;
 
@@ -49,6 +50,11 @@ public class Deserializer implements Input{
             case OPCODE_LIST_OF_FILES:
                 data = ByteBuffer.wrap(inputData);
                 receiver.onFileListReceived(unpackListOfFiles(data));
+                break;
+            case OPCODE_FILE_FRAGMENT_REQUEST:
+                data = ByteBuffer.wrap(inputData);
+                Pair<String, Long> fileHashAndOffset = decodeRequestedFileFragmentInfo(data);
+                receiver.onFileFragmentRequest(fileHashAndOffset.getKey(), fileHashAndOffset.getValue());
                 break;
             default:
                 log.warning("Deserializer: bad opcode!");
@@ -111,6 +117,17 @@ public class Deserializer implements Input{
     @Override
     public void setRemoteNodeReceiver(RemoteNode remoteNode) {
         this.receiver = remoteNode;
+    }
+
+    private Pair<String, Long> decodeRequestedFileFragmentInfo(ByteBuffer data) {
+        Long fileOffset = data.getLong();
+
+        byte[] fileHashTmp = new byte[FILE_HASH_LENGTH];
+
+        data.get(fileHashTmp);
+        String fileHash = StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(fileHashTmp)).toString();
+
+        return Pair.of(fileHash, fileOffset);
     }
 }
 

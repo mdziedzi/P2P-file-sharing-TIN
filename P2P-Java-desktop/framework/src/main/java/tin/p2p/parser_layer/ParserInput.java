@@ -56,6 +56,9 @@ public class ParserInput extends Thread implements Input{
                 case Constants.OPCODE_LIST_OF_FILES:
                     readListOfFiles(opcode, N_RECORDS_LENGTH);
                     break;
+                case Constants.OPCODE_FILE_FRAGMENT_REQUEST:
+                    getRestData(opcode, FILE_OFFSET_LENGTH + FILE_HASH_LENGTH);
+                    break;
                 default:
                     //todo: co z reszta danych (wypisuje sie 2 razy)
                     log.warning("Unknown opcode");

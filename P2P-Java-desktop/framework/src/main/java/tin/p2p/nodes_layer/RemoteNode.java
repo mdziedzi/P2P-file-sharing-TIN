@@ -109,6 +109,12 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     }
 
     @Override
+    public void onFileFragmentRequest(String fileHash, Long fileOffset) {
+        //todo
+        log.info("onFileFragmentRequest:: FileHash: " + fileHash + "\tFileOffset: " + fileOffset.toString());
+    }
+
+    @Override
     public Void connectToNetByIp(String password) {
         authenticateMyself(password);
         return null;

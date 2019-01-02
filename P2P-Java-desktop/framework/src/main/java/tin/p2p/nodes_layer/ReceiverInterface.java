@@ -16,5 +16,7 @@ public interface ReceiverInterface {
     void onFileListRequest();
 
     void onFileListReceived(ArrayList<ArrayList<String>> listOfFiles);
+
+    void onFileFragmentRequest(String fileHash, Long fileOffset);
 }
 
