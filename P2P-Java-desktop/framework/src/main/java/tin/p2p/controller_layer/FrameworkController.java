@@ -71,6 +71,17 @@ public class FrameworkController {
         });
     }
 
+    public void getFileFromNet(String fileOwner, String fileHash) {
+        CompletableFuture.supplyAsync(() -> {
+           RemoteNode fileOwnerRemoteNode = RemoteNodesRepository.find(fileOwner);
+
+           if (fileOwnerRemoteNode != null) {
+               fileOwnerRemoteNode.requestForFileFragment(fileHash);
+           }
+           return null;
+        });
+    }
+
     public ArrayList<String> getListOfNodes() {
         return RemoteNodesRepository.getStringIpList();
     }

@@ -35,5 +35,9 @@ public class RemoteNodesRepository {
     public static ConcurrentSkipListSet<? extends SenderInterface> getRemoteNodes() {
         return remoteNodes;
     }
+
+    public static RemoteNode find(String fileOwner) {
+        return remoteNodes.stream().filter(remoteNode -> remoteNode.getIp().equals(fileOwner)).findFirst().get();
+    }
 }
 

@@ -121,7 +121,10 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     @Override
     public int compareTo(Object o) {
-        return this == o ? 0 : 1;
+        if (o instanceof RemoteNode)
+            return this.ip.compareTo(((RemoteNode) o).ip);
+        else
+            return 1;
     }
 
     public String getIp() {
@@ -133,5 +136,14 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
         output.requestForFileList();
         return null;
     }
+
+    @Override
+    public Void requestForFileFragment(String fileHash) {
+        // todo póki co mockup offsetu
+        output.requestForFileFragment(0L, fileHash);
+        return null;
+    }
+
+
 }
 

@@ -6,5 +6,7 @@ public interface SenderInterface {
     Void connectToNetByIp(String password);
 
     Void requestForFileList();
+
+    Void requestForFileFragment(String fileHash);
 }
 

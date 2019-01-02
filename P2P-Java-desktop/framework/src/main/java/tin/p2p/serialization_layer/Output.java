@@ -15,4 +15,6 @@ public interface Output {
     void requestForFileList();
 
     void sendListOfFiles(ArrayList<ArrayList<String>> fileList);
+
+    void requestForFileFragment(Long fileOffset, String fileHash);
 }

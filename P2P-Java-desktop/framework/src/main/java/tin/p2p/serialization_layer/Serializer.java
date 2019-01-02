@@ -71,7 +71,7 @@ public class Serializer implements Output{
     @Override
     public void sendListOfFiles(ArrayList<ArrayList<String>> fileList) {
         int nRecords = fileList.size();
-        int dataArrayLenght = OPCODE_LENGTH + N_RECORDS_LENGTH + (nRecords * (FILE_LIST_NAME_LENGTH + FILE_LIST_HASH_LENGTH + FILE_LIST_FILE_SIZE_LENGTH));
+        int dataArrayLenght = OPCODE_LENGTH + N_RECORDS_LENGTH + (nRecords * (FILE_NAME_LENGTH + FILE_HASH_LENGTH + FILE_LIST_FILE_SIZE_LENGTH));
         ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
 //        byteBuffer.order(ByteOrder.LITTLE_ENDIAN); // todo: przemyslec to
         byteBuffer.put(OPCODE_LIST_OF_FILES);
@@ -82,8 +82,8 @@ public class Serializer implements Output{
             log.info("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
         });
         for (int i = 0; i < nRecords; i++) {
-            ByteBuffer tmpBufferFileName = ByteBuffer.allocate(FILE_LIST_NAME_LENGTH);
-            ByteBuffer tmpBufferHashName = ByteBuffer.allocate(FILE_LIST_HASH_LENGTH);
+            ByteBuffer tmpBufferFileName = ByteBuffer.allocate(FILE_NAME_LENGTH);
+            ByteBuffer tmpBufferHashName = ByteBuffer.allocate(FILE_HASH_LENGTH);
             ByteBuffer tmpBufferFileSize = ByteBuffer.allocate(FILE_LIST_FILE_SIZE_LENGTH);
 
             tmpBufferFileName.put(fileList.get(i).get(0).getBytes(StandardCharsets.US_ASCII));
@@ -96,6 +96,17 @@ public class Serializer implements Output{
         }
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }
+
+    @Override
+    public void requestForFileFragment(Long fileOffset, String fileHash) {
+        int dataArrayLenght = OPCODE_LENGTH + FILE_OFFSET_LENGTH + FILE_HASH_LENGTH;
+        ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
+        byteBuffer.put(OPCODE_FILE_FRAGMENT_REQUEST);
+        byteBuffer.putLong(fileOffset);
+        byteBuffer.put(fileHash.getBytes(StandardCharsets.US_ASCII));
+        output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
+    }
+
 
 }
 

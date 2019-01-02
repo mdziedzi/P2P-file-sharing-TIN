@@ -2,7 +2,6 @@ package tin.p2p.utils;
 
 public final class Constants {
     public static final int MAIN_APP_PORT = 8888;
-    public static final int OPCODE_CONNECT_TO_NET = 100;
 
     public static final byte OPCODE_WANT_TO_JOIN_INIT = 10;
 
@@ -20,9 +19,15 @@ public final class Constants {
 
     public static final byte OPCODE_FILE_LIST_REQUEST = 20;
 
-    public static final byte FILE_LIST_HASH_LENGTH = 64;
-    public static final byte FILE_LIST_NAME_LENGTH = 64;
+    public static final byte FILE_HASH_LENGTH = 64;
+    public static final byte FILE_NAME_LENGTH = 64;
     public static final byte FILE_LIST_FILE_SIZE_LENGTH = 8;
     public static final byte OPCODE_LIST_OF_FILES = 21;
+
+    public static final byte FILE_OFFSET_LENGTH = 8;
+    public static final byte OPCODE_FILE_FRAGMENT_REQUEST = 30;
+
+    public static final byte OPCODE_DON_NOT_HAVE_FILE = 31;
+
 
 }

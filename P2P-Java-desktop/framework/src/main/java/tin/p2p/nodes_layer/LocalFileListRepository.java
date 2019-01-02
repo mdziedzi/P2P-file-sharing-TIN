@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.logging.Logger;
 
-import static tin.p2p.utils.Constants.FILE_LIST_NAME_LENGTH;
+import static tin.p2p.utils.Constants.FILE_NAME_LENGTH;
 
 public class LocalFileListRepository {
     final static Logger log = Logger.getLogger(LocalFileListRepository.class.getName());
@@ -42,7 +42,7 @@ public class LocalFileListRepository {
 
         filesInDirectory.stream().filter(File::isFile).forEach(file -> {
             String fileName = file.getName();
-            if (fileName.length() > FILE_LIST_NAME_LENGTH) {
+            if (fileName.length() > FILE_NAME_LENGTH) {
                 log.warning("File name too long. This file is omitted in sharing on net: " + fileName);
             } else {
                 Long fileSize = file.length();

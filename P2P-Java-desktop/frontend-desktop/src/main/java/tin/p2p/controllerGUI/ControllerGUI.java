@@ -1,17 +1,21 @@
 package tin.p2p.controllerGUI;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import tin.p2p.controller_layer.ControllerGUIInterface;
@@ -124,6 +128,20 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
         if (filesList != null)
             setFilesTableContent(filesList.stream()
                     .map(fileAttributes -> new File(fileAttributes, filesOwner)).collect(Collectors.toList()));
+    }
+
+    @FXML
+    void downloadFile(MouseEvent event) {
+            Node node = ((Node) event.getTarget()).getParent();
+            TableRow row;
+            if (node instanceof TableRow) {
+                row = (TableRow) node;
+            } else {
+                // clicking on text part
+                row = (TableRow) node.getParent();
+            }
+            File selectedFile = (File) row.getItem();
+            FrameworkController.getInstance().getFileFromNet(selectedFile.getIp(), selectedFile.getHash());
     }
 
     private void setFilesTableContent(List<File> files) {

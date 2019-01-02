@@ -62,8 +62,8 @@ public class Deserializer implements Input{
 
         for (int i = 0; i < nRecords; i++) {
             ArrayList<String> fileAttributes = new ArrayList<>();
-            byte[] fileNameTmp = new byte[FILE_LIST_NAME_LENGTH];
-            byte[] fileHashTmp = new byte[FILE_LIST_HASH_LENGTH];
+            byte[] fileNameTmp = new byte[FILE_NAME_LENGTH];
+            byte[] fileHashTmp = new byte[FILE_HASH_LENGTH];
 
             data.get(fileNameTmp);
             fileAttributes.add(StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(fileNameTmp)).toString().trim());

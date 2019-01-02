@@ -76,10 +76,10 @@ public class ParserInput extends Thread implements Input{
             return;
         }
 
-        ByteBuffer inputData = ByteBuffer.allocate(nRecordsLength + (nRecords * (FILE_LIST_NAME_LENGTH + FILE_LIST_HASH_LENGTH + FILE_LIST_FILE_SIZE_LENGTH)));
+        ByteBuffer inputData = ByteBuffer.allocate(nRecordsLength + (nRecords * (FILE_NAME_LENGTH + FILE_HASH_LENGTH + FILE_LIST_FILE_SIZE_LENGTH)));
         inputData.putInt(nRecords);
         try {
-            inputData.put(input.getNNextBytes(nRecords * (FILE_LIST_NAME_LENGTH + FILE_LIST_HASH_LENGTH + FILE_LIST_FILE_SIZE_LENGTH)));
+            inputData.put(input.getNNextBytes(nRecords * (FILE_NAME_LENGTH + FILE_HASH_LENGTH + FILE_LIST_FILE_SIZE_LENGTH)));
         } catch (IOException e) {
             e.printStackTrace();
             input.closeConnection();
