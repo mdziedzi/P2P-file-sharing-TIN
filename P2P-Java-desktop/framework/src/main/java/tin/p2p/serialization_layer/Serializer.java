@@ -1,11 +1,11 @@
 package tin.p2p.serialization_layer;
 
-import org.apache.log4j.Logger;
 import tin.p2p.parser_layer.ObjectToSend;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import static tin.p2p.utils.Constants.*;
 
@@ -77,9 +77,9 @@ public class Serializer implements Output{
         byteBuffer.put(OPCODE_LIST_OF_FILES);
         byteBuffer.putInt(nRecords);
 
-        log.debug("Serialize list of files: nRecords:" + nRecords);
+        log.info("Serialize list of files: nRecords:" + nRecords);
         fileList.forEach(strings -> {
-            log.debug("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
+            log.info("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
         });
         for (int i = 0; i < nRecords; i++) {
             ByteBuffer tmpBufferFileName = ByteBuffer.allocate(FILE_LIST_NAME_LENGTH);

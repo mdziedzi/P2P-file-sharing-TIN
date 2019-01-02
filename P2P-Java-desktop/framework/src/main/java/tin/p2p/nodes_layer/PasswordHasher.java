@@ -1,10 +1,10 @@
 package tin.p2p.nodes_layer;
 
-import org.apache.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
 
 public class PasswordHasher {
     final static Logger log = Logger.getLogger(PasswordHasher.class.getName());

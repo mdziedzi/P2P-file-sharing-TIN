@@ -1,6 +1,7 @@
 package tin.p2p.nodes_layer;
 
-import org.apache.log4j.Logger;
+
+import java.util.logging.Logger;
 
 public class PasswordRepository {
     final static Logger log = Logger.getLogger(PasswordRepository.class.getName());

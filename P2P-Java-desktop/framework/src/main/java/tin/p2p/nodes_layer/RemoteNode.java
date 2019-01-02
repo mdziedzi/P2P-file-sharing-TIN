@@ -1,12 +1,12 @@
 package tin.p2p.nodes_layer;
 
-import org.apache.log4j.Logger;
 import tin.p2p.controller_layer.FrameworkController;
 import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.serialization_layer.Output;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 public class RemoteNode implements ReceiverInterface, SenderInterface, Comparable {
     final static Logger log = Logger.getLogger(RemoteNode.class.getName());
@@ -26,10 +26,9 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     @Override
     public void onNodeListReceived(ArrayList<String> nodes) {
-        log.debug("onNodeListReceived");
-
+        log.info("onNodeListReceived()");
         nodes.forEach((node) -> {
-                    log.debug("onNodeListReceived: node:" + node);
+            log.info("onNodeListReceived: node:" + node);
                     CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(node))
                             .thenAccept(SenderInterface::connectToRemoteNodeOfTheSameNet)
                             .exceptionally((t) -> {
@@ -56,11 +55,11 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     }
 
     private void authorizeNode(String passwordHash) {
-        log.debug("Received password: " + passwordHash);
-        log.debug("My stored passwordHash: " + PasswordRepository.getPassword());
+        log.info("Received password: " + passwordHash);
+        log.info("My stored passwordHash: " + PasswordRepository.getPassword());
 
         if (passwordHash.equals(PasswordRepository.getPassword())) {
-            log.debug("Good password hash");
+            log.info("Good password hash");
             isAuthorized = true;
             output.sendPasswordConfirmed(true);
         }
@@ -79,7 +78,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     @Override
     public void onPasswordCorrect() {
         // todo: powiedz ze sie polaczylismy z siecia
-        log.debug("onPasswordCorrect: ");
+        log.info("onPasswordCorrect: ");
         FrameworkController.getInstance().initListeningForNewNodes();
     }
 
@@ -101,7 +100,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     @Override
     public void onFileListReceived(ArrayList<ArrayList<String>> listOfFiles) {
         listOfFiles.forEach(strings -> {
-            log.debug("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
+            log.info("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
         });
 
 

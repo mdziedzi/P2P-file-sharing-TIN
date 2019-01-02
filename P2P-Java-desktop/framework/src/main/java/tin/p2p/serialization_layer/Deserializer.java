@@ -1,13 +1,13 @@
 package tin.p2p.serialization_layer;
 
 
-import org.apache.log4j.Logger;
 import tin.p2p.nodes_layer.ReceiverInterface;
 import tin.p2p.nodes_layer.RemoteNode;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import static tin.p2p.utils.Constants.*;
 
@@ -51,7 +51,7 @@ public class Deserializer implements Input{
                 receiver.onFileListReceived(unpackListOfFiles(data));
                 break;
             default:
-                log.error("Deserializer: bad opcode!");
+                log.warning("Deserializer: bad opcode!");
         }
     }
 
@@ -94,7 +94,7 @@ public class Deserializer implements Input{
         ArrayList<String> ipsInString = new ArrayList<>();
         for (Integer i : ipsInBytes) {
             ipsInString.add(translateToString(i));
-            log.debug("Translate IP:" + translateToString(i));
+            log.info("Translate IP:" + translateToString(i));
         }
 
         return ipsInString;

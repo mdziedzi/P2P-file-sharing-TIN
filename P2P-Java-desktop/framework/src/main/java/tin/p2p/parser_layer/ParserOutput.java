@@ -1,11 +1,11 @@
 package tin.p2p.parser_layer;
 
 
-import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Logger;
 
 public class ParserOutput extends Thread implements Output {
     final static Logger log = Logger.getLogger(ParserOutput.class.getName());

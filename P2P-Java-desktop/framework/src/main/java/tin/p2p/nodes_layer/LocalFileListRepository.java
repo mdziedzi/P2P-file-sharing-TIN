@@ -1,7 +1,6 @@
 package tin.p2p.nodes_layer;
 
 import org.apache.commons.lang3.SystemUtils;
-import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.logging.Logger;
 
 import static tin.p2p.utils.Constants.FILE_LIST_NAME_LENGTH;
 
@@ -43,7 +43,7 @@ public class LocalFileListRepository {
         filesInDirectory.stream().filter(File::isFile).forEach(file -> {
             String fileName = file.getName();
             if (fileName.length() > FILE_LIST_NAME_LENGTH) {
-                log.error("File name too long. This file is omitted in sharing on net: " + fileName);
+                log.warning("File name too long. This file is omitted in sharing on net: " + fileName);
             } else {
                 Long fileSize = file.length();
                 String fileHash = null;

@@ -1,8 +1,8 @@
 package tin.p2p.nodes_layer;
 
-import org.apache.log4j.Logger;
 
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.logging.Logger;
 
 public class RemoteFileListRepository {
     final static Logger log = Logger.getLogger(RemoteFileListRepository.class.getName());

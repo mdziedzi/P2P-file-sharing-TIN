@@ -1,12 +1,12 @@
 package tin.p2p.socket_layer;
 
-import org.apache.log4j.Logger;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class SocketOutput implements Output{
     final static Logger log = Logger.getLogger(SocketOutput.class.getName());
@@ -20,7 +20,7 @@ public class SocketOutput implements Output{
     public SocketOutput() {}
 
     public SocketOutput(String ip, int port) throws IOException {
-        log.debug("Create socket by connecting to " + ip + ":" + port);
+        log.info("Create socket by connecting to " + ip + ":" + port);
 
         connect(new InetSocketAddress(ip, port));
     }
@@ -29,7 +29,7 @@ public class SocketOutput implements Output{
         DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
         dos.write(data);
 
-        log.debug("Socket Output - Send: " + Arrays.toString(data));
+        log.info("Socket Output - Send: " + Arrays.toString(data));
     }
 
     @Override

@@ -1,11 +1,11 @@
 package tin.p2p.socket_layer;
 
-import org.apache.log4j.Logger;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class SocketInput implements Input{
     final static Logger log = Logger.getLogger(SocketInput.class.getName());
@@ -22,7 +22,7 @@ public class SocketInput implements Input{
         byte[] receivedData = new byte[length];
         dis.readFully(receivedData, 0, receivedData.length);
 
-        log.debug("getNNextBytes: " + Arrays.toString(receivedData));
+        log.info("getNNextBytes: " + Arrays.toString(receivedData));
 
         return receivedData;
     }
@@ -33,7 +33,7 @@ public class SocketInput implements Input{
         byte input = dis.readByte();
         //TODO obsługa little endian
 
-        log.debug("getNextByte: " + input);
+        log.info("getNextByte: " + input);
 
         return input;
     }

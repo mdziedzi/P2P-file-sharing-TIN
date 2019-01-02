@@ -1,12 +1,12 @@
 package tin.p2p.parser_layer;
 
-import org.apache.log4j.Logger;
 import tin.p2p.utils.Constants;
 
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 import static tin.p2p.utils.Constants.*;
 
@@ -31,7 +31,7 @@ public class ParserInput extends Thread implements Input{
             byte opcode = 0;
             try {
                 opcode = input.getNextByte();
-                log.debug("ParserInput opcode: " + opcode);
+                log.info("ParserInput opcode: " + opcode);
             } catch (IOException e) {
                 e.printStackTrace();
                 input.closeConnection();
@@ -58,7 +58,7 @@ public class ParserInput extends Thread implements Input{
                     break;
                 default:
                     //todo: co z reszta danych (wypisuje sie 2 razy)
-                    log.error("Unknown opcode");
+                    log.warning("Unknown opcode");
 
             }
         }
@@ -69,7 +69,7 @@ public class ParserInput extends Thread implements Input{
         try {
             nRecords = new BigInteger(input.getNNextBytes(nRecordsLength)).intValue();
 
-            log.debug("readListOfFiles - files number: " + nRecords);
+            log.info("readListOfFiles - files number: " + nRecords);
         } catch (IOException e) {
             e.printStackTrace();
             input.closeConnection();
@@ -94,7 +94,7 @@ public class ParserInput extends Thread implements Input{
         int nRecords = 0;
         try {
             nRecords = new BigInteger(input.getNNextBytes(nRecordsLength)).intValue();
-            log.debug("readListOfKnownNodes - nodes number: " + nRecords);
+            log.info("readListOfKnownNodes - nodes number: " + nRecords);
         } catch (IOException e) {
             e.printStackTrace();
             input.closeConnection();
@@ -119,7 +119,7 @@ public class ParserInput extends Thread implements Input{
         byte[] inputData = new byte[0];
         try {
             inputData = input.getNNextBytes(dataLength);
-            log.debug("getRestData" + Arrays.toString(inputData));
+            log.info("getRestData" + Arrays.toString(inputData));
         } catch (IOException e) {
             e.printStackTrace();
             input.closeConnection();

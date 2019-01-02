@@ -1,10 +1,10 @@
 package tin.p2p.nodes_layer;
 
-import org.apache.log4j.Logger;
 import tin.p2p.controller_layer.FrameworkController;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.logging.Logger;
 
 public class RemoteNodesRepository {
     final static Logger log = Logger.getLogger(RemoteNodesRepository.class.getName());

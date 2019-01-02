@@ -1,9 +1,9 @@
 package tin.p2p.nodes_layer;
 
-import org.apache.log4j.Logger;
 import tin.p2p.socket_layer.NewConnectInput;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class NewRemoteNodeListener extends Thread {
     final static Logger log = Logger.getLogger(NewRemoteNodeListener.class.getName());
