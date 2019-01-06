@@ -1,5 +1,7 @@
 package tin.p2p.nodes_layer;
 
+import java.util.ArrayList;
+
 public class FileDTO implements Comparable {
 
     private RemoteNode remoteNode;
@@ -21,6 +23,13 @@ public class FileDTO implements Comparable {
         this.name = fileName;
         this.hash = fileHash;
         this.size = fileSize;
+    }
+
+    public FileDTO(ArrayList<String> fileParams, RemoteNode remoteNode) {
+        this.name = fileParams.get(0);
+        this.hash = fileParams.get(1);
+        this.size = Long.valueOf(fileParams.get(2));
+        this.remoteNode = remoteNode;
     }
 
     public String getName() {

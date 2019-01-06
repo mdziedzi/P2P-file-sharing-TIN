@@ -1,6 +1,8 @@
 package tin.p2p.nodes_layer;
 
 
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.logging.Logger;
 
@@ -18,11 +20,26 @@ public class RemoteFileListRepository {
         return instance;
     }
 
+    public Optional<FileDTO> getFileInfoByHash(String fileHash) {
+        return fileList.stream().filter(fileDTO -> fileDTO.getHash().equals(fileHash)).findFirst();
+    }
+
+    // todo uaktaulniać listę
+
 //    public ArrayList<> getFileList() {
 //        return new ArrayList<>(fileList);
 //    } // todo
 
-//    public void addFileList(ArrayList<String> fileList) { //todo
-//        fileList.add(fileList);
-//    }
+
+    public ConcurrentSkipListSet<FileDTO> getFileList() {
+        return fileList;
+    }
+
+    private void addFile(ArrayList<String> fileParams, RemoteNode remoteNode) { //todo
+        fileList.add(new FileDTO(fileParams, remoteNode));
+    }
+
+    public void addFileList(ArrayList<ArrayList<String>> listOfFiles, RemoteNode remoteNode) {
+        listOfFiles.forEach(fileParams -> addFile(fileParams, remoteNode));
+    }
 }

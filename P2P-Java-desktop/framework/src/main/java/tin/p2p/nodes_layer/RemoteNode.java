@@ -4,6 +4,7 @@ import tin.p2p.controller_layer.FrameworkController;
 import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.serialization_layer.Output;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
@@ -103,6 +104,8 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
             log.info("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
         });
 
+        RemoteFileListRepository.getInstance().addFileList(listOfFiles, this);
+
 
 
         FrameworkController.getInstance().updateViewOfFilesList(listOfFiles, getIp());
@@ -112,6 +115,15 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     public void onFileFragmentRequest(String fileHash, Long fileOffset) {
         //todo
         log.info("onFileFragmentRequest:: FileHash: " + fileHash + "\tFileOffset: " + fileOffset.toString());
+        output.sendFileFragment(fileHash, fileOffset,
+                LocalFileListRepository.getInstance().getFileFragment(fileHash, fileOffset));
+    }
+
+    @Override
+    public void onFileFragmentReceived(String fileHash, Long fileOffset, ByteBuffer fileFragmentData) {
+        DownloadManager.getInstance().onReceivedFileFragment(fileHash, fileOffset, fileFragmentData);
+        //todo
+        log.info("onFileFragmentReceived:: " + "fileHash: " + fileHash + "\tfileOffset: " + fileOffset);
     }
 
     @Override
@@ -144,10 +156,8 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     }
 
     @Override
-    public Void requestForFileFragment(String fileHash) {
-        // todo póki co mockup offsetu
-        output.requestForFileFragment(0L, fileHash);
-        return null;
+    public void requestForFileFragment(String fileHash, Long fileOffset) {
+        output.requestForFileFragment(fileOffset, fileHash);
     }
 
 

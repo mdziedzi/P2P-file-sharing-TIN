@@ -12,7 +12,7 @@ public class ParserOutput extends Thread implements Output {
 
     private tin.p2p.socket_layer.Output output;
 
-    private Queue<SendableObject> sendableObjectsQueue = new ConcurrentLinkedQueue<>();
+    private final Queue<SendableObject> sendableObjectsQueue = new ConcurrentLinkedQueue<>();
 
     public ParserOutput(tin.p2p.socket_layer.Output lowerLayerOutput) {
         this.output = lowerLayerOutput;
@@ -27,15 +27,16 @@ public class ParserOutput extends Thread implements Output {
         }
     }
 
-    public void sendLoop() {
-        while (true) {
+    private void sendLoop() {
+        while (true) { // todo flaga
             SendableObject sendableObject = sendableObjectsQueue.poll();
             try {
                 if (sendableObject != null) {
                     output.send(sendableObject.getDataToSend());
-                }
-                synchronized (sendableObjectsQueue) { // todo zastanowić się czy można nie używać bloku synchronized albo inny typ kolejki
-                    sendableObjectsQueue.wait();
+                } else {
+                    synchronized (sendableObjectsQueue) { // todo zastanowić się czy można nie używać bloku synchronized albo inny typ kolejki
+                        sendableObjectsQueue.wait();
+                    }
                 }
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();

@@ -7,6 +7,6 @@ public interface SenderInterface {
 
     Void requestForFileList();
 
-    Void requestForFileFragment(String fileHash);
+    void requestForFileFragment(String fileHash, Long fileOffset);
 }
 

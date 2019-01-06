@@ -1,5 +1,6 @@
 package tin.p2p.serialization_layer;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 public interface Output {
@@ -17,4 +18,6 @@ public interface Output {
     void sendListOfFiles(ArrayList<ArrayList<String>> fileList);
 
     void requestForFileFragment(Long fileOffset, String fileHash);
+
+    void sendFileFragment(String fileHash, Long fileOffset, ByteBuffer fileFragment);
 }

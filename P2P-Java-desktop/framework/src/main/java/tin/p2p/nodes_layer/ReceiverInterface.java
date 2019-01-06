@@ -1,5 +1,6 @@
 package tin.p2p.nodes_layer;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 public interface ReceiverInterface {
@@ -18,5 +19,7 @@ public interface ReceiverInterface {
     void onFileListReceived(ArrayList<ArrayList<String>> listOfFiles);
 
     void onFileFragmentRequest(String fileHash, Long fileOffset);
+
+    void onFileFragmentReceived(String fileHash, Long fileOffset, ByteBuffer fileFragmentData);
 }
 

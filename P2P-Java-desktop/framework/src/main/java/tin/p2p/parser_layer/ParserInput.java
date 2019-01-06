@@ -59,12 +59,37 @@ public class ParserInput extends Thread implements Input{
                 case Constants.OPCODE_FILE_FRAGMENT_REQUEST:
                     getRestData(opcode, FILE_OFFSET_LENGTH + FILE_HASH_LENGTH);
                     break;
+                case Constants.OPCODE_FILE_FRAGMENT:
+                    readFileFragment(opcode);
+                    break;
                 default:
                     //todo: co z reszta danych (wypisuje sie 2 razy)
                     log.warning("Unknown opcode");
 
             }
         }
+    }
+
+    private void readFileFragment(byte opcode) {
+        int dataLength = 0;
+
+        try {
+            dataLength = new BigInteger(input.getNNextBytes(N_RECORDS_LENGTH)).intValue();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ByteBuffer inputData = ByteBuffer.allocate(N_RECORDS_LENGTH + FILE_OFFSET_LENGTH + FILE_HASH_LENGTH + dataLength);
+        inputData.putInt(dataLength);
+
+        try {
+            inputData.put(input.getNNextBytes(FILE_OFFSET_LENGTH + FILE_HASH_LENGTH));
+            inputData.put(input.getNNextBytes(dataLength));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        deserializatorInput.deserialize(opcode, inputData.array());
     }
 
     private void readListOfFiles(byte opcode, byte nRecordsLength) {

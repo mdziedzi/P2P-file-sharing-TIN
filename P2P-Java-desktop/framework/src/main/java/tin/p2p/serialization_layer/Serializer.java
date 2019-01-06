@@ -107,6 +107,20 @@ public class Serializer implements Output{
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }
 
+    @Override
+    public void sendFileFragment(String fileHash, Long fileOffset, ByteBuffer fileFragment) {
+        ByteBuffer resultByteBuffer = ByteBuffer.allocate(
+                OPCODE_LENGTH + N_RECORDS_LENGTH + FILE_OFFSET_LENGTH + FILE_HASH_LENGTH + fileFragment.array().length);
+
+        resultByteBuffer.put(OPCODE_FILE_FRAGMENT);
+        resultByteBuffer.putInt(fileFragment.array().length);
+        resultByteBuffer.putLong(fileOffset);
+        resultByteBuffer.put(fileHash.getBytes(StandardCharsets.US_ASCII));
+        resultByteBuffer.put(fileFragment.array());
+
+        output.addSendableObjectToQueue(new ObjectToSend(resultByteBuffer.array()));
+    }
+
 
 }
 

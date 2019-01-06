@@ -2,6 +2,7 @@ package tin.p2p.serialization_layer;
 
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 import tin.p2p.nodes_layer.ReceiverInterface;
 import tin.p2p.nodes_layer.RemoteNode;
 
@@ -56,9 +57,32 @@ public class Deserializer implements Input{
                 Pair<String, Long> fileHashAndOffset = decodeRequestedFileFragmentInfo(data);
                 receiver.onFileFragmentRequest(fileHashAndOffset.getKey(), fileHashAndOffset.getValue());
                 break;
+            case OPCODE_FILE_FRAGMENT:
+                data = ByteBuffer.wrap(inputData);
+                Triple<String, Long, ByteBuffer> decodedPackage = decodeReceivedFileFragment(data);
+
+                receiver.onFileFragmentReceived(decodedPackage.getLeft(), decodedPackage.getMiddle(), decodedPackage.getRight());
+                break;
             default:
                 log.warning("Deserializer: bad opcode!");
         }
+    }
+
+    private Triple<String, Long, ByteBuffer> decodeReceivedFileFragment(ByteBuffer data) {
+        int dataLength = data.getInt();
+
+        Long fileOffset = data.getLong();
+
+        byte[] fileHashTmp = new byte[FILE_HASH_LENGTH];
+
+        data.get(fileHashTmp);
+        String fileHash = StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(fileHashTmp)).toString();
+
+        ByteBuffer fileFragmentData = ByteBuffer.allocate(dataLength);
+
+        data.get(fileFragmentData.array());
+
+        return Triple.of(fileHash, fileOffset, fileFragmentData);
     }
 
     private ArrayList<ArrayList<String>> unpackListOfFiles(ByteBuffer data) {

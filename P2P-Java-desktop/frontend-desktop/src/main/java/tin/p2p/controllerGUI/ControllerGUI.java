@@ -50,7 +50,7 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
     @FXML
     private TableView<File> filesInNetTable;
 
-    public static final ObservableList<File> filesInNet= FXCollections.observableArrayList();
+    public static final ObservableList<File> filesInNet = FXCollections.observableArrayList();
 
     public ControllerGUI() {
         FrameworkController.getInstance().registerListOfNodesViewer(this);
@@ -141,7 +141,7 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
                 row = (TableRow) node.getParent();
             }
             File selectedFile = (File) row.getItem();
-            FrameworkController.getInstance().getFileFromNet(selectedFile.getIp(), selectedFile.getHash());
+            FrameworkController.getInstance().getFileFromNet(selectedFile.getName(), selectedFile.getHash());
     }
 
     private void setFilesTableContent(List<File> files) {

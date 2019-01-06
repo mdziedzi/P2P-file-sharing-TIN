@@ -2,20 +2,21 @@ package tin.p2p.nodes_layer;
 
 import org.apache.commons.lang3.SystemUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.logging.Logger;
 
 import static tin.p2p.utils.Constants.FILE_NAME_LENGTH;
+import static tin.p2p.utils.Constants.MAXIMUM_FILE_FRAGMENT_SIZE;
 
 public class LocalFileListRepository {
     final static Logger log = Logger.getLogger(LocalFileListRepository.class.getName());
@@ -29,6 +30,42 @@ public class LocalFileListRepository {
 
     public static LocalFileListRepository getInstance() {
         return instance;
+    }
+
+    public  ByteBuffer getFileFragment(String fileHash, Long fileOffset) {
+        URL url = getLocation(LocalFileListRepository.class);
+
+        File directory = urlToFile(url).getParentFile();
+
+        List<File> filesInDirectory = Arrays.asList(directory.listFiles());
+
+        for (FileDTO fileDTO : fileList) {
+            if (fileDTO.getHash().equals(fileHash)) {
+                Optional<File> foundFile = filesInDirectory.stream()
+                        .filter(file -> file.getName().equals(fileDTO.getName())).findFirst();
+                if (foundFile.isPresent()) {
+                    long fileSize = foundFile.get().length();
+                    ByteBuffer byteBuffer = ByteBuffer.allocate(
+                            fileSize - fileOffset < MAXIMUM_FILE_FRAGMENT_SIZE ? (int) (fileSize - fileOffset) : MAXIMUM_FILE_FRAGMENT_SIZE);
+
+                    RandomAccessFile file = null;
+                    try {
+                        file = new RandomAccessFile(foundFile.get(), "r");
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        file.seek(fileOffset);
+                        file.read(byteBuffer.array(), 0, byteBuffer.array().length);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return byteBuffer;
+
+                }
+            }
+        }
+        return null;
     }
 
     public ArrayList<ArrayList<String>> getFileList() {
