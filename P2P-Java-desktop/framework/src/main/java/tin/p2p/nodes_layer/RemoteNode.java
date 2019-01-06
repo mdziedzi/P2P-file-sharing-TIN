@@ -106,8 +106,6 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
         RemoteFileListRepository.getInstance().addFileList(listOfFiles, this);
 
-
-
         FrameworkController.getInstance().updateViewOfFilesList(listOfFiles, getIp());
     }
 

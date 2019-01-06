@@ -72,7 +72,11 @@ public class FrameworkController {
     }
 
     public void getFileFromNet(String fileName, String fileHash) {
-        CompletableFuture.supplyAsync(() -> DownloadManager.getInstance().addFileDownload(fileName, fileHash));
+        CompletableFuture.supplyAsync(() -> DownloadManager.getInstance().addFileDownload(fileName, fileHash))
+        .exceptionally(t -> {
+            t.printStackTrace();
+            return null;
+        });
     }
 
     public ArrayList<String> getListOfNodes() {

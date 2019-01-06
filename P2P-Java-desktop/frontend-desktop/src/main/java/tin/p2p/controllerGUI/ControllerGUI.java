@@ -1,9 +1,9 @@
 package tin.p2p.controllerGUI;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -24,7 +24,6 @@ import tin.p2p.controller_layer.FrameworkController;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, ControllerGUIInterface.ListOfFilesCallback {
 
@@ -46,11 +45,11 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
     @FXML
     private TableColumn<File, Long> fileSizeCol;
     @FXML
-    private TableColumn<File, String> fileOwnerCol;
+    private TableColumn<File, List<String>> fileOwnerCol;
     @FXML
     private TableView<File> filesInNetTable;
 
-    public static final ObservableList<File> filesInNet = FXCollections.observableArrayList();
+    public static final ObservableMap<String, File> filesInNet = FXCollections.observableHashMap();
 
     public ControllerGUI() {
         FrameworkController.getInstance().registerListOfNodesViewer(this);
@@ -126,30 +125,43 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
     @Override
     public void onListOfFilesReceived(ArrayList<ArrayList<String>> filesList, String filesOwner) {
         if (filesList != null)
-            setFilesTableContent(filesList.stream()
-                    .map(fileAttributes -> new File(fileAttributes, filesOwner)).collect(Collectors.toList()));
+            updateFilesTableContent(filesList, filesOwner);
     }
+
 
     @FXML
     void downloadFile(MouseEvent event) {
             Node node = ((Node) event.getTarget()).getParent();
-            TableRow row;
+            TableRow row = null;
             if (node instanceof TableRow) {
                 row = (TableRow) node;
             } else {
-                // clicking on text part
-                row = (TableRow) node.getParent();
+                if (node.getParent() instanceof TableRow)
+                    row = (TableRow) node.getParent();
             }
-            File selectedFile = (File) row.getItem();
-            FrameworkController.getInstance().getFileFromNet(selectedFile.getName(), selectedFile.getHash());
+
+            if(row != null) {
+                File selectedFile = (File) row.getItem();
+                FrameworkController.getInstance().getFileFromNet(selectedFile.getName(), selectedFile.getHash());
+            }
     }
 
-    private void setFilesTableContent(List<File> files) {
+
+    private void updateFilesTableContent(ArrayList<ArrayList<String>> files, String fileOwner) {
+        files.forEach(fileParams -> {
+            File file = filesInNet.get(fileParams.get(1));
+            if (file == null) {
+                filesInNet.put(fileParams.get(1), new File(fileParams, fileOwner));
+            } else {
+                file.addOwner(fileOwner);
+            }
+        });
+
+
         fileNameCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
         fileSizeCol.setCellValueFactory(new PropertyValueFactory<File, Long>("size"));
-        fileOwnerCol.setCellValueFactory(new PropertyValueFactory<File, String>("ip"));
+        fileOwnerCol.setCellValueFactory(new PropertyValueFactory<File, List<String>>("ips"));
 
-        filesInNet.addAll(files);
-        filesInNetTable.setItems(filesInNet);
+        filesInNetTable.setItems(FXCollections.observableArrayList(filesInNet.values()));
     }
 }
