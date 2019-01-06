@@ -42,7 +42,7 @@ public class LayersFactory {
         tin.p2p.serialization_layer.Input deserializer = new Deserializer();
         tin.p2p.parser_layer.Input parserInput = new ParserInput(socketInput, deserializer);
 
-        RemoteNode remoteNode = new RemoteNode(serializer, ip);
+        RemoteNode remoteNode = new RemoteNode(serializer, ip, false);
         deserializer.setRemoteNodeReceiver(remoteNode);
 
         RemoteNodesRepository.registerNode(remoteNode);
@@ -75,7 +75,7 @@ public class LayersFactory {
         tin.p2p.serialization_layer.Input deserializer = new Deserializer();
         tin.p2p.parser_layer.Input parserInput = new ParserInput(socketInput, deserializer);
 
-        RemoteNode remoteNode = new RemoteNode(serializer, ip);
+        RemoteNode remoteNode = new RemoteNode(serializer, ip, true);
         deserializer.setRemoteNodeReceiver(remoteNode);
 
         RemoteNodesRepository.registerNode(remoteNode);

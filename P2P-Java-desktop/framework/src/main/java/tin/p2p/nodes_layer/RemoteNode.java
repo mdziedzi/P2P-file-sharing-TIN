@@ -19,7 +19,10 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     private boolean isAuthorized = false;
 
-    public RemoteNode(Output output, String ip) {
+    public RemoteNode(Output output, String ip, boolean isConnectingToUs) {
+        if (!isConnectingToUs) {
+            this.isAuthorized = true;
+        }
         this.output = output;
         this.ip = ip;
     }

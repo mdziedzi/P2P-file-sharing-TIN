@@ -65,6 +65,7 @@ public class Deserializer implements Input{
                 break;
             case OPCODE_NOT_AUTHORIZED:
                 receiver.onNotAuthorizedMsg();
+                break;
             default:
                 log.warning("Deserializer: bad opcode!");
         }
