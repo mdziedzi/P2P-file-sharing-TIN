@@ -196,6 +196,12 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
         output.requestForFileFragment(fileOffset, fileHash);
     }
 
+    @Override
+    public void terminate() {
+        output.terminate();
+        RemoteNodesRepository.unregisterNode(this);
+    }
+
 
 }
 

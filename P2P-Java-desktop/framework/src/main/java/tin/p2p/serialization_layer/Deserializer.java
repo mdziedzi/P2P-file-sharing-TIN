@@ -146,6 +146,11 @@ public class Deserializer implements Input{
         this.receiver = remoteNode;
     }
 
+    @Override
+    public void terminate() {
+        receiver.terminate();
+    }
+
     private Pair<String, Long> decodeRequestedFileFragmentInfo(ByteBuffer data) {
         Long fileOffset = data.getLong();
 

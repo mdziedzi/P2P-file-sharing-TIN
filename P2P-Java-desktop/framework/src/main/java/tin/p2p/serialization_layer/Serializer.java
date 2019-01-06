@@ -128,6 +128,11 @@ public class Serializer implements Output{
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }
 
+    @Override
+    public void terminate() {
+        output.terminate();
+    }
+
 
 }
 

@@ -22,4 +22,6 @@ public interface Output {
     void sendFileFragment(String fileHash, Long fileOffset, ByteBuffer fileFragment);
 
     void sendNotAuthorizedMsg();
+
+    void terminate();
 }

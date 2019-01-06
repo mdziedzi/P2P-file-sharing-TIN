@@ -15,6 +15,9 @@ import java.util.stream.Stream;
 import static tin.p2p.utils.Constants.MAXIMUM_FILE_FRAGMENT_SIZE;
 
 public class FileDownloadManager extends Thread {
+
+    private volatile boolean running = true;
+
     private DownloadManager downloadManager;
 
     private String fileHash;
@@ -46,7 +49,7 @@ public class FileDownloadManager extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             Pair<Long, ByteBuffer> receivedFragment = receivedFileFragments.poll();
 
             //todo
@@ -104,6 +107,13 @@ public class FileDownloadManager extends Thread {
                 notDownloadedFragments.stream().filter(fragmentInfo -> !fragmentInfo.isRequestSend()).collect(Collectors.toList());
 
         return notDownloadedAndNotRequested;
+    }
+
+    public void terminate() {
+        running = false;
+        synchronized (receivedFileFragments) {
+            receivedFileFragments.notifyAll();
+        }
     }
 }
 

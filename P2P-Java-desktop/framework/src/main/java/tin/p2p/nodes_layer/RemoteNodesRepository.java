@@ -16,6 +16,11 @@ public class RemoteNodesRepository {
         notifyGui();
     }
 
+    public static void unregisterNode(RemoteNode remoteNode) {
+        remoteNodes.remove(remoteNode);
+        notifyGui();
+    }
+
     private static void notifyGui() {
         FrameworkController.getInstance().updateViewOfRemoteNodes(getStringIpList());
     }
@@ -38,6 +43,11 @@ public class RemoteNodesRepository {
 
     public static RemoteNode find(String fileOwner) {
         return remoteNodes.stream().filter(remoteNode -> remoteNode.getIp().equals(fileOwner)).findFirst().get();
+    }
+
+
+    public static void endOfProgram() {
+        remoteNodes.forEach(RemoteNode::terminate);
     }
 }
 

@@ -6,6 +6,7 @@ import tin.p2p.utils.Constants;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.logging.Logger;
 
 public class NewConnectSocketInput implements NewConnectInput {
@@ -16,12 +17,17 @@ public class NewConnectSocketInput implements NewConnectInput {
     public NewConnectSocketInput() throws IOException {
     }
 
-    public void acceptNewNode() throws IOException, SecurityException {
+    public void acceptNewNode() throws SocketTimeoutException, IOException, SecurityException {
         Socket socket = serverSocket.accept();
 
         log.info("Achieved new connection " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
 
         new Thread(() -> LayersFactory.initLayersOfNewRemoteNode(socket, socket.getInetAddress().getHostAddress())).start();
+    }
+
+    @Override
+    public void terminate() throws IOException {
+        serverSocket.close();
     }
 
 } 

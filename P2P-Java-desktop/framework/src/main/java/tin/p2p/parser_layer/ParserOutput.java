@@ -2,6 +2,7 @@ package tin.p2p.parser_layer;
 
 
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -9,6 +10,7 @@ import java.util.logging.Logger;
 
 public class ParserOutput extends Thread implements Output {
     final static Logger log = Logger.getLogger(ParserOutput.class.getName());
+    private volatile boolean running = true;
 
     private tin.p2p.socket_layer.Output output;
 
@@ -28,7 +30,7 @@ public class ParserOutput extends Thread implements Output {
     }
 
     private void sendLoop() {
-        while (true) { // todo flaga
+        while (running) {
             SendableObject sendableObject = sendableObjectsQueue.poll();
             try {
                 if (sendableObject != null) {
@@ -38,7 +40,11 @@ public class ParserOutput extends Thread implements Output {
                         sendableObjectsQueue.wait();
                     }
                 }
-            } catch (IOException | InterruptedException e) {
+            } catch (EOFException | InterruptedException ex) {
+                terminate();
+                ex.printStackTrace();
+                return;
+            } catch (IOException e) {
                 e.printStackTrace();
                 output.closeConnection();
                 return;
@@ -50,6 +56,15 @@ public class ParserOutput extends Thread implements Output {
     @Override
     public void run() {
         sendLoop();
+    }
+
+    @Override
+    public void terminate() {
+        running = false;
+        synchronized (sendableObjectsQueue) {
+            sendableObjectsQueue.notifyAll();
+        }
+        output.closeConnection();
     }
 }
 

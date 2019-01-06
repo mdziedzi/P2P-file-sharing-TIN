@@ -109,5 +109,11 @@ public class FrameworkController {
             connectToNetByIPCallback.onConnectToNetByIPReject();
         }
     }
+
+    public void endOfProgram() {
+        DownloadManager.getInstance().terminate();
+        RemoteNodesRepository.endOfProgram();
+        newRemoteNodeListener.terminate();
+    }
 }
 

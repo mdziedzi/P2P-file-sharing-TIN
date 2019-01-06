@@ -11,6 +11,8 @@ import java.util.concurrent.Semaphore;
 public class DownloadManager extends Thread {
     private static final DownloadManager instance = new DownloadManager();
 
+    private volatile boolean running = true;
+
     private HashMap<String, FileDownloadManager> filesDownloading = new HashMap<>();
 
     private Queue<Triple<String, Long, ByteBuffer>> receivedFilesFragment = new ConcurrentLinkedQueue<>();
@@ -56,13 +58,13 @@ public class DownloadManager extends Thread {
 
     @Override
     public void run() {
-        while(true) {
+        while(running) {
             Triple<String, Long, ByteBuffer> fileFragment = receivedFilesFragment.poll();
             Pair<String, Long> fileFragmentRequest = requestsToSend.poll();
             if (fileFragment == null && fileFragmentRequest == null) {
                 try {
                     synchronized (instance) {
-                        wait();
+                        instance.wait();
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -89,6 +91,14 @@ public class DownloadManager extends Thread {
                     }
                 }
             }
+        }
+    }
+
+    public void terminate() {
+        filesDownloading.values().forEach(FileDownloadManager::terminate);
+        running = false;
+        synchronized (instance) {
+            instance.notifyAll();
         }
     }
 }

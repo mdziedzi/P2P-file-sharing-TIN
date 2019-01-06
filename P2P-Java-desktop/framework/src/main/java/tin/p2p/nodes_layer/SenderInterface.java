@@ -8,5 +8,7 @@ public interface SenderInterface {
     Void requestForFileList();
 
     void requestForFileFragment(String fileHash, Long fileOffset);
+
+    void terminate();
 }
 

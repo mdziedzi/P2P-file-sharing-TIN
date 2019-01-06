@@ -2,6 +2,7 @@ package tin.p2p.parser_layer;
 
 import tin.p2p.utils.Constants;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
@@ -12,6 +13,7 @@ import static tin.p2p.utils.Constants.*;
 
 public class ParserInput extends Thread implements Input{
     final static Logger log = Logger.getLogger(ParserInput.class.getName());
+    private volatile boolean running = true;
 
     private tin.p2p.socket_layer.Input input;
     private tin.p2p.serialization_layer.Input deserializatorInput;
@@ -27,14 +29,20 @@ public class ParserInput extends Thread implements Input{
     }
 
     private void listenToInputData() {
-        while (true) {
+        while (running) {
             byte opcode = 0;
             try {
                 opcode = input.getNextByte();
                 log.info("ParserInput opcode: " + opcode);
+            } catch (EOFException ex) {
+                terminate();
+                ex.printStackTrace();
+                deserializatorInput.terminate();
+                return;
             } catch (IOException e) {
                 e.printStackTrace();
                 input.closeConnection();
+                deserializatorInput.terminate();
                 return;
             }
             switch (opcode) {
@@ -104,6 +112,7 @@ public class ParserInput extends Thread implements Input{
         } catch (IOException e) {
             e.printStackTrace();
             input.closeConnection();
+            deserializatorInput.terminate();
             return;
         }
 
@@ -114,6 +123,7 @@ public class ParserInput extends Thread implements Input{
         } catch (IOException e) {
             e.printStackTrace();
             input.closeConnection();
+            deserializatorInput.terminate();
             return;
         }
 
@@ -129,6 +139,7 @@ public class ParserInput extends Thread implements Input{
         } catch (IOException e) {
             e.printStackTrace();
             input.closeConnection();
+            deserializatorInput.terminate();
             return;
         }
 
@@ -139,6 +150,7 @@ public class ParserInput extends Thread implements Input{
         } catch (IOException e) {
             e.printStackTrace();
             input.closeConnection();
+            deserializatorInput.terminate();
             return;
         }
 
@@ -154,10 +166,16 @@ public class ParserInput extends Thread implements Input{
         } catch (IOException e) {
             e.printStackTrace();
             input.closeConnection();
+            deserializatorInput.terminate();
             return;
         }
         deserializatorInput.deserialize(opcode, inputData);
     }
 
+    @Override
+    public void terminate() {
+        running = false;
+        input.closeConnection();
+    }
 }
 

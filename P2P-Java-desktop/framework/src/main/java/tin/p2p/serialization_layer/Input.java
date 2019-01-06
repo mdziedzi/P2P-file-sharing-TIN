@@ -6,4 +6,6 @@ public interface Input {
     void deserialize(byte opcode, byte[] inputData);
 
     void setRemoteNodeReceiver(RemoteNode remoteNode);
+
+    void terminate();
 }

@@ -23,5 +23,7 @@ public interface ReceiverInterface {
     void onFileFragmentReceived(String fileHash, Long fileOffset, ByteBuffer fileFragmentData);
 
     void onNotAuthorizedMsg();
+
+    void terminate();
 }
 
