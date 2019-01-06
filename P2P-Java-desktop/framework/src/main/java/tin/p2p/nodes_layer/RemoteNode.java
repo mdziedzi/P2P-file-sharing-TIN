@@ -68,6 +68,8 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
             log.info("Good password hash");
             isAuthorized = true;
             output.sendPasswordConfirmed(true);
+        } else {
+            output.sendPasswordConfirmed(false);
         }
     }
 
