@@ -32,4 +32,7 @@ public final class Constants {
     public static final byte OPCODE_FILE_FRAGMENT = 32;
     public static final int MAXIMUM_FILE_FRAGMENT_SIZE = 1024 * 512;
 
+    public static final byte OPCODE_NOT_AUTHORIZED = 40;
+
+
 }

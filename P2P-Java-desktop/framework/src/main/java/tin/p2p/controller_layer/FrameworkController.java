@@ -14,6 +14,7 @@ public class FrameworkController {
     private static final FrameworkController instance = new FrameworkController();
     private ControllerGUIInterface.ListOfNodesViewer listOfNodesViewer;
     private ControllerGUIInterface.ListOfFilesCallback listOfFilesCallback;
+    private ControllerGUIInterface.ConnectToNetByIPCallback connectToNetByIPCallback;
 
     private FrameworkController() {}
     private NewRemoteNodeListener newRemoteNodeListener;
@@ -46,6 +47,8 @@ public class FrameworkController {
      * @param callback Object on which the callback will be performed.
      */
     public void connectToNetByIP(String ip, String password, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
+
+        connectToNetByIPCallback = callback; // todo do weryfikacji
 
         try {
             password = PasswordHasher.hash(password);
@@ -99,6 +102,12 @@ public class FrameworkController {
     public void updateViewOfFilesList(ArrayList<ArrayList<String>> listOfFiles, String filesOwner) {
         if(listOfFiles != null)
             listOfFilesCallback.onListOfFilesReceived(listOfFiles, filesOwner);
+    }
+
+    public void wrongPassword() {
+        if (connectToNetByIPCallback != null) {
+            connectToNetByIPCallback.onConnectToNetByIPReject();
+        }
     }
 }
 

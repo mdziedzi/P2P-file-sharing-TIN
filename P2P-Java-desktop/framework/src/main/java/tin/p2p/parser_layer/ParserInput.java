@@ -62,6 +62,9 @@ public class ParserInput extends Thread implements Input{
                 case Constants.OPCODE_FILE_FRAGMENT:
                     readFileFragment(opcode);
                     break;
+                case Constants.OPCODE_NOT_AUTHORIZED:
+                    getRestData(opcode, 0);
+                    break;
                 default:
                     //todo: co z reszta danych (wypisuje sie 2 razy)
                     log.warning("Unknown opcode");

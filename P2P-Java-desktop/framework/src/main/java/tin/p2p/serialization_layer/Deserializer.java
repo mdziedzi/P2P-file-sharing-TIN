@@ -63,6 +63,8 @@ public class Deserializer implements Input{
 
                 receiver.onFileFragmentReceived(decodedPackage.getLeft(), decodedPackage.getMiddle(), decodedPackage.getRight());
                 break;
+            case OPCODE_NOT_AUTHORIZED:
+                receiver.onNotAuthorizedMsg();
             default:
                 log.warning("Deserializer: bad opcode!");
         }

@@ -32,7 +32,7 @@ public class ConnectToNetController implements ControllerGUIInterface.ConnectToN
 
     @Override
     public void onConnectToNetByIPReject() {
-        System.out.println("Connect to net reject");
+        System.out.println("Connect to net reject - WRONG PASSWORD");
     }
 
     @Override

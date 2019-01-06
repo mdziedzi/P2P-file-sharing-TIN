@@ -28,16 +28,21 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     @Override
     public void onNodeListReceived(ArrayList<String> nodes) {
         log.info("onNodeListReceived()");
-        nodes.forEach((node) -> {
-            log.info("onNodeListReceived: node:" + node);
-                    CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(node))
-                            .thenAccept(SenderInterface::connectToRemoteNodeOfTheSameNet)
-                            .exceptionally((t) -> {
-                                t.printStackTrace();
-                                return null;
-                            });
-                }
-        );
+        if (isAuthorized) {
+            nodes.forEach((node) -> {
+                        log.info("onNodeListReceived: node:" + node);
+                        CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(node))
+                                .thenAccept(SenderInterface::connectToRemoteNodeOfTheSameNet)
+                                .exceptionally((t) -> {
+                                    t.printStackTrace();
+                                    return null;
+                                });
+                    }
+            );
+        } else {
+            log.warning("NOT AUTHORIZED");
+            output.sendNotAuthorizedMsg();
+        }
 
     }
 
@@ -85,7 +90,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     @Override
     public void onPasswordReject() {
-        // todo
+        FrameworkController.getInstance().wrongPassword();
     }
 
     @Override
@@ -95,33 +100,61 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     @Override
     public void onFileListRequest() {
-        output.sendListOfFiles(LocalFileListRepository.getInstance().getFileList());
+        if (isAuthorized) {
+            output.sendListOfFiles(LocalFileListRepository.getInstance().getFileList());
+        } else {
+            log.warning("NOT AUTHORIZED");
+            output.sendNotAuthorizedMsg();
+        }
     }
 
     @Override
     public void onFileListReceived(ArrayList<ArrayList<String>> listOfFiles) {
-        listOfFiles.forEach(strings -> {
-            log.info("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
-        });
+        if (isAuthorized) {
 
-        RemoteFileListRepository.getInstance().addFileList(listOfFiles, this);
+            listOfFiles.forEach(strings -> {
+                log.info("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
+            });
 
-        FrameworkController.getInstance().updateViewOfFilesList(listOfFiles, getIp());
+            RemoteFileListRepository.getInstance().addFileList(listOfFiles, this);
+
+            FrameworkController.getInstance().updateViewOfFilesList(listOfFiles, getIp());
+        } else {
+            log.warning("NOT AUTHORIZED");
+            output.sendNotAuthorizedMsg();
+        }
     }
 
     @Override
     public void onFileFragmentRequest(String fileHash, Long fileOffset) {
-        //todo
-        log.info("onFileFragmentRequest:: FileHash: " + fileHash + "\tFileOffset: " + fileOffset.toString());
-        output.sendFileFragment(fileHash, fileOffset,
-                LocalFileListRepository.getInstance().getFileFragment(fileHash, fileOffset));
+        if (isAuthorized) {
+
+            //todo
+            log.info("onFileFragmentRequest:: FileHash: " + fileHash + "\tFileOffset: " + fileOffset.toString());
+            output.sendFileFragment(fileHash, fileOffset,
+                    LocalFileListRepository.getInstance().getFileFragment(fileHash, fileOffset));
+        } else {
+            log.warning("NOT AUTHORIZED");
+            output.sendNotAuthorizedMsg();
+        }
     }
 
     @Override
     public void onFileFragmentReceived(String fileHash, Long fileOffset, ByteBuffer fileFragmentData) {
-        DownloadManager.getInstance().onReceivedFileFragment(fileHash, fileOffset, fileFragmentData);
-        //todo
-        log.info("onFileFragmentReceived:: " + "fileHash: " + fileHash + "\tfileOffset: " + fileOffset);
+        if (isAuthorized) {
+
+            DownloadManager.getInstance().onReceivedFileFragment(fileHash, fileOffset, fileFragmentData);
+            //todo
+            log.info("onFileFragmentReceived:: " + "fileHash: " + fileHash + "\tfileOffset: " + fileOffset);
+        } else {
+            log.warning("NOT AUTHORIZED");
+            output.sendNotAuthorizedMsg();
+        }
+    }
+
+    @Override
+    public void onNotAuthorizedMsg() {
+        log.warning("You have no access to perform this action");
     }
 
     @Override

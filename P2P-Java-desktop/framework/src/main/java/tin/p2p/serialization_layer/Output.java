@@ -20,4 +20,6 @@ public interface Output {
     void requestForFileFragment(Long fileOffset, String fileHash);
 
     void sendFileFragment(String fileHash, Long fileOffset, ByteBuffer fileFragment);
+
+    void sendNotAuthorizedMsg();
 }

@@ -121,6 +121,13 @@ public class Serializer implements Output{
         output.addSendableObjectToQueue(new ObjectToSend(resultByteBuffer.array()));
     }
 
+    @Override
+    public void sendNotAuthorizedMsg() {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(OPCODE_LENGTH);
+        byteBuffer.put(OPCODE_NOT_AUTHORIZED);
+        output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
+    }
+
 
 }
 
