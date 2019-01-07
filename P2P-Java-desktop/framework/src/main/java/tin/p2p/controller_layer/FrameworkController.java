@@ -15,6 +15,7 @@ public class FrameworkController {
     private ControllerGUIInterface.ListOfNodesViewer listOfNodesViewer;
     private ControllerGUIInterface.ListOfFilesCallback listOfFilesCallback;
     private ControllerGUIInterface.ConnectToNetByIPCallback connectToNetByIPCallback;
+    private ControllerGUIInterface.FileDownloadingCallback fileDownloadingCallback;
 
     private FrameworkController() {}
     private NewRemoteNodeListener newRemoteNodeListener;
@@ -74,7 +75,11 @@ public class FrameworkController {
         });
     }
 
-    public void getFileFromNet(String fileName, String fileHash) {
+    public void getFileFromNet(String fileName, String fileHash,
+                               ControllerGUIInterface.FileDownloadingCallback fileDownloadingCallback) {
+
+        this.fileDownloadingCallback = fileDownloadingCallback;
+
         CompletableFuture.supplyAsync(() -> DownloadManager.getInstance().addFileDownload(fileName, fileHash))
         .exceptionally(t -> {
             t.printStackTrace();
@@ -107,6 +112,12 @@ public class FrameworkController {
     public void wrongPassword() {
         if (connectToNetByIPCallback != null) {
             connectToNetByIPCallback.onConnectToNetByIPReject();
+        }
+    }
+
+    public void onDownloadingFinished(String fileName) {
+        if (fileDownloadingCallback != null) {
+            fileDownloadingCallback.onFileDownloaded(fileName);
         }
     }
 

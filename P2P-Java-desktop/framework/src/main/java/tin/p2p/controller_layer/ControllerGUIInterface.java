@@ -70,4 +70,8 @@ public interface ControllerGUIInterface {
         void onListOfFilesReceived(ArrayList<ArrayList<String>> filesList, String filesOwner);// nazwa, hash, rozmiar
     }
 
+    interface FileDownloadingCallback {
+        void onFileDownloaded(String fileName);
+    }
+
 }

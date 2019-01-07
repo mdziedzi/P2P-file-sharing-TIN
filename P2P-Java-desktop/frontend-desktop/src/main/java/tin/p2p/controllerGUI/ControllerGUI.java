@@ -25,7 +25,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, ControllerGUIInterface.ListOfFilesCallback {
+public class ControllerGUI implements
+        ControllerGUIInterface.ListOfNodesViewer,
+        ControllerGUIInterface.ListOfFilesCallback,
+        ControllerGUIInterface.FileDownloadingCallback {
 
     @FXML
     private Button changeNetworkBtnId;
@@ -142,7 +145,7 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
 
             if(row != null && row.getItem() instanceof File) {
                 File selectedFile = (File) row.getItem();
-                FrameworkController.getInstance().getFileFromNet(selectedFile.getName(), selectedFile.getHash());
+                FrameworkController.getInstance().getFileFromNet(selectedFile.getName(), selectedFile.getHash(), this);
             }
     }
 
@@ -163,5 +166,10 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
         fileOwnerCol.setCellValueFactory(new PropertyValueFactory<File, List<String>>("ips"));
 
         filesInNetTable.setItems(FXCollections.observableArrayList(filesInNet.values()));
+    }
+
+    @Override
+    public void onFileDownloaded(String fileName) {
+        System.out.println("\n\nFile downloaded: " + fileName);
     }
 }

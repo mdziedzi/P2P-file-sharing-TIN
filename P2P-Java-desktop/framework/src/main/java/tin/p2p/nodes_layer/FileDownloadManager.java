@@ -126,5 +126,9 @@ public class FileDownloadManager extends Thread {
     public String getFileHash() {
         return fileHash;
     }
+
+    public String getFileName() {
+        return fileName;
+    }
 }
 

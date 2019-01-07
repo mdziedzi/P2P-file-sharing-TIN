@@ -2,6 +2,7 @@ package tin.p2p.nodes_layer;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
+import tin.p2p.controller_layer.FrameworkController;
 
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -104,6 +105,8 @@ public class DownloadManager extends Thread {
 
     public void unregister(FileDownloadManager fileDownloadManager) {
         filesDownloading.remove(fileDownloadManager.getFileHash());
+
+        FrameworkController.getInstance().onDownloadingFinished(fileDownloadManager.getFileName());
     }
 }
 
