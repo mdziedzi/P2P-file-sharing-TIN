@@ -25,5 +25,9 @@ public interface ReceiverInterface {
     void onNotAuthorizedMsg();
 
     void terminate();
+
+    void onRequestForSaltReceiver();
+
+    void onSaltReceived(int salt);
 }
 

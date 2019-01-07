@@ -133,6 +133,22 @@ public class Serializer implements Output{
         output.terminate();
     }
 
+    @Override
+    public void requestForSalt() {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(OPCODE_LENGTH);
+        byteBuffer.put(OPCODE_REQUEST_FOR_SALT);
+        output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
+    }
+
+    @Override
+    public void sendSalt(int salt) {
+        int dataArrayLenght = OPCODE_LENGTH + SALT_LENGTH;
+        ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
+        byteBuffer.put(OPCODE_SALT_FOR_HASH);
+        byteBuffer.putInt(salt);
+        output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
+    }
+
 
 }
 

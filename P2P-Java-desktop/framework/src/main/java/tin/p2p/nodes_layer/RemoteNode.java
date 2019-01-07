@@ -5,6 +5,7 @@ import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.serialization_layer.Output;
 
 import java.nio.ByteBuffer;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
@@ -18,6 +19,8 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     private Output output;
 
     private boolean isAuthorized = false;
+    private int salt;
+    private String hashedPassword;
 
     public RemoteNode(Output output, String ip, boolean isConnectingToUs) {
         if (!isConnectingToUs) {
@@ -63,11 +66,23 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
         output.sendListOfNodes(ips);
     }
 
-    private void authorizeNode(String passwordHash) {
-        log.info("Received password: " + passwordHash);
-        log.info("My stored passwordHash: " + PasswordRepository.getPassword());
+    private void authorizeNode(String remotePasswordAndSaltHash) {
+        log.info("Received remotePasswordAndSaltHash: " + remotePasswordAndSaltHash);
+        String myPassword = PasswordRepository.getPassword();
+        log.info("My stored hashed password: " + myPassword);
+        String myPasswordWithSalt = myPassword + salt;
+        log.info("myPasswordWithSalt " + myPasswordWithSalt);
 
-        if (passwordHash.equals(PasswordRepository.getPassword())) {
+        String myPasswordWithSaltHash = null;
+        try {
+            myPasswordWithSaltHash = PasswordHasher.hash(myPasswordWithSalt);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        log.info("myPasswordWithSaltHash = " + myPasswordWithSaltHash);
+
+        if (remotePasswordAndSaltHash.equals(myPasswordWithSaltHash)) {
             log.info("Good password hash");
             isAuthorized = true;
             output.sendPasswordConfirmed(true);
@@ -164,12 +179,13 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     @Override
     public Void connectToNetByIp(String password) {
-        authenticateMyself(password);
+        hashedPassword = password; // todo verify
+        output.requestForSalt();
         return null;
     }
 
-    private void authenticateMyself(String password) {
-        output.sendPassword(password);
+    private void authenticateMyself(String completeHash) {
+        output.sendPassword(completeHash);
         //todo
     }
 
@@ -200,6 +216,37 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     public void terminate() {
         output.terminate();
         RemoteNodesRepository.unregisterNode(this);
+    }
+
+    @Override
+    public void onRequestForSaltReceiver() {
+        assignSalt();
+        output.sendSalt(salt);
+    }
+
+    @Override
+    public void onSaltReceived(int receivedSalt) {
+        authenticateMyself(hashContent(mergePasswordWithSalt(hashedPassword, receivedSalt)));
+    }
+
+    private String hashContent(String s) {
+        String hash = null;
+        try {
+            hash = PasswordHasher.hash(s);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return hash;
+    }
+
+    private String mergePasswordWithSalt(String typedPassword, int receivedSalt) {
+        return typedPassword + receivedSalt;
+    }
+
+    private void assignSalt() {
+        int max = Integer.MAX_VALUE;
+        int min = Integer.MIN_VALUE;
+        salt = min + (int) (Math.random() * ((max - min) + 1));
     }
 
 

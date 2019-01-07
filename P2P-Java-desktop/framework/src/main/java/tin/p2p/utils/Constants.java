@@ -34,5 +34,11 @@ public final class Constants {
 
     public static final byte OPCODE_NOT_AUTHORIZED = 40;
 
+    public static final byte OPCODE_REQUEST_FOR_SALT = 50;
+    public static final byte SALT_LENGTH = 4;
+    public static final byte OPCODE_SALT_FOR_HASH = 51;
+
+
+
 
 }

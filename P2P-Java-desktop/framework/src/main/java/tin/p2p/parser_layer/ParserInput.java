@@ -73,6 +73,12 @@ public class ParserInput extends Thread implements Input{
                 case Constants.OPCODE_NOT_AUTHORIZED:
                     getRestData(opcode, 0);
                     break;
+                case Constants.OPCODE_REQUEST_FOR_SALT:
+                    getRestData(opcode, 0);
+                    break;
+                case Constants.OPCODE_SALT_FOR_HASH:
+                    getRestData(opcode, SALT_LENGTH);
+                    break;
                 default:
                     //todo: co z reszta danych (wypisuje sie 2 razy)
                     log.warning("Unknown opcode");

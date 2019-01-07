@@ -24,4 +24,8 @@ public interface Output {
     void sendNotAuthorizedMsg();
 
     void terminate();
+
+    void requestForSalt();
+
+    void sendSalt(int salt);
 }

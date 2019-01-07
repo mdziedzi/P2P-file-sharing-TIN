@@ -66,9 +66,20 @@ public class Deserializer implements Input{
             case OPCODE_NOT_AUTHORIZED:
                 receiver.onNotAuthorizedMsg();
                 break;
+            case OPCODE_REQUEST_FOR_SALT:
+                receiver.onRequestForSaltReceiver();
+                break;
+            case OPCODE_SALT_FOR_HASH:
+                data = ByteBuffer.wrap(inputData);
+                receiver.onSaltReceived(unpackSalt(data));
+                break;
             default:
                 log.warning("Deserializer: bad opcode!");
         }
+    }
+
+    private int unpackSalt(ByteBuffer data) {
+        return data.getInt();
     }
 
     private Triple<String, Long, ByteBuffer> decodeReceivedFileFragment(ByteBuffer data) {
