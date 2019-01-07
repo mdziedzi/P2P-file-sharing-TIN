@@ -140,7 +140,7 @@ public class ControllerGUI implements ControllerGUIInterface.ListOfNodesViewer, 
                     row = (TableRow) node.getParent();
             }
 
-            if(row != null) {
+            if(row != null && row.getItem() instanceof File) {
                 File selectedFile = (File) row.getItem();
                 FrameworkController.getInstance().getFileFromNet(selectedFile.getName(), selectedFile.getHash());
             }

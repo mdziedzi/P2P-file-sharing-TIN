@@ -101,5 +101,9 @@ public class DownloadManager extends Thread {
             instance.notifyAll();
         }
     }
+
+    public void unregister(FileDownloadManager fileDownloadManager) {
+        filesDownloading.remove(fileDownloadManager.getFileHash());
+    }
 }
 

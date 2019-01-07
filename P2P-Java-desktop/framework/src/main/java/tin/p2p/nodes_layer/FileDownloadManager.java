@@ -68,8 +68,11 @@ public class FileDownloadManager extends Thread {
                     writeFragmentToFile(fileFragmentInfo.get(), receivedFragment.getRight());
                     fileFragmentInfo.get().setDownloaded(true);
 
-                    //todo zlecanie pobrania
-//                    downloadManager.onNewFileFragmentNeeded();
+                    if (isWholeFileDownloaded()) {
+                        downloadManager.unregister(this);
+                        return;
+                    }
+                    //todo inteligentniejsze zlecanie pobrania
                 }
             } else {
                 try {
@@ -81,6 +84,10 @@ public class FileDownloadManager extends Thread {
                 }
             }
         }
+    }
+
+    private boolean isWholeFileDownloaded() {
+        return fileFragmentsInfos.stream().allMatch(FileFragmentInfo::isDownloaded);
     }
 
     public void onFileFragmentReceived(Long fileOffset, ByteBuffer fileFragmentData) {
@@ -114,6 +121,10 @@ public class FileDownloadManager extends Thread {
         synchronized (receivedFileFragments) {
             receivedFileFragments.notifyAll();
         }
+    }
+
+    public String getFileHash() {
+        return fileHash;
     }
 }
 
