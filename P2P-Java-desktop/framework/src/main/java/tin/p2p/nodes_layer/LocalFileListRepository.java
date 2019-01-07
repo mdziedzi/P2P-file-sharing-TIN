@@ -123,9 +123,19 @@ public class LocalFileListRepository {
 
         InputStream is = new FileInputStream(file);
 
-        DigestInputStream dis = new DigestInputStream(is, sha256);
-        byte[] digest = sha256 != null ? sha256.digest() : new byte[0];
-        //todo DigestUtils na talefonie NoClassDefFoundError
+        byte[] buffer = new byte[1024];
+
+        int numRead;
+        do {
+            numRead = is.read(buffer);
+            if (numRead > 0) {
+                sha256.update(buffer, 0, numRead);
+            }
+        } while (numRead != -1);
+
+        is.close();
+
+        byte[] digest = sha256.digest();
         StringBuilder hexStr = new StringBuilder();
 
         for (byte aDigest : digest)

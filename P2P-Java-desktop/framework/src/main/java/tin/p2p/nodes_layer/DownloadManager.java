@@ -1,7 +1,7 @@
 package tin.p2p.nodes_layer;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
+import tin.p2p.utils.Pair;
+import tin.p2p.utils.Triple;
 import tin.p2p.controller_layer.FrameworkController;
 
 import java.nio.ByteBuffer;
