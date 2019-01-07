@@ -7,6 +7,8 @@ import javafx.scene.control.PasswordField;
 import tin.p2p.controller_layer.ControllerGUIInterface;
 import tin.p2p.controller_layer.FrameworkController;
 
+import java.io.File;
+
 public class NewNetController implements ControllerGUIInterface.CreateNewNetCallback {
     @FXML
     private PasswordField newNetPassword;
@@ -17,7 +19,10 @@ public class NewNetController implements ControllerGUIInterface.CreateNewNetCall
     @FXML
     void handleNewNetCreateBtnClick(ActionEvent event) {
         ((Button)event.getSource()).getScene().getWindow().hide();
-        FrameworkController.getInstance().createNewNet(newNetPassword.getCharacters().toString(), this);
+        FrameworkController.getInstance().createNewNet(
+                newNetPassword.getCharacters().toString(),
+                new File("./"),
+                this);
     }
 
     @Override

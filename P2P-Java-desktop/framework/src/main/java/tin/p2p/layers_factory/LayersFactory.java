@@ -1,5 +1,6 @@
 package tin.p2p.layers_factory;
 
+import tin.p2p.exceptions.UnsuccessfulConnectionException;
 import tin.p2p.nodes_layer.NewRemoteNodeListener;
 import tin.p2p.nodes_layer.RemoteNode;
 import tin.p2p.nodes_layer.RemoteNodesRepository;
@@ -25,7 +26,7 @@ public class LayersFactory {
     }
     private LayersFactory() {}
 
-    public static SenderInterface initLayersOfNewRemoteNode(String ip) {
+    public static SenderInterface initLayersOfNewRemoteNode(String ip) throws UnsuccessfulConnectionException {
 
         Output socketOutput = null;
         Input socketInput = null;
@@ -34,6 +35,8 @@ public class LayersFactory {
             socketInput = new SocketInput(socketOutput.getSocket());
         } catch (IOException e) {
             e.printStackTrace();
+            log.throwing(LayersFactory.class.toString(), "initLayersOfNewRemoteNode", e);
+            throw new UnsuccessfulConnectionException(e);
         }
 
         tin.p2p.parser_layer.Output parserOutput = new ParserOutput(socketOutput);

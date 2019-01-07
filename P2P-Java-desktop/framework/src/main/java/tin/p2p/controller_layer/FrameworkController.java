@@ -2,7 +2,9 @@ package tin.p2p.controller_layer;
 
 import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.nodes_layer.*;
+import tin.p2p.utils.Properties;
 
+import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
@@ -26,7 +28,9 @@ public class FrameworkController {
     /**
      * Creates new net based on user IP.
      */
-    public void createNewNet(String password, ControllerGUIInterface.CreateNewNetCallback callback) {
+    public void createNewNet(String password, File workspaceDirectory, ControllerGUIInterface.CreateNewNetCallback callback) {
+        Properties.setWorkspaceDirectory(workspaceDirectory);
+
         this.newRemoteNodeListener = LayersFactory.initNewNodesListenerLayers();
         try {
             PasswordRepository.setPassword(PasswordHasher.hash(password));
@@ -47,7 +51,11 @@ public class FrameworkController {
      * @param ip IP of node we want to connect with
      * @param callback Object on which the callback will be performed.
      */
-    public void connectToNetByIP(String ip, String password, ControllerGUIInterface.ConnectToNetByIPCallback callback) {
+    public void connectToNetByIP(String ip, String password,
+                                 File workspaceDirectory,
+                                 ControllerGUIInterface.ConnectToNetByIPCallback callback) {
+
+        Properties.setWorkspaceDirectory(workspaceDirectory);
 
         connectToNetByIPCallback = callback; // todo do weryfikacji
 

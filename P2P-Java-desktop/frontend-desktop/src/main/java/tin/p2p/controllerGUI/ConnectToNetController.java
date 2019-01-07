@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 import tin.p2p.controller_layer.ControllerGUIInterface;
 import tin.p2p.controller_layer.FrameworkController;
 
+import java.io.File;
+
 public class ConnectToNetController implements ControllerGUIInterface.ConnectToNetByIPCallback {
     @FXML
     private Button connectBtn;
@@ -21,8 +23,11 @@ public class ConnectToNetController implements ControllerGUIInterface.ConnectToN
     @FXML
     void handleConnectBtnClick(ActionEvent event) {
         ((Button)event.getSource()).getScene().getWindow().hide();
-        FrameworkController.getInstance().connectToNetByIP(ipTF.getCharacters().toString(),
-                existingNetPassword.getCharacters().toString(), this);
+        FrameworkController.getInstance().connectToNetByIP(
+                ipTF.getCharacters().toString(),
+                existingNetPassword.getCharacters().toString(),
+                new File("./"),
+                this);
     }
 
     @Override
