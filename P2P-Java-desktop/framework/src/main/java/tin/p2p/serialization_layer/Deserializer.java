@@ -1,10 +1,10 @@
 package tin.p2p.serialization_layer;
 
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
+import tin.p2p.utils.Triple;
 import tin.p2p.nodes_layer.ReceiverInterface;
 import tin.p2p.nodes_layer.RemoteNode;
+import tin.p2p.utils.Pair;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -55,7 +55,7 @@ public class Deserializer implements Input{
             case OPCODE_FILE_FRAGMENT_REQUEST:
                 data = ByteBuffer.wrap(inputData);
                 Pair<String, Long> fileHashAndOffset = decodeRequestedFileFragmentInfo(data);
-                receiver.onFileFragmentRequest(fileHashAndOffset.getKey(), fileHashAndOffset.getValue());
+                receiver.onFileFragmentRequest(fileHashAndOffset.getLeft(), fileHashAndOffset.getRight());
                 break;
             case OPCODE_FILE_FRAGMENT:
                 data = ByteBuffer.wrap(inputData);

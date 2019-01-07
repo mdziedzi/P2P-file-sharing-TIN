@@ -132,7 +132,8 @@ public class FrameworkController {
     public void endOfProgram() {
         DownloadManager.getInstance().terminate();
         RemoteNodesRepository.endOfProgram();
-        newRemoteNodeListener.terminate();
+        if(newRemoteNodeListener != null)
+            newRemoteNodeListener.terminate();
     }
 }
 
