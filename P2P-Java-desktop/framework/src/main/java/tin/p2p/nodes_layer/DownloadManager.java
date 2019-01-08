@@ -53,24 +53,23 @@ public class DownloadManager extends Thread {
     public void onReceivedFileFragment(String fileHash, Long fileOffset, ByteBuffer fragmentData) {
         receivedFilesFragment.add(Triple.of(fileHash, fileOffset, fragmentData));
         synchronized (instance) {
-            notifyAll(); // todo do weryfikacji
+            notifyAll();
         }
     }
 
     public void onNewFileFragmentNeeded(String fileHash, Long fileOffset) {
         requestsToSend.add(Pair.of(fileHash, fileOffset));
         synchronized (instance) {
-            notifyAll(); // todo do weryfikacji
+            notifyAll();
         }
     }
-
-    // todo reakacja na to jak dodano do kolejki
 
     @Override
     public void run() {
         while(running) {
             Triple<String, Long, ByteBuffer> fileFragment = receivedFilesFragment.poll();
             Pair<String, Long> fileFragmentRequest = requestsToSend.poll();
+
             if (fileFragment == null && fileFragmentRequest == null) {
                 try {
                     synchronized (instance) {
@@ -82,22 +81,26 @@ public class DownloadManager extends Thread {
             } else {
 
                 if (fileFragment != null) {
-                    filesDownloading.get(fileFragment.getLeft()).onFileFragmentReceived(fileFragment.getMiddle(), fileFragment.getRight());
-                    // todo jezeli nie ma w hashmapie
+                    FileDownloadManager fileDownloadManager = filesDownloading.get(fileFragment.getLeft());
+                    if (fileDownloadManager != null) {
+                        fileDownloadManager.onFileFragmentReceived(fileFragment.getMiddle(), fileFragment.getRight());
+                    }
                 }
 
                 if (fileFragmentRequest != null) {
                     FileDTO fileInfo = RemoteFileListRepository.getInstance().getFileInfoByHash(fileFragmentRequest.getLeft());
-                    // todo, w fileDTO lista remoteNodow
+
                     if (fileInfo != null && fileInfo.getRemoteNodes() != null) {
-                        //todotodo
+
                         List<RemoteNode> remoteNodesHavingFile = fileInfo.getRemoteNodes();
 
-                        Random rnd = new Random();
-                        int i = rnd.nextInt(remoteNodesHavingFile.size());
+                        if (remoteNodesHavingFile.size() > 0) {
+                            Random rnd = new Random();
+                            int i = rnd.nextInt(remoteNodesHavingFile.size());
 
-                        remoteNodesHavingFile.get(i).requestForFileFragment(
-                                fileInfo.getHash(), fileFragmentRequest.getRight());
+                            remoteNodesHavingFile.get(i).requestForFileFragment(
+                                    fileInfo.getHash(), fileFragmentRequest.getRight());
+                        }
                     }
                 }
             }

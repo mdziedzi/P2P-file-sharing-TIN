@@ -86,7 +86,8 @@ public class FrameworkController {
         PasswordRepository.setPassword(password);
         String finalPassword = password;
         CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(ip))
-                .thenAccept(t -> t.connectToNetByIp(finalPassword))
+                .thenApply(t -> t.connectToNetByIp(finalPassword))
+                .thenAccept((r) -> connectToNetByIPCallback.onConnectToNetByIPSucces())
                 .exceptionally((t) -> {
                     callback.onConnectToNetByIPFailure();
                     return null;
