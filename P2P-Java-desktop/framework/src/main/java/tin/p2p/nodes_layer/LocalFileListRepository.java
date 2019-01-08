@@ -4,7 +4,7 @@ import tin.p2p.utils.Properties;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-import java.security.DigestInputStream;
+import java.nio.file.NoSuchFileException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -19,9 +19,6 @@ public class LocalFileListRepository {
 
     private static final LocalFileListRepository instance = new LocalFileListRepository();
     private ConcurrentSkipListSet<FileDTO> fileList = new ConcurrentSkipListSet<>();
-
-    private File workspaceFolder; // todo init na początku
-
 
     private LocalFileListRepository() {
     }

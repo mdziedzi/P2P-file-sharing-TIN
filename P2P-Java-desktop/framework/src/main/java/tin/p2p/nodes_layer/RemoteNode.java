@@ -16,7 +16,6 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     private String ip;
 
-    // todo kolejka do której wrzuca deserializator
     private Output output;
 
     private boolean isAuthorized = false;
@@ -165,7 +164,6 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
         if (isAuthorized) {
 
             DownloadManager.getInstance().onReceivedFileFragment(fileHash, fileOffset, fileFragmentData);
-            //todo
             log.info("onFileFragmentReceived:: " + "fileHash: " + fileHash + "\tfileOffset: " + fileOffset);
         } else {
             log.warning("NOT AUTHORIZED");
@@ -186,7 +184,6 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     private void authenticateMyself(String completeHash) {
         output.sendPassword(completeHash);
-        //todo
     }
 
     @Override

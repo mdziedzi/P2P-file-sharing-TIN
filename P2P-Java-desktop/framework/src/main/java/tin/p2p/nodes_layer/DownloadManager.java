@@ -3,12 +3,10 @@ package tin.p2p.nodes_layer;
 import tin.p2p.exceptions.UnavailableFileToDownloadException;
 import tin.p2p.utils.Pair;
 import tin.p2p.utils.Triple;
-import tin.p2p.controller_layer.FrameworkController;
 
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Semaphore;
 
 public class DownloadManager extends Thread {
     private static final DownloadManager instance = new DownloadManager();

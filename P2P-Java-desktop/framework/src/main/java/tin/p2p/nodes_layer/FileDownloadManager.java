@@ -8,9 +8,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static tin.p2p.utils.Constants.MAXIMUM_FILE_FRAGMENT_SIZE;
 
@@ -24,7 +22,6 @@ public class FileDownloadManager extends Thread {
     private String fileName;
     private RandomAccessFile randomAccessFile;
 
-    // todo tablica ze statusami o fragmentach pliku, tworzona na początku, aktualizowana
     private ArrayList<FileFragmentInfo> fileFragmentsInfos = new ArrayList<>();
     private Queue<Pair<Long, ByteBuffer>> receivedFileFragments = new ConcurrentLinkedQueue<>();
 
@@ -72,7 +69,6 @@ public class FileDownloadManager extends Thread {
                         downloadManager.unregister(this);
                         return;
                     }
-                    //todo inteligentniejsze zlecanie pobrania
                 }
             } else {
                 try {

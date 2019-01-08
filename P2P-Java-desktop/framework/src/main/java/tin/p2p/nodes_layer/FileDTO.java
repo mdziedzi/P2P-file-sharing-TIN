@@ -1,7 +1,6 @@
 package tin.p2p.nodes_layer;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class FileDTO implements Comparable {

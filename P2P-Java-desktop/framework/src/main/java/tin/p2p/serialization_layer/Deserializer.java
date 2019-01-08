@@ -151,7 +151,6 @@ public class Deserializer implements Input{
         return ipsInString;
     }
 
-    // pdk
     private String translateToString(Integer i) {
         return ((i >> 24) & 0xFF) + "." +
                 ((i >> 16) & 0xFF) + "." +

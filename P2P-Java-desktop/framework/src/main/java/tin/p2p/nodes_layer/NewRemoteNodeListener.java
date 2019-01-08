@@ -3,7 +3,6 @@ package tin.p2p.nodes_layer;
 import tin.p2p.socket_layer.NewConnectInput;
 
 import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.util.logging.Logger;
 
 public class NewRemoteNodeListener extends Thread {
@@ -21,11 +20,8 @@ public class NewRemoteNodeListener extends Thread {
         while (running) {
             try {
                 newConnectInput.acceptNewNode();
-            } catch (SocketTimeoutException e) {
-
-            } catch (SecurityException e) {
-
             } catch (IOException e) {
+                terminate();
                 e.printStackTrace();
             }
         }
