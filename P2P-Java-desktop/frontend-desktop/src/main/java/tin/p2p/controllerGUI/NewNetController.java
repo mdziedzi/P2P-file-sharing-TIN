@@ -35,5 +35,10 @@ public class NewNetController implements ControllerGUIInterface.CreateNewNetCall
         System.out.println("Create Net failure");
 
     }
+
+    @Override
+    public void onApplicationMainPortUsed() {
+        System.err.println("Port 8888 is already occupied!");
+    }
 }
 

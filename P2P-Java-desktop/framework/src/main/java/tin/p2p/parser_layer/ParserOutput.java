@@ -36,7 +36,7 @@ public class ParserOutput extends Thread implements Output {
                 if (sendableObject != null) {
                     output.send(sendableObject.getDataToSend());
                 } else {
-                    synchronized (sendableObjectsQueue) { // todo zastanowić się czy można nie używać bloku synchronized albo inny typ kolejki
+                    synchronized (sendableObjectsQueue) {
                         sendableObjectsQueue.wait();
                     }
                 }

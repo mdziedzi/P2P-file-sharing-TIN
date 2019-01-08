@@ -41,10 +41,6 @@ public class RemoteNodesRepository {
         return remoteNodes;
     }
 
-    public static RemoteNode find(String fileOwner) {
-        return remoteNodes.stream().filter(remoteNode -> remoteNode.getIp().equals(fileOwner)).findFirst().get();
-    }
-
 
     public static void endOfProgram() {
         remoteNodes.forEach(RemoteNode::terminate);

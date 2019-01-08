@@ -1,5 +1,9 @@
 package tin.p2p.controller_layer;
 
+import tin.p2p.exceptions.AppPortTakenException;
+import tin.p2p.exceptions.CreatingNetException;
+import tin.p2p.exceptions.SavingDownloadedFileException;
+import tin.p2p.exceptions.UnavailableFileToDownloadException;
 import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.nodes_layer.*;
 import tin.p2p.utils.Properties;
@@ -31,14 +35,26 @@ public class FrameworkController {
     public void createNewNet(String password, File workspaceDirectory, ControllerGUIInterface.CreateNewNetCallback callback) {
         Properties.setWorkspaceDirectory(workspaceDirectory);
 
-        this.newRemoteNodeListener = LayersFactory.initNewNodesListenerLayers();
+        try {
+            this.newRemoteNodeListener = LayersFactory.initNewNodesListenerLayers();
+        } catch (AppPortTakenException e) {
+            callback.onApplicationMainPortUsed();
+            return;
+        } catch (CreatingNetException e) {
+            callback.onCreateNewNetFailure();
+            return;
+        }
+
         try {
             PasswordRepository.setPassword(PasswordHasher.hash(password));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+            newRemoteNodeListener.terminate();
+            return;
         }
         newRemoteNodeListener.start();
 
+        callback.onCreateNewNetSuccess();
     }
 
     public void registerListOfNodesViewer(ControllerGUIInterface.ListOfNodesViewer listOfNodesViewer) {
@@ -57,17 +73,21 @@ public class FrameworkController {
 
         Properties.setWorkspaceDirectory(workspaceDirectory);
 
-        connectToNetByIPCallback = callback; // todo do weryfikacji
+        connectToNetByIPCallback = callback;
 
         try {
             password = PasswordHasher.hash(password);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+            callback.onConnectToNetByIPFailure();
+            return;
         }
+
         PasswordRepository.setPassword(password);
         String finalPassword = password;
         CompletableFuture.supplyAsync(() -> LayersFactory.initLayersOfNewRemoteNode(ip))
-                .thenAccept(t -> t.connectToNetByIp(finalPassword)).thenAccept(t -> callback.onConnectToNetByIPSucces())
+                .thenApply(t -> t.connectToNetByIp(finalPassword))
+                .thenAccept((r) -> connectToNetByIPCallback.onConnectToNetByIPSucces())
                 .exceptionally((t) -> {
                     callback.onConnectToNetByIPFailure();
                     return null;
@@ -77,7 +97,7 @@ public class FrameworkController {
     public void getListOfFilesInNet(ControllerGUIInterface.ListOfFilesCallback callback) {
         this.listOfFilesCallback = callback;
         RemoteFileListRepository.getInstance().onNewFilesInNetRequest();
-        //todo
+
         CompletableFuture.supplyAsync(() -> {
             RemoteNodesRepository.getRemoteNodes().forEach(SenderInterface::requestForFileList);
             return null;
@@ -91,7 +111,13 @@ public class FrameworkController {
 
         CompletableFuture.supplyAsync(() -> DownloadManager.getInstance().addFileDownload(fileName, fileHash))
         .exceptionally(t -> {
-            t.printStackTrace();
+            if (t instanceof UnavailableFileToDownloadException) {
+                this.fileDownloadingCallback.onFileNoLongerAvailable(((UnavailableFileToDownloadException) t).getFileName());
+            } else if (t instanceof SavingDownloadedFileException) {
+                this.fileDownloadingCallback.onSavingDownloadingFileError(((SavingDownloadedFileException) t).getFileName());
+            } else {
+              t.printStackTrace();
+            }
             return null;
         });
     }

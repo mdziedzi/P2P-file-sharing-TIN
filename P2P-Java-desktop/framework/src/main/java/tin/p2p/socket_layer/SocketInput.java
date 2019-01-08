@@ -31,7 +31,6 @@ public class SocketInput implements Input{
     public byte getNextByte() throws IOException {
         DataInputStream dis = new DataInputStream(socket.getInputStream());
         byte input = dis.readByte();
-        //TODO obsługa little endian
 
         log.info("getNextByte: " + input);
 

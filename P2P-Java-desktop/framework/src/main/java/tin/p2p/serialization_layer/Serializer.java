@@ -42,7 +42,6 @@ public class Serializer implements Output{
         int nRecords = ips.size();
         int dataArrayLenght = OPCODE_LENGTH + N_RECORDS_LENGTH + nRecords * RECORD_LENGTH;
         ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
-//        byteBuffer.order(ByteOrder.LITTLE_ENDIAN); // todo: przemyslec to
         byteBuffer.put(OPCODE_LIST_OD_KNOWN_NODES);
         byteBuffer.putInt(nRecords);
         for (int i = 0; i < nRecords; i++) {
@@ -73,7 +72,6 @@ public class Serializer implements Output{
         int nRecords = fileList.size();
         int dataArrayLenght = OPCODE_LENGTH + N_RECORDS_LENGTH + (nRecords * (FILE_NAME_LENGTH + FILE_HASH_LENGTH + FILE_LIST_FILE_SIZE_LENGTH));
         ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
-//        byteBuffer.order(ByteOrder.LITTLE_ENDIAN); // todo: przemyslec to
         byteBuffer.put(OPCODE_LIST_OF_FILES);
         byteBuffer.putInt(nRecords);
 
@@ -162,6 +160,16 @@ public class Serializer implements Output{
         ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
         byteBuffer.put(OPCODE_SALT_FOR_HASH_IN_THE_SAME_NET);
         byteBuffer.putInt(salt);
+        output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
+    }
+
+    @Override
+    public void sendNoSuchFileMessage(String fileHash, Long fileOffset) {
+        int dataArrayLenght = OPCODE_LENGTH + FILE_OFFSET_LENGTH + HASH_LENGTH;
+        ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
+        byteBuffer.put(OPCODE_DON_NOT_HAVE_FILE);
+        byteBuffer.putLong(fileOffset);
+        byteBuffer.put(fileHash.getBytes(StandardCharsets.US_ASCII));
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }
 

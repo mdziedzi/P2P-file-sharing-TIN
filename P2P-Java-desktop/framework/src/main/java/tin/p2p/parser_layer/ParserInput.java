@@ -1,6 +1,5 @@
 package tin.p2p.parser_layer;
 
-import tin.p2p.utils.Constants;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -46,48 +45,50 @@ public class ParserInput extends Thread implements Input{
                 return;
             }
             switch (opcode) {
-                case Constants.OPCODE_WANT_TO_JOIN_INIT:
+                case OPCODE_WANT_TO_JOIN_INIT:
                     getRestData(opcode, HASH_LENGTH);
                     break;
-                case Constants.OPCODE_PASS_RESPONSE:
+                case OPCODE_PASS_RESPONSE:
                     getRestData(opcode, OPCODE_PASS_RESPONSE_LENGTH);
                     break;
-                case Constants.OPCODE_LIST_OD_KNOWN_NODES:
+                case OPCODE_LIST_OD_KNOWN_NODES:
                     readListOfKnownNodes(opcode, N_RECORDS_LENGTH);
                     break;
-                case Constants.OPCODE_WANT_TO_JOIN:
+                case OPCODE_WANT_TO_JOIN:
                     getRestData(opcode, HASH_LENGTH);
                     break;
-                case Constants.OPCODE_FILE_LIST_REQUEST:
+                case OPCODE_FILE_LIST_REQUEST:
                     getRestData(opcode, 0);
                     break;
-                case Constants.OPCODE_LIST_OF_FILES:
+                case OPCODE_LIST_OF_FILES:
                     readListOfFiles(opcode, N_RECORDS_LENGTH);
                     break;
-                case Constants.OPCODE_FILE_FRAGMENT_REQUEST:
+                case OPCODE_FILE_FRAGMENT_REQUEST:
                     getRestData(opcode, FILE_OFFSET_LENGTH + FILE_HASH_LENGTH);
                     break;
-                case Constants.OPCODE_FILE_FRAGMENT:
+                case OPCODE_FILE_FRAGMENT:
                     readFileFragment(opcode);
                     break;
-                case Constants.OPCODE_NOT_AUTHORIZED:
+                case OPCODE_NOT_AUTHORIZED:
                     getRestData(opcode, 0);
                     break;
-                case Constants.OPCODE_REQUEST_FOR_SALT:
+                case OPCODE_REQUEST_FOR_SALT:
                     getRestData(opcode, 0);
                     break;
-                case Constants.OPCODE_REQUEST_FOR_SALT_IN_THE_SAME_NET:
+                case OPCODE_REQUEST_FOR_SALT_IN_THE_SAME_NET:
                     getRestData(opcode, 0);
                     break;
-                case Constants.OPCODE_SALT_FOR_HASH:
+                case OPCODE_SALT_FOR_HASH:
                     getRestData(opcode, SALT_LENGTH);
                     break;
-                case Constants.OPCODE_SALT_FOR_HASH_IN_THE_SAME_NET:
+                case OPCODE_SALT_FOR_HASH_IN_THE_SAME_NET:
                     getRestData(opcode, SALT_LENGTH);
                     break;
-
+                case OPCODE_DON_NOT_HAVE_FILE:
+                    getRestData(opcode, FILE_OFFSET_LENGTH + HASH_LENGTH);
+                    break;
                 default:
-                    //todo: co z reszta danych (wypisuje sie 2 razy)
+                    //todo: co z reszta danych, trzeba wyczyścić
                     log.warning("Unknown opcode");
 
             }
