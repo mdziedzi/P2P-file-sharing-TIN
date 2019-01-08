@@ -27,5 +27,10 @@ public interface Output {
 
     void requestForSalt();
 
+    void requestForSaltForConnectionInTheSameNet();
+
     void sendSalt(int salt);
+
+    void sendSaltForConnectionInTheSameNet(int salt);
+
 }

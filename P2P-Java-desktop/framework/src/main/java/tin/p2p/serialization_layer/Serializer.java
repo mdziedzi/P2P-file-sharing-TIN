@@ -141,10 +141,26 @@ public class Serializer implements Output{
     }
 
     @Override
+    public void requestForSaltForConnectionInTheSameNet() {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(OPCODE_LENGTH);
+        byteBuffer.put(OPCODE_REQUEST_FOR_SALT_IN_THE_SAME_NET);
+        output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
+    }
+
+    @Override
     public void sendSalt(int salt) {
         int dataArrayLenght = OPCODE_LENGTH + SALT_LENGTH;
         ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
         byteBuffer.put(OPCODE_SALT_FOR_HASH);
+        byteBuffer.putInt(salt);
+        output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
+    }
+
+    @Override
+    public void sendSaltForConnectionInTheSameNet(int salt) {
+        int dataArrayLenght = OPCODE_LENGTH + SALT_LENGTH;
+        ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
+        byteBuffer.put(OPCODE_SALT_FOR_HASH_IN_THE_SAME_NET);
         byteBuffer.putInt(salt);
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }

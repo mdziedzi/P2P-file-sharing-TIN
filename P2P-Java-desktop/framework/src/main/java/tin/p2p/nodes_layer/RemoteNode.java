@@ -21,7 +21,6 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     private boolean isAuthorized = false;
     private int salt;
-    private String hashedPassword;
 
     public RemoteNode(Output output, String ip, boolean isConnectingToUs) {
         if (!isConnectingToUs) {
@@ -55,7 +54,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     @Override
     public void connectToRemoteNodeOfTheSameNet() {
-        output.sendPasswordToRemoteNodeOfTheSameNet(PasswordRepository.getPassword());
+        output.requestForSaltForConnectionInTheSameNet();
     }
 
     @Override
@@ -180,7 +179,6 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
     @Override
     public Void connectToNetByIp(String passwordHash) {
-        hashedPassword = passwordHash; // todo verify
         output.requestForSalt();
         return null;
     }
@@ -226,8 +224,19 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     }
 
     @Override
+    public void onRequestForSaltInTheSameNetReceiver() {
+        assignSalt();
+        output.sendSaltForConnectionInTheSameNet(salt);
+    }
+
+    @Override
     public void onSaltReceived(int receivedSalt) {
-        authenticateMyself(hashContent(mergePasswordWithSalt(hashedPassword, receivedSalt)));
+        authenticateMyself(hashContent(mergePasswordWithSalt(PasswordRepository.getPassword(), receivedSalt)));
+    }
+
+    @Override
+    public void onSaltInTheSameNetReceived(int receivedSalt) {
+        output.sendPasswordToRemoteNodeOfTheSameNet(hashContent(mergePasswordWithSalt(PasswordRepository.getPassword(), receivedSalt)));
     }
 
     private String hashContent(String s) {

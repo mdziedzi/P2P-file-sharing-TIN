@@ -28,6 +28,10 @@ public interface ReceiverInterface {
 
     void onRequestForSaltReceiver();
 
+    void onRequestForSaltInTheSameNetReceiver();
+
     void onSaltReceived(int salt);
+
+    void onSaltInTheSameNetReceived(int salt);
 }
 

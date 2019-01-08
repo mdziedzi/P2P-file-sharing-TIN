@@ -69,9 +69,16 @@ public class Deserializer implements Input{
             case OPCODE_REQUEST_FOR_SALT:
                 receiver.onRequestForSaltReceiver();
                 break;
+            case OPCODE_REQUEST_FOR_SALT_IN_THE_SAME_NET:
+                receiver.onRequestForSaltInTheSameNetReceiver();
+                break;
             case OPCODE_SALT_FOR_HASH:
                 data = ByteBuffer.wrap(inputData);
                 receiver.onSaltReceived(unpackSalt(data));
+                break;
+            case OPCODE_SALT_FOR_HASH_IN_THE_SAME_NET:
+                data = ByteBuffer.wrap(inputData);
+                receiver.onSaltInTheSameNetReceived(unpackSalt(data));
                 break;
             default:
                 log.warning("Deserializer: bad opcode!");
