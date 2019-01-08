@@ -5,6 +5,7 @@ import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.serialization_layer.Output;
 
 import java.nio.ByteBuffer;
+import java.nio.file.NoSuchFileException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -149,10 +150,17 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     public void onFileFragmentRequest(String fileHash, Long fileOffset) {
         if (isAuthorized) {
 
-            //todo
             log.info("onFileFragmentRequest:: FileHash: " + fileHash + "\tFileOffset: " + fileOffset.toString());
-            output.sendFileFragment(fileHash, fileOffset,
-                    LocalFileListRepository.getInstance().getFileFragment(fileHash, fileOffset));
+
+            ByteBuffer fileFragmentData = null;
+            try {
+                fileFragmentData = LocalFileListRepository.getInstance().getFileFragment(fileHash, fileOffset);
+            } catch (NoSuchFileException e) {
+                output.sendNoSuchFileMessage(fileHash, fileOffset);
+                return;
+            }
+
+            output.sendFileFragment(fileHash, fileOffset, fileFragmentData);
         } else {
             log.warning("NOT AUTHORIZED");
             output.sendNotAuthorizedMsg();
@@ -235,6 +243,12 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     @Override
     public void onSaltInTheSameNetReceived(int receivedSalt) {
         output.sendPasswordToRemoteNodeOfTheSameNet(hashContent(mergePasswordWithSalt(PasswordRepository.getPassword(), receivedSalt)));
+    }
+
+    @Override
+    public void onDontHaveSuchFile(String fileHash, Long offset) {
+        // todo przekazac do FileDownloadManagera, bez tego tez dziala tylko taki fragment pliku zostanie pobrany na koniec
+        // może wyrejestrować danego node'a z posiadania takiego pliku
     }
 
     private String hashContent(String s) {

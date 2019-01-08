@@ -27,7 +27,7 @@ public class LocalFileListRepository {
         return instance;
     }
 
-    public  ByteBuffer getFileFragment(String fileHash, Long fileOffset) {
+    public  ByteBuffer getFileFragment(String fileHash, Long fileOffset) throws NoSuchFileException {
         File workspaceFolder = Properties.getWorkspaceDirectory();
 
         if (workspaceFolder != null && workspaceFolder.isDirectory()) {
@@ -47,23 +47,23 @@ public class LocalFileListRepository {
                         try {
                             file = new RandomAccessFile(foundFile.get(), "r");
                         } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+                            throw new NoSuchFileException(fileHash);
                         }
                         try {
                             file.seek(fileOffset);
                             file.read(byteBuffer.array(), 0, byteBuffer.array().length);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            throw new NoSuchFileException(fileHash);
                         }
                         return byteBuffer;
 
+                    } else {
+                        throw new NoSuchFileException(fileHash);
                     }
                 }
             }
         }
-
-
-        return null;
+        throw new NoSuchFileException(fileHash);
     }
 
     public ArrayList<ArrayList<String>> getFileList() {
@@ -88,7 +88,7 @@ public class LocalFileListRepository {
         File workspaceFolder = Properties.getWorkspaceDirectory();
 
         if (workspaceFolder != null && workspaceFolder.isDirectory()) {
-            List<File> filesInDirectory = Arrays.asList(Objects.requireNonNull(workspaceFolder.listFiles())); // todo obsługa jeżeli null
+            List<File> filesInDirectory = Arrays.asList(Objects.requireNonNull(workspaceFolder.listFiles()));
 
             filesInDirectory.stream().filter(File::isFile).forEach(this::addToFilesList);
         }

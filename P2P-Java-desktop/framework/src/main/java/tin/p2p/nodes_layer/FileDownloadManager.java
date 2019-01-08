@@ -1,6 +1,8 @@
 package tin.p2p.nodes_layer;
 
+import tin.p2p.exceptions.SavingDownloadedFileException;
 import tin.p2p.utils.Pair;
+import tin.p2p.utils.Properties;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,7 +28,7 @@ public class FileDownloadManager extends Thread {
     private Queue<Pair<Long, ByteBuffer>> receivedFileFragments = new ConcurrentLinkedQueue<>();
 
 
-    public FileDownloadManager(String fileName, String fileHash, Long fileSize, DownloadManager downloadManager) {
+    public FileDownloadManager(String fileName, String fileHash, Long fileSize, DownloadManager downloadManager) throws SavingDownloadedFileException{
         this.downloadManager = downloadManager;
         this.fileHash = fileHash;
         this.fileName = fileName;
@@ -38,19 +40,20 @@ public class FileDownloadManager extends Thread {
         } while (offset < fileSize);
 
         try {
-            randomAccessFile = new RandomAccessFile(fileName, "rws");
+            randomAccessFile = new RandomAccessFile(Properties.getWorkspaceDirectory().getCanonicalPath() + "/" + fileName, "rw");
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new SavingDownloadedFileException(e, fileName);
+        } catch (IOException e) {
+            throw new SavingDownloadedFileException(e, fileName);
         }
     }
 
     @Override
-    public void run() {
+    public void run() throws SavingDownloadedFileException {
         while (running) {
             Pair<Long, ByteBuffer> receivedFragment = receivedFileFragments.poll();
 
-            //todo
-            Collection<FileFragmentInfo> nFragmentsToDownload = findNFragmentsToDownload(5);
+            Collection<FileFragmentInfo> nFragmentsToDownload = findNFragmentsToDownload(3);
 
             nFragmentsToDownload.forEach(fragmentInfo -> {
                 downloadManager.onNewFileFragmentNeeded(fileHash, fragmentInfo.getOffset());
@@ -98,7 +101,7 @@ public class FileDownloadManager extends Thread {
             randomAccessFile.seek(fragmentInfo.getOffset());
             randomAccessFile.write(fileFragmentData.array(), 0, fileFragmentData.array().length);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SavingDownloadedFileException(e, fileName);
         }
     }
 

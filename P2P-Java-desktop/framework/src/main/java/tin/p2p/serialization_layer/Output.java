@@ -33,4 +33,5 @@ public interface Output {
 
     void sendSaltForConnectionInTheSameNet(int salt);
 
+    void sendNoSuchFileMessage(String fileHash, Long fileOffset);
 }

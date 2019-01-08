@@ -1,11 +1,16 @@
 package tin.p2p.nodes_layer;
 
+import tin.p2p.controller_layer.FrameworkController;
+import tin.p2p.exceptions.SavingDownloadedFileException;
 import tin.p2p.exceptions.UnavailableFileToDownloadException;
 import tin.p2p.utils.Pair;
 import tin.p2p.utils.Triple;
 
 import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class DownloadManager extends Thread {
@@ -29,7 +34,7 @@ public class DownloadManager extends Thread {
         return instance;
     }
 
-    public Void addFileDownload(String fileName, String fileHash) throws UnavailableFileToDownloadException {
+    public Void addFileDownload(String fileName, String fileHash) throws UnavailableFileToDownloadException, SavingDownloadedFileException {
         FileDTO fileInfo = RemoteFileListRepository.getInstance().getFileInfoByHash(fileHash);
         if (fileInfo != null) {
             if (filesDownloading.get(fileHash) == null) {

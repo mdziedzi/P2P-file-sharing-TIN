@@ -2,8 +2,8 @@ package tin.p2p.controller_layer;
 
 import tin.p2p.exceptions.AppPortTakenException;
 import tin.p2p.exceptions.CreatingNetException;
+import tin.p2p.exceptions.SavingDownloadedFileException;
 import tin.p2p.exceptions.UnavailableFileToDownloadException;
-import tin.p2p.exceptions.UnsuccessfulConnectionException;
 import tin.p2p.layers_factory.LayersFactory;
 import tin.p2p.nodes_layer.*;
 import tin.p2p.utils.Properties;
@@ -113,8 +113,10 @@ public class FrameworkController {
         .exceptionally(t -> {
             if (t instanceof UnavailableFileToDownloadException) {
                 this.fileDownloadingCallback.onFileNoLongerAvailable(((UnavailableFileToDownloadException) t).getFileName());
+            } else if (t instanceof SavingDownloadedFileException) {
+                this.fileDownloadingCallback.onSavingDownloadingFileError(((SavingDownloadedFileException) t).getFileName());
             } else {
-                t.printStackTrace();
+              t.printStackTrace();
             }
             return null;
         });

@@ -33,5 +33,7 @@ public interface ReceiverInterface {
     void onSaltReceived(int salt);
 
     void onSaltInTheSameNetReceived(int salt);
+
+    void onDontHaveSuchFile(String fileHash, Long offset);
 }
 

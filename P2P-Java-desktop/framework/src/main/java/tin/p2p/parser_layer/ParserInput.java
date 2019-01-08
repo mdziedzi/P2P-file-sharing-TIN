@@ -84,7 +84,9 @@ public class ParserInput extends Thread implements Input{
                 case OPCODE_SALT_FOR_HASH_IN_THE_SAME_NET:
                     getRestData(opcode, SALT_LENGTH);
                     break;
-
+                case OPCODE_DON_NOT_HAVE_FILE:
+                    getRestData(opcode, FILE_OFFSET_LENGTH + HASH_LENGTH);
+                    break;
                 default:
                     //todo: co z reszta danych, trzeba wyczyścić
                     log.warning("Unknown opcode");

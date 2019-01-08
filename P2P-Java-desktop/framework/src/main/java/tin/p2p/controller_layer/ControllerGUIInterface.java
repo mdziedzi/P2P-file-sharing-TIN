@@ -75,6 +75,8 @@ public interface ControllerGUIInterface {
         void onFileDownloaded(String fileName);
 
         void onFileNoLongerAvailable(String fileName);
+
+        void onSavingDownloadingFileError(String fileName);
     }
 
 }
