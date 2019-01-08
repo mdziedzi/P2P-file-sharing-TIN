@@ -73,7 +73,8 @@ public class LayersFactory {
         } catch (IOException e) {
             throw new CreatingNetException(e);
         }
-        return new NewRemoteNodeListener(newConnectInput);
+        NewRemoteNodeListener newRemoteNodeListener = new NewRemoteNodeListener(newConnectInput);
+        return newRemoteNodeListener;
     }
 
     public static void initLayersOfNewRemoteNode(Socket socket, String ip) {

@@ -22,12 +22,15 @@ public class Deserializer implements Input{
     }
 
     @Override
-    public void deserialize(byte opcode, ByteBuffer data) {
+    public void deserialize(byte opcode, byte[] inputData) {
+        ByteBuffer data;
         switch (opcode) {
             case OPCODE_WANT_TO_JOIN_INIT:
+                data = ByteBuffer.wrap(inputData);
                 receiver.onNewParticipantPasswordReceived(decode(data));
                 break;
             case OPCODE_PASS_RESPONSE:
+                data = ByteBuffer.wrap(inputData);
                 if (data.get() != 0) {
                     receiver.onPasswordCorrect();
                 } else {
@@ -35,22 +38,27 @@ public class Deserializer implements Input{
                 }
                 break;
             case OPCODE_LIST_OD_KNOWN_NODES:
+                data = ByteBuffer.wrap(inputData);
                 receiver.onNodeListReceived(unpackListOfKnownNodes(data));
                 break;
             case OPCODE_WANT_TO_JOIN:
+                data = ByteBuffer.wrap(inputData);
                 receiver.onNewPasswordReceived(decode(data));
                 break;
             case OPCODE_FILE_LIST_REQUEST:
                 receiver.onFileListRequest();
                 break;
             case OPCODE_LIST_OF_FILES:
+                data = ByteBuffer.wrap(inputData);
                 receiver.onFileListReceived(unpackListOfFiles(data));
                 break;
             case OPCODE_FILE_FRAGMENT_REQUEST:
+                data = ByteBuffer.wrap(inputData);
                 Pair<String, Long> fileHashAndOffset = decodeRequestedFileFragmentInfo(data);
                 receiver.onFileFragmentRequest(fileHashAndOffset.getLeft(), fileHashAndOffset.getRight());
                 break;
             case OPCODE_FILE_FRAGMENT:
+                data = ByteBuffer.wrap(inputData);
                 Triple<String, Long, ByteBuffer> decodedPackage = decodeReceivedFileFragment(data);
 
                 receiver.onFileFragmentReceived(decodedPackage.getLeft(), decodedPackage.getMiddle(), decodedPackage.getRight());
@@ -65,12 +73,15 @@ public class Deserializer implements Input{
                 receiver.onRequestForSaltInTheSameNetReceiver();
                 break;
             case OPCODE_SALT_FOR_HASH:
+                data = ByteBuffer.wrap(inputData);
                 receiver.onSaltReceived(unpackSalt(data));
                 break;
             case OPCODE_SALT_FOR_HASH_IN_THE_SAME_NET:
+                data = ByteBuffer.wrap(inputData);
                 receiver.onSaltInTheSameNetReceived(unpackSalt(data));
                 break;
             case OPCODE_DON_NOT_HAVE_FILE:
+                data = ByteBuffer.wrap(inputData);
                 Pair<String, Long> hashAndOffset = decodeRequestedFileFragmentInfo(data);
                 receiver.onDontHaveSuchFile(hashAndOffset.getLeft(), hashAndOffset.getRight());
                 break;

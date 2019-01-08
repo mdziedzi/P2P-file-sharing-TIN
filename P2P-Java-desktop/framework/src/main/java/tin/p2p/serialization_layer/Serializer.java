@@ -44,8 +44,8 @@ public class Serializer implements Output{
         ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
         byteBuffer.put(OPCODE_LIST_OD_KNOWN_NODES);
         byteBuffer.putInt(nRecords);
-        for (Integer ip : ips) {
-            byteBuffer.putInt(ip);
+        for (int i = 0; i < nRecords; i++) {
+            byteBuffer.putInt(ips.get(i));
         }
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }
@@ -61,7 +61,8 @@ public class Serializer implements Output{
 
     @Override
     public void requestForFileList() {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(OPCODE_LENGTH);
+        int dataArrayLenght = OPCODE_LENGTH;
+        ByteBuffer byteBuffer = ByteBuffer.allocate(dataArrayLenght);
         byteBuffer.put(OPCODE_FILE_LIST_REQUEST);
         output.addSendableObjectToQueue(new ObjectToSend(byteBuffer.array()));
     }
@@ -75,16 +76,17 @@ public class Serializer implements Output{
         byteBuffer.putInt(nRecords);
 
         log.info("Serialize list of files: nRecords:" + nRecords);
-        fileList.forEach(strings -> log.info("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2)));
-
-        for (ArrayList<String> aFileList : fileList) {
+        fileList.forEach(strings -> {
+            log.info("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
+        });
+        for (int i = 0; i < nRecords; i++) {
             ByteBuffer tmpBufferFileName = ByteBuffer.allocate(FILE_NAME_LENGTH);
             ByteBuffer tmpBufferHashName = ByteBuffer.allocate(FILE_HASH_LENGTH);
             ByteBuffer tmpBufferFileSize = ByteBuffer.allocate(FILE_LIST_FILE_SIZE_LENGTH);
 
-            tmpBufferFileName.put(aFileList.get(0).getBytes(StandardCharsets.US_ASCII));
-            tmpBufferHashName.put(aFileList.get(1).getBytes(StandardCharsets.US_ASCII));
-            tmpBufferFileSize.putLong(Long.valueOf(aFileList.get(2)));
+            tmpBufferFileName.put(fileList.get(i).get(0).getBytes(StandardCharsets.US_ASCII));
+            tmpBufferHashName.put(fileList.get(i).get(1).getBytes(StandardCharsets.US_ASCII));
+            tmpBufferFileSize.putLong(Long.valueOf(fileList.get(i).get(2)));
 
             byteBuffer.put(tmpBufferFileName.array());
             byteBuffer.put(tmpBufferHashName.array());

@@ -18,11 +18,11 @@ public class DownloadManager extends Thread {
 
     private volatile boolean running = true;
 
-    private final HashMap<String, FileDownloadManager> filesDownloading = new HashMap<>();
+    private HashMap<String, FileDownloadManager> filesDownloading = new HashMap<>();
 
-    private final Queue<Triple<String, Long, ByteBuffer>> receivedFilesFragment = new ConcurrentLinkedQueue<>();
+    private Queue<Triple<String, Long, ByteBuffer>> receivedFilesFragment = new ConcurrentLinkedQueue<>();
 
-    private final Queue<Pair<String, Long>> requestsToSend = new ConcurrentLinkedQueue<>();
+    private Queue<Pair<String, Long>> requestsToSend = new ConcurrentLinkedQueue<>();
 
 
     private DownloadManager() {}
