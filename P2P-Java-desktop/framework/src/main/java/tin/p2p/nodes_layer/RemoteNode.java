@@ -7,6 +7,7 @@ import tin.p2p.serialization_layer.Output;
 import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
@@ -178,8 +179,8 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     }
 
     @Override
-    public Void connectToNetByIp(String password) {
-        hashedPassword = password; // todo verify
+    public Void connectToNetByIp(String passwordHash) {
+        hashedPassword = passwordHash; // todo verify
         output.requestForSalt();
         return null;
     }
@@ -244,9 +245,8 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     }
 
     private void assignSalt() {
-        int max = Integer.MAX_VALUE;
-        int min = Integer.MIN_VALUE;
-        salt = min + (int) (Math.random() * ((max - min) + 1));
+        Random rand = new Random();
+        salt = rand.nextInt();
     }
 
 
