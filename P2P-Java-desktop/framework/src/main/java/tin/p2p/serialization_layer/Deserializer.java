@@ -1,10 +1,10 @@
 package tin.p2p.serialization_layer;
 
 
-import tin.p2p.utils.Triple;
 import tin.p2p.nodes_layer.ReceiverInterface;
 import tin.p2p.nodes_layer.RemoteNode;
 import tin.p2p.utils.Pair;
+import tin.p2p.utils.Triple;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -80,6 +80,11 @@ public class Deserializer implements Input{
                 data = ByteBuffer.wrap(inputData);
                 receiver.onSaltInTheSameNetReceived(unpackSalt(data));
                 break;
+            case OPCODE_DON_NOT_HAVE_FILE:
+                data = ByteBuffer.wrap(inputData);
+                Pair<String, Long> hashAndOffset = decodeRequestedFileFragmentInfo(data);
+                receiver.onDontHaveSuchFile(hashAndOffset.getLeft(), hashAndOffset.getRight());
+                break;
             default:
                 log.warning("Deserializer: bad opcode!");
         }
@@ -151,7 +156,6 @@ public class Deserializer implements Input{
         return ipsInString;
     }
 
-    // pdk
     private String translateToString(Integer i) {
         return ((i >> 24) & 0xFF) + "." +
                 ((i >> 16) & 0xFF) + "." +

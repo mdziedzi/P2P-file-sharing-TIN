@@ -50,11 +50,8 @@ public class SocketOutput implements Output{
 
     public void connect(InetSocketAddress address) throws IOException {
         Socket socket = new Socket();
-//        SocketAddress socketAddress = new InetSocketAddress(address, Constants.MAIN_APP_PORT);
         socket.connect(address);
         this.socket = socket;
-
-//        SocketRepository.getInstance().setSocket(socket);
 
     }
 }

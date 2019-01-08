@@ -19,6 +19,7 @@ public interface ControllerGUIInterface {
          */
         void onCreateNewNetFailure();
 
+        void onApplicationMainPortUsed();
     }
 
     /**
@@ -72,6 +73,10 @@ public interface ControllerGUIInterface {
 
     interface FileDownloadingCallback {
         void onFileDownloaded(String fileName);
+
+        void onFileNoLongerAvailable(String fileName);
+
+        void onSavingDownloadingFileError(String fileName);
     }
 
 }

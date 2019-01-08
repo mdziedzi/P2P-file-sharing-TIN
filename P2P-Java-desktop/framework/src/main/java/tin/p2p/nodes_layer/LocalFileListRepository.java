@@ -4,7 +4,7 @@ import tin.p2p.utils.Properties;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-import java.security.DigestInputStream;
+import java.nio.file.NoSuchFileException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -20,9 +20,6 @@ public class LocalFileListRepository {
     private static final LocalFileListRepository instance = new LocalFileListRepository();
     private ConcurrentSkipListSet<FileDTO> fileList = new ConcurrentSkipListSet<>();
 
-    private File workspaceFolder; // todo init na początku
-
-
     private LocalFileListRepository() {
     }
 
@@ -30,7 +27,7 @@ public class LocalFileListRepository {
         return instance;
     }
 
-    public  ByteBuffer getFileFragment(String fileHash, Long fileOffset) {
+    public  ByteBuffer getFileFragment(String fileHash, Long fileOffset) throws NoSuchFileException {
         File workspaceFolder = Properties.getWorkspaceDirectory();
 
         if (workspaceFolder != null && workspaceFolder.isDirectory()) {
@@ -50,23 +47,23 @@ public class LocalFileListRepository {
                         try {
                             file = new RandomAccessFile(foundFile.get(), "r");
                         } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+                            throw new NoSuchFileException(fileHash);
                         }
                         try {
                             file.seek(fileOffset);
                             file.read(byteBuffer.array(), 0, byteBuffer.array().length);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            throw new NoSuchFileException(fileHash);
                         }
                         return byteBuffer;
 
+                    } else {
+                        throw new NoSuchFileException(fileHash);
                     }
                 }
             }
         }
-
-
-        return null;
+        throw new NoSuchFileException(fileHash);
     }
 
     public ArrayList<ArrayList<String>> getFileList() {
@@ -91,7 +88,7 @@ public class LocalFileListRepository {
         File workspaceFolder = Properties.getWorkspaceDirectory();
 
         if (workspaceFolder != null && workspaceFolder.isDirectory()) {
-            List<File> filesInDirectory = Arrays.asList(Objects.requireNonNull(workspaceFolder.listFiles())); // todo obsługa jeżeli null
+            List<File> filesInDirectory = Arrays.asList(Objects.requireNonNull(workspaceFolder.listFiles()));
 
             filesInDirectory.stream().filter(File::isFile).forEach(this::addToFilesList);
         }

@@ -10,7 +10,6 @@ public class File {
     private Long size;
 
     public File(ArrayList<String> fileParams) {
-        // todo obsługa błędu gdy nie wszystkie 4 pola są dostępne
         this.name = fileParams.get(0);
         this.hash = fileParams.get(1);
         this.size = Long.valueOf(fileParams.get(2));

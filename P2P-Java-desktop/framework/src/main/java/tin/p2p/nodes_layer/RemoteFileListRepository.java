@@ -3,9 +3,7 @@ package tin.p2p.nodes_layer;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.logging.Logger;
 
 public class RemoteFileListRepository {
@@ -25,13 +23,6 @@ public class RemoteFileListRepository {
     public FileDTO getFileInfoByHash(String fileHash) {
         return files.get(fileHash);
     }
-
-    // todo uaktaulniać listę
-
-//    public ArrayList<> getFileList() {
-//        return new ArrayList<>(fileList);
-//    } // todo
-
 
     public Collection<FileDTO> getFileList() {
         return files.values();
@@ -57,7 +48,7 @@ public class RemoteFileListRepository {
         return stringFileList;
     }
 
-    private void addFile(ArrayList<String> fileParams, RemoteNode remoteNode) { //todo
+    private void addFile(ArrayList<String> fileParams, RemoteNode remoteNode) {
         FileDTO file = files.get(fileParams.get(1));
         if (file == null) {
             files.put(fileParams.get(1), new FileDTO(fileParams, remoteNode));

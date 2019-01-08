@@ -165,4 +165,14 @@ public class ControllerGUI implements
     public void onFileDownloaded(String fileName) {
         System.out.println("\n\nFile downloaded: " + fileName);
     }
+
+    @Override
+    public void onFileNoLongerAvailable(String fileName) {
+        System.out.println("\n\nFile no longer available: " + fileName );
+    }
+
+    @Override
+    public void onSavingDownloadingFileError(String fileName) {
+        System.out.println("\n\nError during saving file: " + fileName );
+    }
 }
