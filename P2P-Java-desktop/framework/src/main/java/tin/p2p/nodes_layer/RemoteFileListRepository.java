@@ -37,6 +37,26 @@ public class RemoteFileListRepository {
         return files.values();
     }
 
+    public ArrayList<ArrayList<String>> getFileListRaw() {
+        ArrayList<ArrayList<String>> stringFileList = new ArrayList<>();
+
+        files.values().forEach(fileDTO -> {
+            ArrayList<String> tmp = new ArrayList<>();
+            tmp.add(fileDTO.getName());
+            tmp.add(fileDTO.getHash());
+            tmp.add(fileDTO.getSize().toString());
+            StringBuilder sb = new StringBuilder();
+            fileDTO.getRemoteNodes().forEach(remoteNode -> {
+                sb.append(remoteNode.getIp());
+                sb.append(" ");
+            });
+            tmp.add(sb.toString());
+            stringFileList.add(tmp);
+        });
+
+        return stringFileList;
+    }
+
     private void addFile(ArrayList<String> fileParams, RemoteNode remoteNode) { //todo
         FileDTO file = files.get(fileParams.get(1));
         if (file == null) {
@@ -48,5 +68,9 @@ public class RemoteFileListRepository {
 
     public void addFileList(ArrayList<ArrayList<String>> listOfFiles, RemoteNode remoteNode) {
         listOfFiles.forEach(fileParams -> addFile(fileParams, remoteNode));
+    }
+
+    public void onNewFilesInNetRequest() {
+        files.clear();
     }
 }

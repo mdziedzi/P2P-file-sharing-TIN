@@ -138,7 +138,8 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
 
             RemoteFileListRepository.getInstance().addFileList(listOfFiles, this);
 
-            FrameworkController.getInstance().updateViewOfFilesList(listOfFiles, getIp());
+            FrameworkController.getInstance().updateViewOfFilesList(
+                    RemoteFileListRepository.getInstance().getFileListRaw());
         } else {
             log.warning("NOT AUTHORIZED");
             output.sendNotAuthorizedMsg();

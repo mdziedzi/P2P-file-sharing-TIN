@@ -5,24 +5,24 @@ import java.util.Collection;
 
 public class File {
     private String name;
-    private Collection<String> ips = new ArrayList<>();
+    private String owners;
     private String hash;
     private Long size;
 
-    public File(ArrayList<String> fileParams, String filesOwner) {
+    public File(ArrayList<String> fileParams) {
         // todo obsługa błędu gdy nie wszystkie 4 pola są dostępne
         this.name = fileParams.get(0);
         this.hash = fileParams.get(1);
         this.size = Long.valueOf(fileParams.get(2));
-        this.ips.add(filesOwner);
+        this.owners = fileParams.get(3);
     }
 
     public String getName() {
         return name;
     }
 
-    public Collection<String> getIps() {
-        return ips;
+    public String getOwners() {
+        return owners;
     }
 
     public String getHash() {
@@ -33,15 +33,11 @@ public class File {
         return size;
     }
 
-    public void addOwner(String owner) {
-        ips.add(owner);
-    }
-
     @Override
     public String toString() {
         return "File{" +
                 "name='" + name + '\'' +
-                ", ips='" + ips.toString() + '\'' +
+                ", owners='" + owners.toString() + '\'' +
                 ", hash='" + hash + '\'' +
                 ", size='" + size + '\'' +
                 '}';

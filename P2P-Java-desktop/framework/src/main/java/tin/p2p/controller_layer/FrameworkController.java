@@ -76,6 +76,7 @@ public class FrameworkController {
 
     public void getListOfFilesInNet(ControllerGUIInterface.ListOfFilesCallback callback) {
         this.listOfFilesCallback = callback;
+        RemoteFileListRepository.getInstance().onNewFilesInNetRequest();
         //todo
         CompletableFuture.supplyAsync(() -> {
             RemoteNodesRepository.getRemoteNodes().forEach(SenderInterface::requestForFileList);
@@ -112,9 +113,9 @@ public class FrameworkController {
         }
     }
 
-    public void updateViewOfFilesList(ArrayList<ArrayList<String>> listOfFiles, String filesOwner) {
+    public void updateViewOfFilesList(ArrayList<ArrayList<String>> listOfFiles) {
         if(listOfFiles != null)
-            listOfFilesCallback.onListOfFilesReceived(listOfFiles, filesOwner);
+            listOfFilesCallback.onListOfFilesReceived(listOfFiles);
     }
 
     public void wrongPassword() {

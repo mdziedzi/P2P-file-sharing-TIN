@@ -23,7 +23,6 @@ import tin.p2p.controller_layer.FrameworkController;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ControllerGUI implements
         ControllerGUIInterface.ListOfNodesViewer,
@@ -48,7 +47,7 @@ public class ControllerGUI implements
     @FXML
     private TableColumn<File, Long> fileSizeCol;
     @FXML
-    private TableColumn<File, List<String>> fileOwnerCol;
+    private TableColumn<File, String> fileOwnerCol;
     @FXML
     private TableView<File> filesInNetTable;
 
@@ -126,9 +125,9 @@ public class ControllerGUI implements
     }
 
     @Override
-    public void onListOfFilesReceived(ArrayList<ArrayList<String>> filesList, String filesOwner) {
+    public void onListOfFilesReceived(ArrayList<ArrayList<String>> filesList) {
         if (filesList != null)
-            updateFilesTableContent(filesList, filesOwner);
+            updateFilesTableContent(filesList);
     }
 
 
@@ -150,20 +149,14 @@ public class ControllerGUI implements
     }
 
 
-    private void updateFilesTableContent(ArrayList<ArrayList<String>> files, String fileOwner) {
-        files.forEach(fileParams -> {
-            File file = filesInNet.get(fileParams.get(1));
-            if (file == null) {
-                filesInNet.put(fileParams.get(1), new File(fileParams, fileOwner));
-            } else {
-                file.addOwner(fileOwner);
-            }
-        });
+    private void updateFilesTableContent(ArrayList<ArrayList<String>> files) {
+        filesInNet.clear();
+        files.forEach(fileParams -> filesInNet.put(fileParams.get(1), new File(fileParams)));
 
 
         fileNameCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
         fileSizeCol.setCellValueFactory(new PropertyValueFactory<File, Long>("size"));
-        fileOwnerCol.setCellValueFactory(new PropertyValueFactory<File, List<String>>("ips"));
+        fileOwnerCol.setCellValueFactory(new PropertyValueFactory<File, String>("owners"));
 
         filesInNetTable.setItems(FXCollections.observableArrayList(filesInNet.values()));
     }
