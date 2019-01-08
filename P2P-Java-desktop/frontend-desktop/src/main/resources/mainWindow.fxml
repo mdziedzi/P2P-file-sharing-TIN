@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane minHeight="300.0" minWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tin.p2p.controllerGUI.ControllerGUI">
+  <tabs>
+    <Tab text="Pobierane pliki">
+      <content>
+        <AnchorPane minHeight="300.0" minWidth="600.0" prefHeight="300.0" prefWidth="600.0">
+               <children>
+                  <TableView layoutY="27.0" prefHeight="300.0" prefWidth="600.0">
+                    <columns>
+                      <TableColumn prefWidth="28.0" text="#" />
+                      <TableColumn prefWidth="122.0" text="Nazwa" />
+                        <TableColumn prefWidth="75.0" text="Rozmiar" />
+                        <TableColumn prefWidth="145.0" text="Progress" />
+                        <TableColumn prefWidth="106.0" text="Prędkość pobierania" />
+                        <TableColumn prefWidth="123.0" text="Pozostało czasu" />
+                    </columns>
+                  </TableView>
+                  <Button id="changeNetworkBtnId" fx:id="joinNetBtnId" layoutX="84.0" layoutY="2.0" mnemonicParsing="false" onAction="#joinNetBtnClick" prefHeight="25.0" prefWidth="166.0" text="Dołącz do sieci" />
+                  <Button fx:id="newNetBtn" layoutY="2.0" mnemonicParsing="false" onAction="#newNetBtnClick" text="Nowa sieć" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab text="Lista wszystkich plików w sieci">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="filesInNetTable" layoutY="24.0" onMouseClicked="#downloadFile" prefHeight="342.0" prefWidth="600.0">
+                    <columns>
+                      <TableColumn fx:id="fileNameCol" prefWidth="162.0" text="Nazwa" />
+                        <TableColumn fx:id="fileSizeCol" prefWidth="126.0" text="Rozmiar" />
+                        <TableColumn fx:id="fileOwnerCol" prefWidth="240.0" text="Posiadacz" />
+                    </columns>
+                  </TableView>
+                  <Button layoutY="2.0" mnemonicParsing="false" onAction="#onRefreshFilesListRequest" prefHeight="25.0" prefWidth="85.0" text="Odśwież" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab onSelectionChanged="#refreshNodesTable" text="Lista wszystkich użytkowników">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="nodesTable" prefHeight="388.0" prefWidth="600.0">
+                    <columns>
+                        <TableColumn fx:id="nodeIpCol" prefWidth="263.0" text="IP" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tin.p2p.controllerGUI.ConnectToNetController">
+    <children>
+
+        <HBox alignment="CENTER">
+            <children>
+                <Label prefHeight="15.0" prefWidth="105.0" text="IP z sieci" />
+                <TextField fx:id="ipTF" text="127.0.0.1" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="277.0">
+            <children>
+                <Label prefHeight="15.0" prefWidth="115.0" text="Hasło" />
+                <PasswordField fx:id="existingNetPassword" prefHeight="25.0" prefWidth="180.0" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER">
+            <children>
+                <Button fx:id="connectBtn" mnemonicParsing="false" onAction="#handleConnectBtnClick" text="Connect" />
+            </children>
+        </HBox>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>
