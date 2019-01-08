@@ -132,9 +132,7 @@ public class RemoteNode implements ReceiverInterface, SenderInterface, Comparabl
     public void onFileListReceived(ArrayList<ArrayList<String>> listOfFiles) {
         if (isAuthorized) {
 
-            listOfFiles.forEach(strings -> {
-                log.info("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2));
-            });
+            listOfFiles.forEach(strings -> log.info("File:: Name: " + strings.get(0) + "\tHash: " + strings.get(1) + "\tSize: " + strings.get(2)));
 
             RemoteFileListRepository.getInstance().addFileList(listOfFiles, this);
 

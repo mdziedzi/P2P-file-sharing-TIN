@@ -24,8 +24,8 @@ public class FileDownloadManager extends Thread {
     private String fileName;
     private RandomAccessFile randomAccessFile;
 
-    private ArrayList<FileFragmentInfo> fileFragmentsInfos = new ArrayList<>();
-    private Queue<Pair<Long, ByteBuffer>> receivedFileFragments = new ConcurrentLinkedQueue<>();
+    private final ArrayList<FileFragmentInfo> fileFragmentsInfos = new ArrayList<>();
+    private final Queue<Pair<Long, ByteBuffer>> receivedFileFragments = new ConcurrentLinkedQueue<>();
 
 
     public FileDownloadManager(String fileName, String fileHash, Long fileSize, DownloadManager downloadManager) throws SavingDownloadedFileException{
@@ -109,10 +109,7 @@ public class FileDownloadManager extends Thread {
         List<FileFragmentInfo> notDownloadedFragments =
                 fileFragmentsInfos.stream().filter(fragmentInfo -> !fragmentInfo.isDownloaded()).collect(Collectors.toList());
 
-        List<FileFragmentInfo> notDownloadedAndNotRequested =
-                notDownloadedFragments.stream().filter(fragmentInfo -> !fragmentInfo.isRequestSend()).collect(Collectors.toList());
-
-        return notDownloadedAndNotRequested;
+        return notDownloadedFragments.stream().filter(fragmentInfo -> !fragmentInfo.isRequestSend()).collect(Collectors.toList());
     }
 
     public void terminate() {

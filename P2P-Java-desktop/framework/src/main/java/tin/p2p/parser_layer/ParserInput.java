@@ -114,7 +114,7 @@ public class ParserInput extends Thread implements Input{
             e.printStackTrace();
         }
 
-        deserializatorInput.deserialize(opcode, inputData.array());
+        deserializatorInput.deserialize(opcode, inputData);
     }
 
     private void readListOfFiles(byte opcode, byte nRecordsLength) {
@@ -142,7 +142,7 @@ public class ParserInput extends Thread implements Input{
         }
 
 
-        deserializatorInput.deserialize(opcode, inputData.array());
+        deserializatorInput.deserialize(opcode, inputData);
     }
 
     private void readListOfKnownNodes(byte opcode, int nRecordsLength) {
@@ -169,7 +169,7 @@ public class ParserInput extends Thread implements Input{
         }
 
 
-        deserializatorInput.deserialize(opcode, inputData.array());
+        deserializatorInput.deserialize(opcode, inputData);
     }
 
     private void getRestData(byte opcode, int dataLength) {
@@ -183,7 +183,7 @@ public class ParserInput extends Thread implements Input{
             deserializatorInput.terminate();
             return;
         }
-        deserializatorInput.deserialize(opcode, inputData);
+        deserializatorInput.deserialize(opcode, ByteBuffer.wrap(inputData));
     }
 
     @Override
