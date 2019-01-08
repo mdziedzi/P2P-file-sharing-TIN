@@ -14,7 +14,7 @@
         <HBox alignment="CENTER">
             <children>
                 <Label prefHeight="15.0" prefWidth="105.0" text="IP z sieci" />
-                <TextField fx:id="ipTF" text="127.0.0.1" />
+                <TextField fx:id="ipTF" />
             </children>
         </HBox>
         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="277.0">
