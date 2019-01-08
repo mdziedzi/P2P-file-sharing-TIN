@@ -1,5 +1,7 @@
 package tin.p2p.layers_factory;
 
+import tin.p2p.exceptions.AppPortTakenException;
+import tin.p2p.exceptions.CreatingNetException;
 import tin.p2p.exceptions.UnsuccessfulConnectionException;
 import tin.p2p.nodes_layer.NewRemoteNodeListener;
 import tin.p2p.nodes_layer.RemoteNode;
@@ -13,6 +15,7 @@ import tin.p2p.socket_layer.*;
 import tin.p2p.utils.Constants;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.Socket;
 import java.util.logging.Logger;
 
@@ -34,8 +37,12 @@ public class LayersFactory {
             socketOutput = new SocketOutput(ip, Constants.MAIN_APP_PORT);
             socketInput = new SocketInput(socketOutput.getSocket());
         } catch (IOException e) {
-            e.printStackTrace();
-            log.throwing(LayersFactory.class.toString(), "initLayersOfNewRemoteNode", e);
+            if (socketOutput != null)
+                socketOutput.closeConnection();
+
+            if(socketInput != null)
+                socketInput.closeConnection();
+
             throw new UnsuccessfulConnectionException(e);
         }
 
@@ -56,13 +63,15 @@ public class LayersFactory {
         return remoteNode;
     }
 
-    public static NewRemoteNodeListener initNewNodesListenerLayers() {
+    public static NewRemoteNodeListener initNewNodesListenerLayers() throws AppPortTakenException, CreatingNetException {
 
         NewConnectInput newConnectInput = null;
         try {
             newConnectInput = new NewConnectSocketInput();
+        } catch (BindException e) {
+            throw new AppPortTakenException(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CreatingNetException(e);
         }
         NewRemoteNodeListener newRemoteNodeListener = new NewRemoteNodeListener(newConnectInput);
         return newRemoteNodeListener;

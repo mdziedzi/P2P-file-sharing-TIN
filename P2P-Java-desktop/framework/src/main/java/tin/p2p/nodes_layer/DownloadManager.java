@@ -1,5 +1,6 @@
 package tin.p2p.nodes_layer;
 
+import tin.p2p.exceptions.UnavailableFileToDownloadException;
 import tin.p2p.utils.Pair;
 import tin.p2p.utils.Triple;
 import tin.p2p.controller_layer.FrameworkController;
@@ -30,13 +31,21 @@ public class DownloadManager extends Thread {
         return instance;
     }
 
-    public Void addFileDownload(String fileName, String fileHash) {
+    public Void addFileDownload(String fileName, String fileHash) throws UnavailableFileToDownloadException {
         FileDTO fileInfo = RemoteFileListRepository.getInstance().getFileInfoByHash(fileHash);
-        FileDownloadManager fileDownloadManager = new FileDownloadManager(fileName, fileHash, fileInfo.getSize(), this);
-        // todo ograniczenie jezeli juz pobieramy
-        filesDownloading.put(fileHash, fileDownloadManager);
+        if (fileInfo != null) {
+            if (filesDownloading.get(fileHash) == null) {
+                FileDownloadManager fileDownloadManager = new FileDownloadManager(fileName, fileHash, fileInfo.getSize(), this);
 
-        fileDownloadManager.start();
+                filesDownloading.put(fileHash, fileDownloadManager);
+
+                fileDownloadManager.start();
+            } else { // if is already downloading
+                return null;
+            }
+        } else {
+            throw new UnavailableFileToDownloadException(fileName);
+        }
         return null;
     }
 
